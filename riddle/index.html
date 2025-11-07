@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Interactive Riddle</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Riddle</h1>
+
+      <div class="riddle-card">
+        <p class="riddle">I speak without a mouth and hear without ears.
+        I have no body, but I come alive with wind.
+        I can mimic your voice or answer with silence—
+        What am I?</p>
+
+        <div class="controls">
+          <input id="guessInput" type="text" placeholder="Type your guess here" autocomplete="off" />
+          <div class="buttons">
+            <button id="guessBtn">Guess</button>
+            <button id="hintBtn">Hint</button>
+            <button id="giveUpBtn">Give up</button>
+          </div>
+        </div>
+
+        <p id="feedback" class="feedback"></p>
+
+        <div id="hintArea" class="hintArea" aria-live="polite"></div>
+
+        <div id="answerArea" class="answerArea hidden">
+          <img src="assets/answer.svg" alt="The answer illustrated" />
+          <p class="answerLabel">The answer is: <strong id="answerText">Echo</strong></p>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
