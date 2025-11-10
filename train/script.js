@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 welcomeScreen.style.display = 'none';
                 loadingScreen.style.display = 'flex';
-                // After loading animation, show main menu
+                // After loading animation, show main menu as interior
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     mainMenu.style.display = 'flex';
-                }, 4000); // 4 seconds for loading
+                }, 5000); // 5 seconds for cinematic loading
             }, 1000);
         } else {
             attempts++;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Modal functionality
+    // Modal functionality for interactive objects
     const modal = document.getElementById('interaction-modal');
     const modalBody = document.getElementById('modal-body');
     const closeBtn = document.querySelector('.close');
@@ -58,9 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Trash can interactions
+    // Main menu interactive objects (stands inside train interior)
     const trashCans = [
-        { id: 'trash1', title: 'Navigator Console', content: `
+        {
+            id: 'map-stand',
+            title: 'Navigator Console',
+            content: `
             <h3>Navigator Console</h3>
             <div class="map-container">
                 <svg width="400" height="250" viewBox="0 0 400 250" class="map-svg">
@@ -84,7 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><strong>Travel Time:</strong> 2.5 Aeons</p>
             </div>
         `},
-        { id: 'trash2', title: 'Mission Log', content: `
+        {
+            id: 'log-stand',
+            title: 'Mission Log',
+            content: `
             <h3>Mission Log</h3>
             <div class="log-entries">
                 <div class="log-entry">
@@ -101,7 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `},
-        { id: 'trash3', title: 'Inventory', content: `
+        {
+            id: 'inv-stand',
+            title: 'Inventory',
+            content: `
             <h3>Inventory Management</h3>
             <div class="inventory-grid">
                 <div class="item">
@@ -126,7 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `},
-        { id: 'trash4', title: 'Communications', content: `
+        {
+            id: 'com-stand',
+            title: 'Communications',
+            content: `
             <h3>Communications Hub</h3>
             <div class="comm-log">
                 <div class="message incoming">
@@ -144,7 +156,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="comm-btn">Emergency Signal</button>
             </div>
         `},
-        { id: 'trash5', title: 'Settings', content: `
+        {
+            id: 'sys-stand',
+            title: 'Settings',
+            content: `
             <h3>System Settings</h3>
             <div class="settings-panel">
                 <div class="setting">
