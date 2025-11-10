@@ -1,0 +1,77 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.welcome-container {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #e94560;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    backdrop-filter: blur(10px);
+    max-width: 400px;
+    width: 90%;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #feca57;
+    text-shadow: 0 0 10px #feca57;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+input[type="password"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid #e94560;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+input[type="password"]::placeholder {
+    color: #cccccc;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background: #e94560;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #d63031;
+}
+
+#message {
+    color: #ff7675;
+    font-weight: bold;
+}
+
+#hint {
+    color: #74b9ff;
+    font-style: italic;
+}
