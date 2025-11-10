@@ -140,101 +140,218 @@
                 </circle>
             </g>
 
-            <!-- Astral Express 3D-ish side view -->
+            <!-- Astral Express bullet-train style: sleek, fast, still geometric (not too smooth) -->
             <g class="train-group">
-                <!-- Engine with 3D effect -->
-                <!-- Shadow/base -->
-                <ellipse cx="-250" cy="430" rx="110" ry="15" fill="rgba(0,0,0,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </ellipse>
-                <!-- Main body -->
-                <rect x="-300" y="320" width="200" height="100" fill="url(#trainGradient)" stroke="#ffffff" stroke-width="4" filter="url(#glow)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <!-- 3D highlight -->
-                <rect x="-295" y="325" width="190" height="10" fill="rgba(255,255,255,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <!-- Engine details -->
-                <rect x="-270" y="340" width="50" height="30" fill="#ffffff" opacity="0.9">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <!-- Energy core -->
-                <circle cx="-245" cy="355" r="8" fill="#55efc4" filter="url(#glow)">
-                    <animate attributeName="r" values="8;12;8" dur="1s" repeatCount="indefinite"/>
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <!-- Wheels with 3D effect -->
-                <circle cx="-240" cy="420" r="18" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="-240" cy="420" r="12" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="-160" cy="420" r="18" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="-160" cy="420" r="12" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
+                <!-- Tracks -->
+                <g class="rails">
+                    <!-- Base rail line -->
+                    <rect x="-600" y="452" width="2600" height="3" fill="#3c3c3c" opacity="0.9" />
+                    <!-- Motion sleepers -->
+                    <g fill="#252525">
+                        <rect x="-400" y="456" width="24" height="5">
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;2600,0" dur="0.35s" repeatCount="indefinite" />
+                        </rect>
+                        <rect x="-340" y="456" width="24" height="5">
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;2600,0" dur="0.35s" repeatCount="indefinite" />
+                        </rect>
+                        <rect x="-280" y="456" width="24" height="5">
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;2600,0" dur="0.35s" repeatCount="indefinite" />
+                        </rect>
+                        <rect x="-220" y="456" width="24" height="5">
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;2600,0" dur="0.35s" repeatCount="indefinite" />
+                        </rect>
+                    </g>
+                </g>
 
-                <!-- Passenger car 1 with 3D effect -->
-                <ellipse cx="-30" cy="430" rx="85" ry="12" fill="rgba(0,0,0,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </ellipse>
-                <rect x="-80" y="320" width="150" height="100" fill="url(#trainGradient)" stroke="#ffffff" stroke-width="4" filter="url(#glow)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="-75" y="325" width="140" height="10" fill="rgba(255,255,255,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="-50" y="340" width="35" height="25" fill="#ffffff" opacity="0.8">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="-5" y="340" width="35" height="25" fill="#ffffff" opacity="0.8">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <circle cx="-30" cy="420" r="15" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="-30" cy="420" r="10" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="30" cy="420" r="15" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="30" cy="420" r="10" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
+                <!-- Overall motion: fast, continuous -->
+                <g id="train-motion">
+                    <!-- Horizontal glide -->
+                    <animateTransform attributeName="transform" type="translate"
+                        values="-900,0; 2000,0" dur="5s" repeatCount="indefinite"
+                        keyTimes="0;1" calcMode="spline"
+                        keySplines="0.45 0 0.55 1" />
+                    <!-- Slight vertical jitter to feel alive -->
+                    <animateTransform attributeName="transform" type="translate"
+                        additive="sum"
+                        values="0,0;0,-1.2;0,0;0,0.8;0,0"
+                        dur="1s" repeatCount="indefinite" />
 
-                <!-- Passenger car 2 with 3D effect -->
-                <ellipse cx="140" cy="430" rx="85" ry="12" fill="rgba(0,0,0,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </ellipse>
-                <rect x="90" y="320" width="150" height="100" fill="url(#trainGradient)" stroke="#ffffff" stroke-width="4" filter="url(#glow)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="95" y="325" width="140" height="10" fill="rgba(255,255,255,0.3)">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="120" y="340" width="35" height="25" fill="#ffffff" opacity="0.8">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <rect x="165" y="340" width="35" height="25" fill="#ffffff" opacity="0.8">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </rect>
-                <circle cx="130" cy="420" r="15" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="130" cy="420" r="10" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="190" cy="420" r="15" fill="#222">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="190" cy="420" r="10" fill="#444">
-                    <animateTransform attributeName="transform" type="translate" values="-500,0;1500,0" dur="8s" repeatCount="indefinite" />
-                </circle>
+                    <!-- Nose / engine: bullet shape with hard geometry -->
+                    <g class="engine">
+                        <!-- Shadow -->
+                        <ellipse cx="220" cy="444" rx="120" ry="12" fill="rgba(0,0,0,0.42)" />
+                        <!-- Main body top -->
+                        <polygon
+                            points="80,315 340,315 380,330 395,350 395,378 80,378"
+                            fill="#14151f"
+                            stroke="#feca57" stroke-width="2" />
+                        <!-- Lower panel -->
+                        <polygon
+                            points="80,378 395,378 385,398 90,398"
+                            fill="#05060c"
+                            stroke="#feca57" stroke-width="1.4" />
+                        <!-- Sharp nose cap -->
+                        <polygon
+                            points="340,315 420,326 430,340 430,360 395,350 380,330"
+                            fill="#1b1f2b"
+                            stroke="#ffffff" stroke-width="1.2" />
+
+                        <!-- Angular canopy windows -->
+                        <polygon
+                            points="105,323 172,323 182,337 110,337"
+                            fill="#050816"
+                            stroke="#55efc4" stroke-width="1" />
+                        <polygon
+                            points="185,323 252,323 262,337 192,337"
+                            fill="#050816"
+                            stroke="#55efc4" stroke-width="1" />
+
+                        <!-- Accent speed stripes -->
+                        <rect x="100" y="350" width="210" height="5" fill="#e94560" />
+                        <rect x="100" y="362" width="190" height="3" fill="#55efc4" />
+
+                        <!-- Headlight slice -->
+                        <polygon
+                            points="420,336 450,342 450,354 420,360"
+                            fill="#feca57">
+                            <animate attributeName="opacity"
+                                values="0.3;1;0.3" dur="0.6s"
+                                repeatCount="indefinite" />
+                        </polygon>
+                        <!-- Light beam -->
+                        <polygon
+                            points="450,340 620,350 620,348 450,352"
+                            fill="url(#streakGradient)" opacity="0.95">
+                            <animate attributeName="opacity"
+                                values="0.1;0.5;0.15" dur="0.6s"
+                                repeatCount="indefinite" />
+                        </polygon>
+
+                        <!-- Engine wheels / bogies (hinted, not cartoon-round) -->
+                        <g>
+                            <g>
+                                <rect x="135" y="402" width="30" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                                <circle cx="150" cy="407" r="5" fill="#999" />
+                                <circle cx="170" cy="407" r="5" fill="#999" />
+                            </g>
+                            <g>
+                                <rect x="245" y="402" width="30" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                                <circle cx="260" cy="407" r="5" fill="#999" />
+                                <circle cx="278" cy="407" r="5" fill="#999" />
+                            </g>
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;0,0.4;0,0" dur="0.25s"
+                                repeatCount="indefinite" />
+                        </g>
+                    </g>
+
+                    <!-- Car 1: long sleek passenger section -->
+                    <g class="car car-1">
+                        <!-- Shadow -->
+                        <ellipse cx="520" cy="444" rx="120" ry="11"
+                            fill="rgba(0,0,0,0.38)" />
+                        <!-- Body -->
+                        <polygon
+                            points="410,320 720,320 735,332 735,380 410,380"
+                            fill="#151821"
+                            stroke="#feca57" stroke-width="1.8" />
+                        <!-- Roof -->
+                        <polygon
+                            points="420,305 710,305 720,320 410,320"
+                            fill="#1d2330"
+                            stroke="#ffffff" stroke-width="1" />
+                        <!-- Windows, spaced like HSR -->
+                        <g fill="#050816" stroke="#74b9ff" stroke-width="1">
+                            <rect x="430" y="325" width="40" height="18" />
+                            <rect x="478" y="325" width="40" height="18" />
+                            <rect x="526" y="325" width="40" height="18" />
+                            <rect x="574" y="325" width="40" height="18" />
+                            <rect x="622" y="325" width="40" height="18" />
+                            <rect x="670" y="325" width="40" height="18" />
+                        </g>
+                        <!-- Stripes -->
+                        <rect x="425" y="352" width="280" height="4" fill="#e94560" />
+                        <rect x="425" y="364" width="260" height="3" fill="#9b59b6" />
+
+                        <!-- Bogies -->
+                        <g>
+                            <g>
+                                <rect x="455" y="404" width="34" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                            </g>
+                            <g>
+                                <rect x="620" y="404" width="34" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                            </g>
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;0,0.4;0,0" dur="0.25s"
+                                repeatCount="indefinite" />
+                        </g>
+                    </g>
+
+                    <!-- Car 2: rear car with subtle fin -->
+                    <g class="car car-2">
+                        <!-- Shadow -->
+                        <ellipse cx="800" cy="444" rx="110" ry="10"
+                            fill="rgba(0,0,0,0.34)" />
+                        <!-- Body -->
+                        <polygon
+                            points="690,322 980,322 990,334 990,380 700,380"
+                            fill="#151821"
+                            stroke="#feca57" stroke-width="1.8" />
+                        <!-- Roof -->
+                        <polygon
+                            points="700,307 965,307 975,322 690,322"
+                            fill="#1d2330"
+                            stroke="#ffffff" stroke-width="1" />
+                        <!-- Windows -->
+                        <g fill="#050816" stroke="#55efc4" stroke-width="1">
+                            <rect x="705" y="327" width="40" height="18" />
+                            <rect x="753" y="327" width="40" height="18" />
+                            <rect x="801" y="327" width="40" height="18" />
+                            <rect x="849" y="327" width="40" height="18" />
+                            <rect x="897" y="327" width="40" height="18" />
+                        </g>
+                        <!-- Tail fin / light -->
+                        <polygon
+                            points="980,322 1010,324 1015,340 990,340"
+                            fill="#e94560" />
+                        <circle cx="1005" cy="348" r="4" fill="#feca57">
+                            <animate attributeName="opacity"
+                                values="0.2;0.9;0.2" dur="0.9s"
+                                repeatCount="indefinite" />
+                        </circle>
+
+                        <!-- Bogies -->
+                        <g>
+                            <g>
+                                <rect x="730" y="404" width="34" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                            </g>
+                            <g>
+                                <rect x="890" y="404" width="34" height="10" rx="2"
+                                    fill="#141414" stroke="#777" stroke-width="1.5" />
+                            </g>
+                            <animateTransform attributeName="transform" type="translate"
+                                values="0,0;0,0.4;0,0" dur="0.25s"
+                                repeatCount="indefinite" />
+                        </g>
+                    </g>
+
+                    <!-- Couplers between units -->
+                    <g class="connectors"
+                        stroke="#feca57" stroke-width="3"
+                        stroke-linecap="round">
+                        <line x1="395" y1="382" x2="410" y2="382" />
+                        <line x1="720" y1="382" x2="690" y2="382" />
+                    </g>
+                </g>
             </g>
 
             <!-- Astral Express text -->
