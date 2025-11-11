@@ -91,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
         destinationPortal.style.display = 'none';
         const xianzhouPortal = document.getElementById('xianzhou-portal');
         if (xianzhouPortal) xianzhouPortal.style.display = 'none';
+        const penaconyPortal = document.getElementById('penacony-portal');
+        if (penaconyPortal) penaconyPortal.style.display = 'none';
 
         let text = 'Destination portal initialized.';
 
@@ -106,7 +108,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             text = 'Xianzhou Luofu Portal: A field of fractured glass, holding quiet memories.';
         } else if (planetKey === 'penacony') {
-            text = 'Penacony: Preview locked. The dreamscape will open in a future update.';
+            // Penacony: slot-machine inspired dreamspace (visual WIP)
+            const penaconyPortalEl = document.getElementById('penacony-portal');
+            if (penaconyPortalEl) {
+                penaconyPortalEl.style.display = 'flex';
+            }
+            text = 'Penacony Portal: The reels of fate begin to glow in distant dreams.';
         }
 
         if (destinationLabel) destinationLabel.textContent = text;
@@ -175,17 +182,23 @@ document.addEventListener('DOMContentLoaded', function() {
         planetOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const planetKey = option.getAttribute('data-planet');
-
-                // Live gate based on Belobog mission completion / inventory ticket
-                const xianzhouOrb = option;
                 const invStand = document.getElementById('inv-stand');
-                const xianzhouTicketReady =
-                    (invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready');
 
-                // If this is Xianzhou and the ticket is ready, auto-unlock visually
+                const xianzhouTicketReady =
+                    invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready';
+                const penaconyTicketReady =
+                    invStand && invStand.getAttribute('data-ticket-penacony') === 'ready';
+
+                // Auto-unlock Xianzhou when its ticket is ready
                 if (planetKey === 'xianzhou' && xianzhouTicketReady) {
-                    xianzhouOrb.classList.remove('locked');
-                    xianzhouOrb.classList.add('unlocked');
+                    option.classList.remove('locked');
+                    option.classList.add('unlocked');
+                }
+
+                // Auto-unlock Penacony when its ticket is ready
+                if (planetKey === 'penacony' && penaconyTicketReady) {
+                    option.classList.remove('locked');
+                    option.classList.add('unlocked');
                 }
 
                 if (option.classList.contains('locked')) {
@@ -193,6 +206,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (planetKey === 'xianzhou') {
                             planetLabel.textContent =
                                 'Xianzhou Luofu is locked. Clear the Belobog Oath to attune its boarding pass.';
+                        } else if (planetKey === 'penacony') {
+                            planetLabel.textContent =
+                                'Penacony is locked. The red shard in Xianzhou must bear the true memory.';
                         } else {
                             planetLabel.textContent =
                                 'This destination is locked for now. Clear current trials to forge the route.';
@@ -227,22 +243,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Red shard: interactive input — user can "write" their own memory on click
+    // Red shard: interactive input — key to Penacony
     if (xianzhouRedShard) {
         xianzhouRedShard.addEventListener('click', () => {
-            // Simple inline prompt overlay using built-in prompt (keeps this self-contained)
             const existing = xianzhouRedShard.getAttribute('data-memory') || '';
             const userText = window.prompt(
                 'Write your own memory on this red shard:',
                 existing
             );
 
-            if (userText && userText.trim()) {
-                const trimmed = userText.trim();
-                xianzhouRedShard.setAttribute('data-memory', trimmed);
-                xianzhouRedShard.setAttribute('data-active', 'true');
+            if (!userText || !userText.trim()) {
+                return;
+            }
+
+            const trimmed = userText.trim();
+            xianzhouRedShard.setAttribute('data-memory', trimmed);
+            xianzhouRedShard.setAttribute('data-active', 'true');
+
+            // Check for the exact key phrase to forge Penacony ticket
+            if (trimmed === 'I love you, Miraizel') {
+                // Mark Penacony ticket as ready on inventory stand
+                const invStand = document.getElementById('inv-stand');
+                if (invStand) {
+                    invStand.setAttribute('data-ticket-penacony', 'ready');
+                }
                 if (xianzhouLabel) {
-                    xianzhouLabel.textContent = 'Your red shard has been etched.';
+                    xianzhouLabel.textContent =
+                        'Your red shard has opened a path — the Penacony ticket awakens.';
+                }
+            } else {
+                if (xianzhouLabel) {
+                    xianzhouLabel.textContent =
+                        'The shard remembers, but the path to the next dream remains sealed.';
                 }
             }
         });
@@ -253,6 +285,16 @@ document.addEventListener('DOMContentLoaded', function() {
         xianzhouBackPlanets.addEventListener('click', () => {
             const xianzhouPortalEl = document.getElementById('xianzhou-portal');
             if (xianzhouPortalEl) xianzhouPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Penacony slot portal to planet selection
+    const penaconyBackPlanets = document.getElementById('penacony-back-planets');
+    if (penaconyBackPlanets && planetSelection) {
+        penaconyBackPlanets.addEventListener('click', () => {
+            const penaconyPortalEl = document.getElementById('penacony-portal');
+            if (penaconyPortalEl) penaconyPortalEl.style.display = 'none';
             showPlanetSelection();
         });
     }

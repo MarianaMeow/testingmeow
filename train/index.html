@@ -675,6 +675,48 @@
         </div>
     </div>
 
+    <!-- Penacony portal (slot machine inspired, WIP) -->
+    <div id="penacony-portal" class="planet-portal penacony-slot" style="display: none;">
+
+        <!-- Back to planet selection: top-left revert icon -->
+        <button id="penacony-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <!-- Slot machine frame backdrop -->
+        <div class="portal-backdrop penacony-frame">
+            <div class="penacony-marquee">PENACONY DREAMLINER</div>
+            <div class="penacony-lights penacony-lights-top"></div>
+            <div class="penacony-lights penacony-lights-bottom"></div>
+        </div>
+
+        <!-- Central slot reels (visual-only for now) -->
+        <div class="penacony-slot-body">
+            <div class="penacony-reel">
+                <div class="penacony-symbol">★</div>
+                <div class="penacony-symbol">♥</div>
+                <div class="penacony-symbol">♣</div>
+            </div>
+            <div class="penacony-reel">
+                <div class="penacony-symbol">♠</div>
+                <div class="penacony-symbol">♬</div>
+                <div class="penacony-symbol">☾</div>
+            </div>
+            <div class="penacony-reel">
+                <div class="penacony-symbol">♦</div>
+                <div class="penacony-symbol">∞</div>
+                <div class="penacony-symbol">★</div>
+            </div>
+        </div>
+
+        <!-- Penacony hint text -->
+        <div class="portal-ui penacony-ui">
+            <div id="penacony-label" class="mini-label">
+                The reels are quiet for now — your next game of fate awaits here.
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
