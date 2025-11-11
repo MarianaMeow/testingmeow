@@ -176,16 +176,32 @@ document.addEventListener('DOMContentLoaded', function() {
             option.addEventListener('click', () => {
                 const planetKey = option.getAttribute('data-planet');
 
+                // Live gate based on Belobog mission completion / inventory ticket
+                const xianzhouOrb = option;
+                const invStand = document.getElementById('inv-stand');
+                const xianzhouTicketReady =
+                    (invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready');
+
+                // If this is Xianzhou and the ticket is ready, auto-unlock visually
+                if (planetKey === 'xianzhou' && xianzhouTicketReady) {
+                    xianzhouOrb.classList.remove('locked');
+                    xianzhouOrb.classList.add('unlocked');
+                }
+
                 if (option.classList.contains('locked')) {
                     if (planetLabel) {
-                        planetLabel.textContent = 'This destination is locked for now. Only Belobog and Xianzhou Luofu are available.';
+                        if (planetKey === 'xianzhou') {
+                            planetLabel.textContent =
+                                'Xianzhou Luofu is locked. Clear the Belobog Oath to attune its boarding pass.';
+                        } else {
+                            planetLabel.textContent =
+                                'This destination is locked for now. Clear current trials to forge the route.';
+                        }
                     }
                     return;
                 }
 
-                // Unlocked planets route to portal screen:
-                // - belobog -> existing Belobog castle portal
-                // - xianzhou -> use same portal shell, but keep content WIP/placeholder for now
+                // Only unlocked planets route to their portal screen
                 showDestinationPortal(planetKey);
             });
         });
