@@ -135,9 +135,107 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // Unlocked planet -> go to its portal
+                // Unlocked planet (Belobog) -> go to its castle portal
                 showDestinationPortal(planetKey);
             });
+        });
+    }
+
+    // Belobog destination: celestial relic interactions
+    const celestial1 = document.getElementById('belobog-celestial-1');
+    const celestial2 = document.getElementById('belobog-celestial-2');
+    const celestial3 = document.getElementById('belobog-celestial-3');
+    const belobogFillGame = document.getElementById('belobog-fill-game');
+    const belobogFillInput = document.getElementById('belobog-fill-input');
+    const belobogFillSubmit = document.getElementById('belobog-fill-submit');
+    const belobogFillFeedback = document.getElementById('belobog-fill-feedback');
+
+    function openBelobogFillGame() {
+        if (!belobogFillGame) return;
+        belobogFillGame.style.display = 'flex';
+        if (belobogFillInput) {
+            belobogFillInput.value = '';
+            belobogFillInput.focus();
+        }
+        if (belobogFillFeedback) {
+            belobogFillFeedback.textContent = '';
+        }
+    }
+
+    // Celestial 1: Fill-in-the-blank game trigger
+    if (celestial1) {
+        celestial1.addEventListener('click', () => {
+            openBelobogFillGame();
+        });
+    }
+
+    // Celestial 2 & 3: placeholder redirects/logs for future mini-games
+    if (celestial2) {
+        celestial2.addEventListener('click', () => {
+            console.log('[Belobog] Frostbound Seal mini-game (coming soon).');
+        });
+    }
+
+    if (celestial3) {
+        celestial3.addEventListener('click', () => {
+            console.log('[Belobog] Stellar Choir mini-game (coming soon).');
+        });
+    }
+
+    // Fill-in-the-blank game logic (with left-side options + explicit blank)
+    if (belobogFillSubmit && belobogFillInput && belobogFillFeedback && belobogFillGame) {
+        const correctWord = 'light';
+        const optionButtons = document.querySelectorAll('.belobog-fill-option');
+        const blankSpan = document.querySelector('.belobog-fill-blank');
+
+        // Clicking an option fills the input and updates the blank for context
+        optionButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chosen = btn.getAttribute('data-word') || '';
+                belobogFillInput.value = chosen;
+                if (blankSpan) {
+                    blankSpan.textContent = chosen || '______';
+                }
+                if (belobogFillFeedback) {
+                    belobogFillFeedback.textContent = '';
+                }
+            });
+        });
+
+        function evaluateFill() {
+            const attempt = belobogFillInput.value.trim().toLowerCase();
+
+            if (!attempt) {
+                belobogFillFeedback.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                belobogFillFeedback.style.color = '#feca57';
+                if (blankSpan) blankSpan.textContent = '______';
+                return;
+            }
+
+            if (attempt === correctWord) {
+                if (blankSpan) blankSpan.textContent = 'light';
+                belobogFillFeedback.textContent =
+                    'Correct. "You are my light among the stars." The castle itself seems to glow at your words.';
+                belobogFillFeedback.style.color = '#55efc4';
+
+                setTimeout(() => {
+                    belobogFillGame.style.display = 'none';
+                }, 1600);
+            } else {
+                if (blankSpan) blankSpan.textContent = attempt;
+                belobogFillFeedback.textContent =
+                    'Not quite. Read it with your choice in the blank — only one truly feels like a guiding warmth.';
+                belobogFillFeedback.style.color = '#e94560';
+            }
+        }
+
+        belobogFillSubmit.addEventListener('click', evaluateFill);
+
+        // Allow Enter key to submit in the mini-game
+        belobogFillInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                evaluateFill();
+            }
         });
     }
 
@@ -150,6 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (backToPlanetsBtn) {
         backToPlanetsBtn.addEventListener('click', () => {
+            // Close any active Belobog mini-game overlay when going back
+            if (belobogFillGame) belobogFillGame.style.display = 'none';
             showPlanetSelection();
         });
     }

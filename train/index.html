@@ -474,17 +474,92 @@
         </div>
     </div>
 
-    <!-- Destination portal screen (changes based on chosen planet) -->
-    <div id="destination-portal" class="planet-portal" style="display: none;">
+    <!-- Destination portal screen (Belobog = castle interior with celestial relics) -->
+    <div id="destination-portal" class="planet-portal belobog-castle" style="display: none;">
         <div class="portal-backdrop">
             <div class="portal-core"></div>
             <div class="portal-ring outer"></div>
             <div class="portal-ring inner"></div>
         </div>
 
+        <!-- Castle interior framing -->
+        <div class="castle-pillars">
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+        </div>
+        <div class="castle-arch"></div>
+        <div class="castle-emblem"></div>
+
+        <!-- Three celestial content objects inside Belobog castle -->
+        <div class="belobog-celestial-row">
+            <!-- 1: Fill-in-the-blank mini-game trigger -->
+            <div id="belobog-celestial-1" class="belobog-celestial" data-minigame="fill-blank">
+                <div class="belobog-celestial-icon">✒️</div>
+                <div class="belobog-celestial-label">Oath Script</div>
+                <div class="belobog-celestial-desc">
+                    Complete the words that bind hearts across worlds.
+                </div>
+            </div>
+
+            <!-- 2: Celestial object placeholder for future mini-game -->
+            <div id="belobog-celestial-2" class="belobog-celestial" data-minigame="trial-2">
+                <div class="belobog-celestial-icon">⛓️</div>
+                <div class="belobog-celestial-label">Frostbound Seal</div>
+                <div class="belobog-celestial-desc">
+                    An icy sigil waiting for your resolve. (Mini-game WIP)
+                </div>
+            </div>
+
+            <!-- 3: Celestial object placeholder for future mini-game -->
+            <div id="belobog-celestial-3" class="belobog-celestial" data-minigame="trial-3">
+                <div class="belobog-celestial-icon">⭐</div>
+                <div class="belobog-celestial-label">Stellar Choir</div>
+                <div class="belobog-celestial-desc">
+                    The stars hum a secret hymn. (Mini-game WIP)
+                </div>
+            </div>
+        </div>
+
+        <!-- Fill-in-the-blank mini-game overlay (1st celestial object) -->
+        <div id="belobog-fill-game" class="belobog-fill-container">
+            <div class="belobog-fill-title">Belobog Oath — Fill in the Blank</div>
+            <div class="belobog-fill-layout">
+                <!-- Left: options as context clues -->
+                <div class="belobog-fill-options">
+                    <div class="belobog-fill-options-title">Choose the right word:</div>
+                    <button class="belobog-fill-option" data-word="light">light</button>
+                    <button class="belobog-fill-option" data-word="queen">queen</button>
+                    <button class="belobog-fill-option" data-word="angel">angel</button>
+                </div>
+
+                <!-- Right: sentence with explicit blank and input -->
+                <div class="belobog-fill-right">
+                    <div class="belobog-fill-prompt">
+                        Within these castle walls, amid frost and fire, you whisper:<br/>
+                        “You are my <span class="belobog-fill-blank">______</span> among the stars.”
+                    </div>
+                    <input
+                        id="belobog-fill-input"
+                        class="belobog-fill-input"
+                        type="text"
+                        placeholder="Type or click an option on the left..."
+                    />
+                    <button id="belobog-fill-submit" class="belobog-fill-button">Lock In Oath</button>
+                    <div id="belobog-fill-feedback" class="belobog-fill-feedback"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="portal-ui">
             <button id="back-to-planets" class="portal-back-btn">Back to Planet Selection</button>
-            <div id="destination-label" class="mini-label">Destination portal initialized.</div>
+            <div id="destination-label" class="mini-label">Belobog Castle Portal initialized.</div>
+        </div>
+
+        <!-- Generic bottom hint/placeholder -->
+        <div class="belobog-minigame-placeholder">
+            Choose a celestial relic. The first begins your oath with a fill-in-the-blank trial.
         </div>
     </div>
 

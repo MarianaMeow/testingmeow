@@ -313,7 +313,7 @@ body::before {
     text-shadow: 0 0 10px rgba(0,0,0,0.9);
 }
 
-/* Planet portal interior */
+/* Planet portal base */
 .planet-portal {
     width: 100vw;
     height: 100vh;
@@ -325,6 +325,328 @@ body::before {
     gap: 40px;
     position: relative;
     overflow: hidden;
+}
+
+/* Belobog castle interior theme for destination portal */
+#destination-portal.belobog-castle {
+    background:
+        radial-gradient(circle at top, rgba(254,202,87,0.18), transparent 70%),
+        radial-gradient(circle at bottom, rgba(9,132,227,0.14), transparent 65%),
+        #05040a;
+}
+
+#destination-portal.belobog-castle .portal-backdrop {
+    filter: drop-shadow(0 0 25px rgba(254,202,87,0.7));
+}
+
+#destination-portal.belobog-castle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to bottom,
+            rgba(254,202,87,0.08),
+            transparent 40%),
+        radial-gradient(circle at 10% 20%, rgba(254,202,87,0.05), transparent 55%),
+        radial-gradient(circle at 90% 25%, rgba(116,185,255,0.08), transparent 55%);
+    pointer-events: none;
+}
+
+/* Castle pillars */
+#destination-portal.belobog-castle .castle-pillars {
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    right: 5%;
+    height: 65%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+#destination-portal.belobog-castle .pillar {
+    width: 40px;
+    height: 100%;
+    background:
+        linear-gradient(to top, #1b1b24, #3b4254);
+    border: 1px solid rgba(254,202,87,0.35);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9);
+    position: relative;
+}
+
+#destination-portal.belobog-castle .pillar::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: -6px;
+    right: -6px;
+    height: 14px;
+    background:
+        linear-gradient(to bottom, #3b4254, #1b1b24);
+    border-radius: 6px 6px 0 0;
+    border: 1px solid rgba(254,202,87,0.35);
+}
+
+#destination-portal.belobog-castle .pillar::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 3px;
+    background: rgba(254,202,87,0.4);
+    box-shadow: 0 0 8px rgba(254,202,87,0.7);
+}
+
+/* Emblem arch and throne hint */
+#destination-portal.belobog-castle .castle-arch {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 340px;
+    height: 160px;
+    border-radius: 340px 340px 0 0;
+    border: 2px solid rgba(254,202,87,0.45);
+    box-shadow:
+        0 0 16px rgba(254,202,87,0.5),
+        0 10px 35px rgba(0,0,0,0.9);
+    background:
+        radial-gradient(circle at 50% 10%, rgba(254,202,87,0.18), transparent 75%);
+}
+
+#destination-portal.belobog-castle .castle-emblem {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 2px solid rgba(254,202,87,0.9);
+    box-shadow:
+        0 0 18px rgba(254,202,87,0.9),
+        0 0 30px rgba(9,132,227,0.7);
+    background:
+        radial-gradient(circle, #feca57, #e94560, #2c3e50);
+}
+
+.belobog-fill-container {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: radial-gradient(circle at top, rgba(10,10,10,0.96), rgba(0,0,0,0.98));
+    z-index: 5;
+}
+
+.belobog-fill-layout {
+    display: flex;
+    gap: 26px;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 720px;
+}
+
+.belobog-fill-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: radial-gradient(circle at top, rgba(254,202,87,0.12), rgba(0,0,0,0.96));
+    border: 1px solid rgba(254,202,87,0.4);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.9);
+    min-width: 130px;
+}
+
+.belobog-fill-options-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #feca57;
+    margin-bottom: 4px;
+}
+
+.belobog-fill-option {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(254,202,87,0.45);
+    background: rgba(0,0,0,0.9);
+    color: #feca57;
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all 0.2s ease;
+}
+
+.belobog-fill-option:hover {
+    background: rgba(254,202,87,0.18);
+    box-shadow: 0 0 10px rgba(254,202,87,0.6);
+    transform: translateY(-1px);
+}
+
+.belobog-fill-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 460px;
+}
+
+.belobog-fill-blank {
+    display: inline-block;
+    min-width: 70px;
+    border-bottom: 1px solid rgba(254,202,87,0.9);
+    text-align: center;
+    letter-spacing: 0.16em;
+    color: #feca57;
+}
+/* Celestial content row inside Belobog castle */
+.belobog-celestial-row {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 140px;
+}
+
+.belobog-celestial {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 18px;
+    padding: 10px;
+    background: radial-gradient(circle at top, rgba(254,202,87,0.18), rgba(10,10,15,0.98));
+    border: 1px solid rgba(254,202,87,0.6);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+.belobog-celestial:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 18px 40px rgba(0,0,0,0.95),
+        0 0 20px rgba(254,202,87,0.6);
+}
+
+.belobog-celestial-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #feca57;
+    text-align: center;
+}
+
+.belobog-celestial-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(254,202,87,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #feca57;
+    box-shadow: 0 0 16px rgba(254,202,87,0.7);
+}
+
+.belobog-celestial-desc {
+    font-size: 0.65rem;
+    color: #dfe6e9;
+    text-align: center;
+    opacity: 0.85;
+}
+
+/* Mini-game: Belobog fill-in-the-blank */
+.belobog-fill-container {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: radial-gradient(circle at top, rgba(10,10,10,0.96), rgba(0,0,0,0.98));
+    z-index: 5;
+}
+
+.belobog-fill-title {
+    font-size: 1.2rem;
+    color: #feca57;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.belobog-fill-prompt {
+    font-size: 0.95rem;
+    color: #dfe6e9;
+    max-width: 480px;
+    text-align: center;
+}
+
+.belobog-fill-input {
+    padding: 10px 14px;
+    width: 260px;
+    border-radius: 8px;
+    border: 1px solid #feca57;
+    background: rgba(255,255,255,0.04);
+    color: #ffffff;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.belobog-fill-button {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #feca57, #e94560);
+    color: #050608;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(233,69,96,0.8);
+    transition: all 0.25s ease;
+}
+
+.belobog-fill-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(233,69,96,0.95);
+}
+
+.belobog-fill-feedback {
+    font-size: 0.85rem;
+    color: #feca57;
+}
+
+/* Generic mini-game placeholder panel inside castle */
+.belobog-minigame-placeholder {
+    position: absolute;
+    inset: auto 10% 8%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    background: radial-gradient(circle at top, rgba(254,202,87,0.1), rgba(0,0,0,0.98));
+    border-radius: 14px;
+    border: 1px solid rgba(254,202,87,0.25);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.9);
+    opacity: 0.95;
 }
 
 .portal-backdrop {
