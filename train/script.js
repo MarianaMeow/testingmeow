@@ -113,6 +113,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('[Main Menu] Mission Log opened.');
             } else if (target === 'inventory') {
                 console.log('[Main Menu] Inventory opened.');
+                const invOverlay = document.getElementById('inventory-overlay');
+                const invCard = document.getElementById('inventory-xianzhou-card');
+                const invClose = document.getElementById('inventory-close-btn');
+
+                if (invOverlay) {
+                    // Sync ticket state with Belobog mission completion / inventory flag
+                    const invStand = document.getElementById('inv-stand');
+                    const ticketReady =
+                        (invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready') ||
+                        (belobogMissionPill && belobogMissionPill.classList.contains('mission-pill-complete'));
+
+                    if (ticketReady && invCard) {
+                        invCard.classList.remove('locked');
+                        const note = invCard.querySelector('.ticket-note');
+                        if (note) {
+                            note.textContent = 'Ready — Your words in Belobog have attuned this boarding pass.';
+                        }
+                    }
+
+                    invOverlay.style.display = 'flex';
+
+                    if (invClose) {
+                        invClose.onclick = () => {
+                            invOverlay.style.display = 'none';
+                        };
+                    }
+
+                    // Also close when clicking outside the panel
+                    invOverlay.addEventListener('click', (e) => {
+                        if (e.target === invOverlay) {
+                            invOverlay.style.display = 'none';
+                        }
+                    }, { once: true });
+                }
             } else if (target === 'comms') {
                 console.log('[Main Menu] Comms opened.');
             } else if (target === 'system') {
@@ -149,6 +183,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const belobogFillInput = document.getElementById('belobog-fill-input');
     const belobogFillSubmit = document.getElementById('belobog-fill-submit');
     const belobogFillFeedback = document.getElementById('belobog-fill-feedback');
+
+    // Belobog mission dropdown + circular ticket forge
+    const belobogMissionPanel = document.getElementById('belobog-mission-panel');
+    const belobogMissionToggle = document.getElementById('belobog-mission-toggle');
+    const belobogMissionContent = document.getElementById('belobog-mission-content');
+    const belobogMissionPill = document.getElementById('belobog-mission-pill');
+
+    const belobogTicketForge = document.getElementById('belobog-ticket-forge');
+    const belobogTicketForgeCircle = document.getElementById('belobog-ticket-forge-circle');
+    const belobogTicketForgeFill = document.getElementById('belobog-ticket-forge-fill');
+
+    if (belobogMissionPanel && belobogMissionToggle && belobogMissionContent) {
+        // Start collapsed
+        belobogMissionPanel.classList.remove('open');
+
+        belobogMissionToggle.addEventListener('click', () => {
+            belobogMissionPanel.classList.toggle('open');
+        });
+    }
+
+    // Helper to set forge ring progress (0 to 1 -> 0deg to 270deg sweep)
+    function setBelobogForgeProgress(ratio) {
+        if (!belobogTicketForgeFill) return;
+        const clamped = Math.max(0, Math.min(1, ratio));
+        const maxDeg = 270; // not full, feels like "forging" arc
+        const deg = -90 + maxDeg * clamped;
+        belobogTicketForgeFill.style.transform = `rotate(${deg}deg)`;
+    }
+
+    // Initial: reached Belobog portal = some progress shown
+    setBelobogForgeProgress(0.3);
 
     function openBelobogFillGame() {
         if (!belobogFillGame) return;
@@ -218,9 +283,47 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Correct. "You are my light among the stars." The castle itself seems to glow at your words.';
                 belobogFillFeedback.style.color = '#55efc4';
 
+                // Mark Belobog mission as complete + visually hint ticket progress
+                const statusEl = document.getElementById('belobog-mission-status');
+                if (statusEl) {
+                    statusEl.textContent = 'Complete — Ticket forging conditions satisfied.';
+                    statusEl.classList.remove('status-pending');
+                    statusEl.classList.add('status-complete');
+                }
+                const ticketCard = document.querySelector('.belobog-mission-panel .ticket-card');
+                if (ticketCard) {
+                    ticketCard.classList.remove('locked');
+                    const noteEl = ticketCard.querySelector('.ticket-note');
+                    if (noteEl) {
+                        noteEl.textContent = 'Ready — Your resolve has lit the way to Xianzhou Luofu.';
+                    }
+                }
+                if (belobogMissionPill) {
+                    belobogMissionPill.textContent = 'Complete';
+                    belobogMissionPill.classList.remove('mission-pill-pending');
+                    belobogMissionPill.classList.add('mission-pill-complete');
+                }
+                if (belobogMissionPanel) {
+                    belobogMissionPanel.classList.add('open');
+                }
+
+                // Fill the circular forge ring = ticket card forged
+                setBelobogForgeProgress(1);
+                if (belobogTicketForgeCircle) {
+                    belobogTicketForgeCircle.classList.add('complete');
+                }
+
                 setTimeout(() => {
                     belobogFillGame.style.display = 'none';
                 }, 1600);
+
+                // Simulate transferring the forged ticket into Inventory (Main Menu)
+                const invStand = document.getElementById('inv-stand');
+                if (invStand) {
+                    invStand.setAttribute('data-ticket-xianzhou', 'ready');
+                    // Optional subtle visual cue hook:
+                    invStand.classList.add('has-ticket-upgrade');
+                }
             } else {
                 if (blankSpan) blankSpan.textContent = attempt;
                 belobogFillFeedback.textContent =

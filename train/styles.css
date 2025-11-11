@@ -517,6 +517,505 @@ body::before {
     margin-top: 140px;
 }
 
+/* Belobog mission window + ticket preview inside castle portal (collapsible) */
+.belobog-mission-panel {
+    position: absolute;
+    top: 16%;
+    right: 4%;
+    width: 280px;
+    padding: 0;
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at top, rgba(254,202,87,0.18), transparent),
+        rgba(3,3,8,0.98);
+    border: 1px solid rgba(254,202,87,0.5);
+    box-shadow:
+        0 0 14px rgba(254,202,87,0.45),
+        0 18px 30px rgba(0,0,0,0.98);
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    z-index: 4;
+}
+
+/* Toggle bar */
+.mission-toggle {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 10px;
+    cursor: pointer;
+    background:
+        linear-gradient(to right, rgba(254,202,87,0.12), rgba(10,10,10,1));
+    border-bottom: 1px solid rgba(254,202,87,0.28);
+}
+
+.mission-toggle-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #feca57;
+}
+
+.mission-pill {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid transparent;
+}
+
+.mission-pill-pending {
+    color: #e94560;
+    border-color: rgba(233,69,96,0.7);
+    background: rgba(233,69,96,0.08);
+}
+
+.mission-pill-complete {
+    color: #55efc4;
+    border-color: rgba(85,239,196,0.8);
+    background: rgba(85,239,196,0.08);
+}
+
+.mission-toggle-icon {
+    font-size: 0.7rem;
+    color: #feca57;
+    transition: transform 0.2s ease;
+}
+
+.belobog-mission-panel.open .mission-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Dropdown content */
+.mission-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition:
+        max-height 0.25s ease,
+        opacity 0.25s ease,
+        padding-top 0.25s ease,
+        padding-bottom 0.25s ease;
+}
+
+/* Circular ticket forge indicator connected to mission panel */
+.ticket-forge-wrap {
+    position: absolute;
+    top: 50%;
+    right: -46px;
+    transform: translateY(-50%);
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.ticket-forge-line {
+    position: absolute;
+    left: -26px;
+    top: 50%;
+    width: 26px;
+    height: 3px;
+    transform: translateY(-50%);
+    background: linear-gradient(to left, rgba(254,202,87,0.9), transparent);
+    box-shadow: 0 0 8px rgba(254,202,87,0.8);
+    opacity: 0.85;
+}
+
+.ticket-forge-circle {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    padding: 4px;
+    background:
+        radial-gradient(circle at 30% 0%, rgba(254,202,87,0.24), transparent),
+        rgba(5,5,12,1);
+    box-shadow:
+        0 0 14px rgba(254,202,87,0.5),
+        0 0 26px rgba(9,132,227,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Circular forge fill ring */
+.ticket-forge-ring {
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    border: 2px solid rgba(254,202,87,0.18);
+    box-shadow: 0 0 8px rgba(254,202,87,0.35);
+    overflow: hidden;
+}
+
+.ticket-forge-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #feca57;
+    border-right-color: #e94560;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: transform 0.4s ease;
+    opacity: 0.9;
+}
+
+/* Inner ticket card icon */
+.ticket-forge-inner {
+    position: relative;
+    width: 40px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid rgba(254,202,87,0.75);
+    background:
+        linear-gradient(to right, rgba(254,202,87,0.16), rgba(0,0,0,1));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3px 5px;
+    box-shadow: 0 0 10px rgba(254,202,87,0.4);
+}
+
+.ticket-forge-label {
+    font-size: 0.44rem;
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.ticket-forge-world {
+    font-size: 0.42rem;
+    color: #9ca3af;
+}
+
+/* Completed state glow */
+.ticket-forge-circle.complete {
+    box-shadow:
+        0 0 18px rgba(85,239,196,0.9),
+        0 0 26px rgba(254,202,87,0.9);
+}
+
+.ticket-forge-circle.complete .ticket-forge-inner {
+    border-color: rgba(85,239,196,0.9);
+    box-shadow:
+        0 0 14px rgba(85,239,196,0.9),
+        0 0 20px rgba(254,202,87,0.9);
+}
+
+.belobog-mission-panel.open #belobog-mission-content {
+    max-height: 260px;
+    opacity: 1;
+    padding-top: 6px;
+    padding-bottom: 8px;
+}
+
+.mission-section {
+    border-top: 1px solid rgba(254,202,87,0.14);
+    padding-top: 4px;
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.65rem;
+    color: #dfe6e9;
+}
+
+.mission-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.mission-section-title {
+    font-size: 0.66rem;
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+}
+
+.mission-line .label {
+    color: #9ca3af;
+    margin-right: 4px;
+}
+
+.mission-line .value {
+    color: #feca57;
+}
+
+.status-pending {
+    color: #e94560;
+}
+
+.status-complete {
+    color: #55efc4;
+}
+
+.mission-list {
+    padding-left: 14px;
+    margin: 0;
+    list-style: square;
+    font-size: 0.6rem;
+    color: #9ca3af;
+}
+
+.ticket-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 2px;
+}
+
+.ticket-label {
+    font-size: 0.62rem;
+    color: #feca57;
+}
+
+.ticket-card {
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(254,202,87,0.35);
+    background:
+        linear-gradient(to right, rgba(254,202,87,0.14), rgba(0,0,0,0.98));
+    font-size: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ticket-card.locked {
+    opacity: 0.7;
+    border-style: dashed;
+}
+
+.ticket-world {
+    color: #feca57;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+.ticket-note {
+    color: #9ca3af;
+}
+
+.belobog-mission-panel .mission-header {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #feca57;
+    margin-bottom: 4px;
+}
+
+.belobog-mission-panel .mission-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: #dfe6e9;
+}
+
+.belobog-mission-panel .mission-line .label {
+    color: #9ca3af;
+    margin-right: 4px;
+}
+
+.belobog-mission-panel .mission-line .value {
+    color: #feca57;
+}
+
+.belobog-mission-panel .status-pending {
+    color: #e94560;
+}
+
+.belobog-mission-panel .status-complete {
+    color: #55efc4;
+}
+
+.belobog-mission-panel .mission-requirements {
+    margin-top: 4px;
+}
+
+.belobog-mission-panel .requirements-title {
+    font-size: 0.68rem;
+    color: #feca57;
+    margin-bottom: 2px;
+}
+
+.belobog-mission-panel .mission-requirements ul {
+    padding-left: 14px;
+    margin: 0;
+    list-style: square;
+    font-size: 0.64rem;
+    color: #9ca3af;
+}
+
+.belobog-mission-panel .ticket-preview {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+/* Global ticket progress card (now conceptually represented by forge circle; keep styles if reused later) */
+.ticket-progress {
+    position: absolute;
+    left: 50%;
+    bottom: 6%;
+    transform: translateX(-50%);
+    width: 420px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at top, rgba(254,202,87,0.18), transparent),
+        rgba(4,4,10,0.98);
+    border: 1px solid rgba(254,202,87,0.45);
+    box-shadow: 0 18px 34px rgba(0,0,0,0.98);
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 3;
+}
+
+.ticket-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.ticket-progress-title {
+    font-size: 0.7rem;
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.ticket-step-label {
+    font-size: 0.6rem;
+    color: #9ca3af;
+}
+
+.ticket-progress-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-progress-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ticket-progress-world {
+    font-size: 0.65rem;
+    color: #feca57;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.ticket-progress-status {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ticket-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid transparent;
+}
+
+.ticket-pill-pending {
+    color: #e94560;
+    border-color: rgba(233,69,96,0.7);
+    background: rgba(233,69,96,0.08);
+}
+
+.ticket-pill-complete {
+    color: #55efc4;
+    border-color: rgba(85,239,196,0.8);
+    background: rgba(85,239,196,0.08);
+}
+
+.ticket-progress-text {
+    font-size: 0.6rem;
+    color: #9ca3af;
+}
+
+.ticket-progress-bar {
+    margin-top: 2px;
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.9);
+}
+
+.ticket-progress-fill {
+    height: 100%;
+    width: 30%;
+    border-radius: 999px;
+    background: linear-gradient(to right, #feca57, #e94560);
+    box-shadow: 0 0 8px rgba(254,202,87,0.9);
+    transition: width 0.4s ease;
+}
+
+.ticket-progress-notes {
+    margin-top: 2px;
+    font-size: 0.58rem;
+    color: #9ca3af;
+}
+    gap: 4px;
+}
+
+.belobog-mission-panel .ticket-label {
+    font-size: 0.66rem;
+    color: #feca57;
+}
+
+.belobog-mission-panel .ticket-card {
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(254,202,87,0.35);
+    background:
+        linear-gradient(to right, rgba(254,202,87,0.14), rgba(0,0,0,0.98));
+    font-size: 0.64rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.belobog-mission-panel .ticket-card.locked {
+    opacity: 0.7;
+    border-style: dashed;
+}
+
+.belobog-mission-panel .ticket-world {
+    color: #feca57;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+.belobog-mission-panel .ticket-note {
+    color: #9ca3af;
+}
 .belobog-celestial {
     position: relative;
     width: 120px;
@@ -1352,43 +1851,255 @@ body::before {
     opacity: 1;
 }
 
-/* Modal styles */
-.modal {
+/* Inventory Overlay: full-screen categorized inventory with ticket card */
+.inventory-overlay {
     position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0.97));
+    display: none;
     align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    backdrop-filter: blur(10px);
 }
 
-.modal-content {
-    background: linear-gradient(135deg, #34495e, #2c3e50);
-    border: 2px solid #feca57;
-    border-radius: 15px;
-    padding: 30px;
-    width: 80%;
-    max-width: 600px;
+.inventory-panel {
     position: relative;
-    box-shadow: 0 0 30px rgba(254, 202, 87, 0.5);
+    width: 86vw;
+    max-width: 1180px;
+    height: 78vh;
+    padding: 20px 22px;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at top left, rgba(254, 202, 87, 0.14), transparent 65%),
+        radial-gradient(circle at top right, rgba(116, 185, 255, 0.12), transparent 65%),
+        rgba(3, 5, 12, 0.98);
+    border: 1px solid rgba(254, 202, 87, 0.55);
+    box-shadow:
+        0 0 40px rgba(254, 202, 87, 0.6),
+        0 0 50px rgba(9, 132, 227, 0.45),
+        0 30px 80px rgba(0, 0, 0, 0.98);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 220px 1fr;
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    gap: 14px 18px;
+    overflow: hidden;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+/* Inventory header */
+.inventory-header {
+    grid-area: header;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.close:hover {
+.inventory-title {
+    font-size: 1.15rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: #feca57;
+}
+
+.inventory-subtitle {
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+/* Category sidebar */
+.inventory-sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 10px 10px 4px;
+    border-right: 1px solid rgba(254, 202, 87, 0.16);
+}
+
+.inventory-category-label {
+    font-size: 0.65rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 2px;
+}
+
+.inventory-tab {
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    color: #9ca3af;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.inventory-tab span.icon {
+    font-size: 0.78rem;
+}
+
+.inventory-tab:hover {
+    background: rgba(254, 202, 87, 0.04);
+    color: #feca57;
+}
+
+.inventory-tab.active {
+    background: radial-gradient(circle at top, rgba(254, 202, 87, 0.16), rgba(0, 0, 0, 0.98));
+    border-color: rgba(254, 202, 87, 0.55);
+    color: #feca57;
+    box-shadow: 0 0 12px rgba(254, 202, 87, 0.4);
+}
+
+/* Inventory content area */
+.inventory-body {
+    grid-area: content;
+    padding: 8px 4px 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+/* Ticket section */
+.inventory-ticket-header {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.inventory-ticket-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Ticket card design */
+.inventory-ticket-card {
+    position: relative;
+    width: 260px;
+    height: 140px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at top, rgba(254, 202, 87, 0.18), transparent),
+        radial-gradient(circle at bottom right, rgba(9, 132, 227, 0.22), transparent),
+        #050814;
+    border: 1px solid rgba(254, 202, 87, 0.55);
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.96),
+        0 0 18px rgba(254, 202, 87, 0.45);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.inventory-ticket-card::before {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    background:
+        radial-gradient(circle at 0 0, rgba(254, 202, 87, 0.12), transparent),
+        radial-gradient(circle at 100% 0, rgba(85, 239, 196, 0.08), transparent);
+    mix-blend-mode: screen;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.inventory-ticket-card .ticket-label {
+    font-size: 0.66rem;
+    color: #feca57;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.inventory-ticket-card .ticket-world {
+    font-size: 0.9rem;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+.inventory-ticket-card .ticket-note {
+    font-size: 0.6rem;
+    color: #9ca3af;
+    max-width: 220px;
+}
+
+.inventory-ticket-card .ticket-meta {
+    font-size: 0.52rem;
+    color: #747d8c;
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.inventory-ticket-card .ticket-chip {
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 0.48rem;
+    border: 1px solid rgba(254, 202, 87, 0.6);
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Locked / ready states */
+.inventory-ticket-card.locked {
+    border-style: dashed;
+    opacity: 0.65;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9);
+}
+
+.inventory-ticket-card.locked .ticket-world {
+    color: #f1c40f;
+}
+
+.inventory-ticket-card.ready {
+    box-shadow:
+        0 0 20px rgba(85, 239, 196, 0.65),
+        0 0 26px rgba(254, 202, 87, 0.75);
+    border-color: rgba(85, 239, 196, 0.9);
+}
+
+/* Inventory footer + close */
+.inventory-footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.58rem;
+    color: #636e72;
+    padding-top: 4px;
+    border-top: 1px solid rgba(254, 202, 87, 0.16);
+}
+
+.inventory-close-btn {
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(254, 202, 87, 0.75);
+    background: transparent;
+    color: #feca57;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(254, 202, 87, 0.5);
+    transition: all 0.2s ease;
+}
+
+.inventory-close-btn:hover {
+    background: rgba(254, 202, 87, 0.12);
+    transform: translateY(-1px);
 }
 
 h1 {

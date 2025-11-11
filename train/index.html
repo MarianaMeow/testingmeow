@@ -409,17 +409,38 @@
                 </div>
             </div>
 
-            <div id="inv-stand" class="object-stand" data-tooltip="Inventory and gifts" data-target="inventory">
-                <div class="stand-base"></div>
-                <div class="stand-pole"></div>
-                <div class="locker-body">
-                    <div class="locker-door"></div>
-                    <div class="locker-lights">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-                <div class="stand-label">Inventory</div>
-            </div>
+           <div id="inv-stand" class="object-stand" data-tooltip="Inventory and gifts" data-target="inventory">
+               <div class="stand-base"></div>
+               <div class="stand-pole"></div>
+               <div class="locker-body">
+                   <div class="locker-door"></div>
+                   <div class="locker-lights">
+                       <span></span><span></span><span></span>
+                   </div>
+               </div>
+               <div class="stand-label">Inventory</div>
+           </div>
+
+           <!-- Inventory overlay: shows your attuned ticket when Belobog trial is complete -->
+           <div id="inventory-overlay" class="inventory-overlay" style="display: none;">
+               <div class="inventory-panel">
+                   <div class="inventory-header">
+                       <div class="inventory-title">Astral Express Inventory</div>
+                       <div class="inventory-subtitle">Personal artifacts and boarding passes</div>
+                   </div>
+                   <div class="inventory-body">
+                       <div class="inventory-ticket-header">Next Planet Ticket</div>
+                       <div id="inventory-xianzhou-card" class="inventory-ticket-card locked">
+                           <div class="ticket-label">Xianzhou Luofu Boarding Pass</div>
+                           <div class="ticket-world">Xianzhou Luofu</div>
+                           <div class="ticket-note">
+                               Locked — Clear the Belobog Oath to attune this pass.
+                           </div>
+                       </div>
+                   </div>
+                   <button id="inventory-close-btn" class="inventory-close-btn">Close Inventory</button>
+               </div>
+           </div>
 
             <div id="com-stand" class="object-stand" data-tooltip="Messages and connections" data-target="comms">
                 <div class="stand-base"></div>
@@ -551,6 +572,55 @@
                 </div>
             </div>
         </div>
+
+        <!-- Belobog mission status window: collapsible dropdown for organized status -->
+        <div id="belobog-mission-panel" class="belobog-mission-panel">
+            <button id="belobog-mission-toggle" class="mission-toggle">
+                <span class="mission-toggle-label">Belobog Mission & Ticket Status</span>
+                <span id="belobog-mission-pill" class="mission-pill mission-pill-pending">Incomplete</span>
+                <span class="mission-toggle-icon">⌵</span>
+            </button>
+            <div id="belobog-mission-content" class="mission-content">
+                <div class="mission-section">
+                    <div class="mission-section-title">World Brief</div>
+                    <div class="mission-line">
+                        <span class="label">Current World</span>
+                        <span class="value">Belobog — Castle Hall</span>
+                    </div>
+                    <div class="mission-line">
+                        <span class="label">Main Trial</span>
+                        <span class="value">Belobog Oath — Fill in the Blank</span>
+                    </div>
+                    <div class="mission-line">
+                        <span class="label">Status</span>
+                        <span id="belobog-mission-status" class="value status-pending">
+                            Incomplete — Clear the Oath Script relic.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mission-section">
+                    <div class="mission-section-title">Ticket Requirements</div>
+                    <ul class="mission-list">
+                        <li>Complete the Belobog Oath Script with the true word.</li>
+                        <li>Illuminate the castle seal to prove your resolve.</li>
+                    </ul>
+                </div>
+
+                <div class="mission-section">
+                    <div class="mission-section-title">Next Planet Ticket</div>
+                    <div class="ticket-preview">
+                        <div class="ticket-label">Xianzhou Luofu Boarding Pass</div>
+                        <div class="ticket-card locked">
+                            <div class="ticket-world">Xianzhou Luofu</div>
+                            <div class="ticket-note">Locked — Finish Belobog mission to attune this ticket.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- (Old bottom ticket-progress card retained in CSS but hidden; circular forge now represents progress) -->
 
         <div class="portal-ui">
             <button id="back-to-planets" class="portal-back-btn">Back to Planet Selection</button>
