@@ -478,11 +478,12 @@
                 <div class="orb-glow"></div>
                 <span class="orb-label">Belobog</span>
             </div>
-            <!-- Future planets: visible, but visually locked -->
-            <div class="celestial-orb planet-option locked" data-planet="xianzhou">
+            <!-- Next planet: Xianzhou Luofu (now accessible; portal uses shared shell, content WIP) -->
+            <div class="celestial-orb planet-option unlocked" data-planet="xianzhou">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Xianzhou Luofu</span>
             </div>
+            <!-- Future planet: Penacony (still locked) -->
             <div class="celestial-orb planet-option locked" data-planet="penacony">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Penacony</span>
@@ -620,16 +621,57 @@
             </div>
         </div>
 
-        <!-- (Old bottom ticket-progress card retained in CSS but hidden; circular forge now represents progress) -->
-
         <div class="portal-ui">
             <button id="back-to-planets" class="portal-back-btn">Back to Planet Selection</button>
             <div id="destination-label" class="mini-label">Belobog Castle Portal initialized.</div>
         </div>
 
-        <!-- Generic bottom hint/placeholder -->
         <div class="belobog-minigame-placeholder">
             Choose a celestial relic. The first begins your oath with a fill-in-the-blank trial.
+        </div>
+    </div>
+
+    <!-- Xianzhou Luofu portal (shattered mirror memories) -->
+    <div id="xianzhou-portal" class="planet-portal xianzhou-mirror" style="display: none;">
+
+        <!-- Back to planet selection: top-left revert icon -->
+        <button id="xianzhou-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <!-- Dimmed core so it feels like the door frame for the mirror wall -->
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <!-- Glass shard field -->
+        <div class="xianzhou-glass-layer">
+            <!-- Memory shards: static text only appears after "Start Memories" is pressed -->
+            <div class="glass-shard" data-memory="I love eating you."></div>
+            <div class="glass-shard" data-memory="You make every station feel like home."></div>
+            <div class="glass-shard" data-memory="Your laughter is my favorite signal."></div>
+            <div class="glass-shard" data-memory="I’d reroute the Astral Express just to see you smile."></div>
+            <div class="glass-shard" data-memory="Holding your hand feels like a perfect timeline."></div>
+            <div class="glass-shard" data-memory="Every goodbye is only a countdown to our next hello."></div>
+            <div class="glass-shard" data-memory="You are my safe carriage in every storm."></div>
+            <div class="glass-shard" data-memory="I choose you in every universe."></div>
+
+            <!-- Red shard: reserved for user-filled memory (left blank for now) -->
+            <div id="xianzhou-red-shard" class="glass-shard red-shard" data-memory=""></div>
+
+            <!-- More generic shards to make the mirror feel shattered -->
+            <div class="glass-shard" data-memory="You are the warmth between cold stars."></div>
+            <div class="glass-shard" data-memory="You’re the soft pause between my battles."></div>
+            <div class="glass-shard" data-memory="You are my favorite anomaly."></div>
+        </div>
+
+        <!-- Portal UI for Xianzhou -->
+        <div class="portal-ui xianzhou-ui">
+            <div id="xianzhou-label" class="mini-label">
+                Shattered reflections of us — each shard holds a quiet memory.
+            </div>
         </div>
     </div>
 

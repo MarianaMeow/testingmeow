@@ -82,19 +82,33 @@ document.addEventListener('DOMContentLoaded', function() {
         if (destinationPortal) destinationPortal.style.display = 'none';
     }
 
+    // Shared function: route to proper portal layout per planet
     function showDestinationPortal(planetKey) {
-        if (!destinationPortal || !planetSelection) return;
+        if (!planetSelection) return;
+
+        // Hide all portal layers first
         planetSelection.style.display = 'none';
-        destinationPortal.style.display = 'flex';
+        destinationPortal.style.display = 'none';
+        const xianzhouPortal = document.getElementById('xianzhou-portal');
+        if (xianzhouPortal) xianzhouPortal.style.display = 'none';
 
         let text = 'Destination portal initialized.';
+
         if (planetKey === 'belobog') {
+            // Belobog keeps its castle interior + oath trial
+            destinationPortal.style.display = 'flex';
             text = 'Belobog Portal: You step into the frozen-yet-warm city under the aegis of the Astral Express.';
         } else if (planetKey === 'xianzhou') {
-            text = 'Xianzhou Luofu: Preview locked. The jade immortals await in a future update.';
+            // Xianzhou: shattered mirror / glass shards layout
+            const xianzhouPortalEl = document.getElementById('xianzhou-portal');
+            if (xianzhouPortalEl) {
+                xianzhouPortalEl.style.display = 'flex';
+            }
+            text = 'Xianzhou Luofu Portal: A field of fractured glass, holding quiet memories.';
         } else if (planetKey === 'penacony') {
             text = 'Penacony: Preview locked. The dreamscape will open in a future update.';
         }
+
         if (destinationLabel) destinationLabel.textContent = text;
     }
 
@@ -164,14 +178,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (option.classList.contains('locked')) {
                     if (planetLabel) {
-                        planetLabel.textContent = 'This destination is locked for now. Only Belobog is available.';
+                        planetLabel.textContent = 'This destination is locked for now. Only Belobog and Xianzhou Luofu are available.';
                     }
                     return;
                 }
 
-                // Unlocked planet (Belobog) -> go to its castle portal
+                // Unlocked planets route to portal screen:
+                // - belobog -> existing Belobog castle portal
+                // - xianzhou -> use same portal shell, but keep content WIP/placeholder for now
                 showDestinationPortal(planetKey);
             });
+        });
+    }
+
+    // Xianzhou Luofu: shattered mirror memory interactions (no start button; shards are live)
+    const xianzhouLabel = document.getElementById('xianzhou-label');
+    const xianzhouShards = document.querySelectorAll('.xianzhou-glass-layer .glass-shard');
+    const xianzhouBackPlanets = document.getElementById('xianzhou-back-planets');
+    const xianzhouRedShard = document.getElementById('xianzhou-red-shard');
+
+    // Normal shards: click to reveal their memory immediately
+    if (xianzhouShards.length) {
+        xianzhouShards.forEach(shard => {
+            // Red shard handled separately below
+            if (shard.id === 'xianzhou-red-shard') return;
+
+            shard.addEventListener('click', () => {
+                const memory = shard.getAttribute('data-memory') || '';
+                if (!memory) return;
+                shard.setAttribute('data-active', 'true');
+            });
+        });
+    }
+
+    // Red shard: interactive input — user can "write" their own memory on click
+    if (xianzhouRedShard) {
+        xianzhouRedShard.addEventListener('click', () => {
+            // Simple inline prompt overlay using built-in prompt (keeps this self-contained)
+            const existing = xianzhouRedShard.getAttribute('data-memory') || '';
+            const userText = window.prompt(
+                'Write your own memory on this red shard:',
+                existing
+            );
+
+            if (userText && userText.trim()) {
+                const trimmed = userText.trim();
+                xianzhouRedShard.setAttribute('data-memory', trimmed);
+                xianzhouRedShard.setAttribute('data-active', 'true');
+                if (xianzhouLabel) {
+                    xianzhouLabel.textContent = 'Your red shard has been etched.';
+                }
+            }
+        });
+    }
+
+    // Back from Xianzhou mirror to planet selection
+    if (xianzhouBackPlanets && planetSelection) {
+        xianzhouBackPlanets.addEventListener('click', () => {
+            const xianzhouPortalEl = document.getElementById('xianzhou-portal');
+            if (xianzhouPortalEl) xianzhouPortalEl.style.display = 'none';
+            showPlanetSelection();
         });
     }
 

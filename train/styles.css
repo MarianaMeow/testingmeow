@@ -327,6 +327,155 @@ body::before {
     overflow: hidden;
 }
 
+/* Xianzhou Luofu shattered mirror layout */
+.xianzhou-mirror {
+    background:
+        radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 70%),
+        radial-gradient(circle at bottom, rgba(231,76,60,0.14), transparent 65%),
+        #050308;
+}
+
+/* Layer where shards float */
+.xianzhou-glass-layer {
+    position: absolute;
+    inset: 8% 6% 14% 6%;
+    display: block;
+    pointer-events: none; /* shards individually re-enable pointer */
+}
+
+/* Generic glass shard - jagged like broken glasses */
+.glass-shard {
+    position: absolute;
+    width: 120px;
+    height: 64px;
+    background:
+        radial-gradient(circle at 10% 0%, rgba(255,255,255,0.22), transparent),
+        radial-gradient(circle at 90% 40%, rgba(116,185,255,0.16), transparent),
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.10),
+            rgba(40,40,60,0.96)
+        );
+    border: 1px solid rgba(255,255,255,0.22);
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.95),
+        0 0 20px rgba(255,255,255,0.12);
+    /* Broken glasses silhouette: sharp, irregular edges */
+    clip-path: polygon(
+        6% 4%,
+        32% 0%,
+        64% 6%,
+        96% 12%,
+        92% 46%,
+        100% 86%,
+        70% 100%,
+        38% 92%,
+        10% 96%,
+        0% 56%
+    );
+    backdrop-filter: blur(3px);
+    transform: rotate(-6deg);
+    opacity: 0.9;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+/* Visual state once "activated" (clicked to reveal or etched) */
+.glass-shard[data-active="true"] {
+    box-shadow:
+        0 0 20px rgba(254,202,87,0.9),
+        0 0 34px rgba(231,76,60,0.9);
+    border-color: rgba(254,202,87,0.9);
+}
+
+/* Show memory text via tooltip-like label when active */
+.glass-shard[data-active="true"]::after {
+    content: attr(data-memory);
+    position: absolute;
+    inset: 4px;
+    padding: 4px 6px;
+    font-size: 0.6rem;
+    color: #feca57;
+    text-shadow: 0 0 6px rgba(0,0,0,1);
+    white-space: normal;
+    line-height: 1.2;
+}
+
+/* Randomized placements for shards to feel like scattered mirror */
+.xianzhou-glass-layer .glass-shard:nth-child(1) { top: 6%; left: 10%; transform: rotate(-8deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(2) { top: 14%; left: 34%; transform: rotate(3deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(3) { top: 10%; right: 14%; transform: rotate(-2deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(4) { top: 26%; left: 18%; transform: rotate(9deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(5) { top: 30%; right: 20%; transform: rotate(-7deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(6) { top: 42%; left: 8%; transform: rotate(5deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(7) { top: 46%; left: 40%; transform: rotate(-4deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(8) { top: 40%; right: 10%; transform: rotate(8deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(10) { bottom: 22%; left: 22%; transform: rotate(-10deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(11) { bottom: 18%; right: 26%; transform: rotate(6deg); }
+.xianzhou-glass-layer .glass-shard:nth-child(12) { bottom: 10%; left: 8%; transform: rotate(2deg); }
+
+/* Red shard: mixed among others, reserved for user-filled memory */
+.red-shard {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(231,76,60,0.28),
+            rgba(34,0,0,0.96)
+        );
+    border-color: rgba(231,76,60,0.9);
+    box-shadow:
+        0 0 20px rgba(231,76,60,0.9),
+        0 10px 24px rgba(0,0,0,1);
+}
+
+/* Place red shard intentionally among others (index 9 in list) */
+.xianzhou-glass-layer .red-shard {
+    top: 34%;
+    left: 52%;
+    transform: rotate(-3deg);
+}
+
+/* Ensure red shard shows no default text yet, even if data-memory is empty */
+.red-shard::after {
+    content: '';
+}
+
+/* Back icon (upper-left) inside Xianzhou portal */
+.portal-back-icon {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(254,202,87,0.8);
+    background: rgba(0,0,0,0.9);
+    color: #feca57;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(254,202,87,0.6);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.portal-back-icon:hover {
+    background: rgba(254,202,87,0.16);
+    transform: translateY(-2px);
+}
+
+/* Xianzhou UI label moved lower to be less distracting */
+.xianzhou-ui {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 /* Belobog castle interior theme for destination portal */
 #destination-portal.belobog-castle {
     background:
