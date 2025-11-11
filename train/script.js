@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const welcomeScreen = document.getElementById('welcome-screen');
     const loadingScreen = document.getElementById('loading-screen');
     const mainMenu = document.getElementById('main-menu');
+    const planetSelection = document.getElementById('planet-selection');
+    const destinationPortal = document.getElementById('destination-portal');
 
     let attempts = 0;
     const correctPassword = 'my dearest, Maria';
@@ -43,173 +45,112 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Modal functionality for interactive objects
+    // Modal functionality for interactive objects (for future use)
     const modal = document.getElementById('interaction-modal');
     const modalBody = document.getElementById('modal-body');
     const closeBtn = document.querySelector('.close');
 
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
+    if (modal && closeBtn && modalBody) {
+        closeBtn.addEventListener('click', function() {
             modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Main Menu navigation stands (clean interior nav)
+    const stands = document.querySelectorAll('.object-stand');
+    const planetLabel = document.getElementById('planet-label');
+    const destinationLabel = document.getElementById('destination-label');
+    const backToMenuBtn = document.getElementById('back-to-menu');
+    const backToPlanetsBtn = document.getElementById('back-to-planets');
+
+    // Helper: show only one main layer at a time
+    function showMainMenu() {
+        mainMenu.style.display = 'flex';
+        if (planetSelection) planetSelection.style.display = 'none';
+        if (destinationPortal) destinationPortal.style.display = 'none';
+    }
+
+    function showPlanetSelection() {
+        mainMenu.style.display = 'none';
+        if (planetSelection) planetSelection.style.display = 'flex';
+        if (destinationPortal) destinationPortal.style.display = 'none';
+    }
+
+    function showDestinationPortal(planetKey) {
+        if (!destinationPortal || !planetSelection) return;
+        planetSelection.style.display = 'none';
+        destinationPortal.style.display = 'flex';
+
+        let text = 'Destination portal initialized.';
+        if (planetKey === 'belobog') {
+            text = 'Belobog Portal: You step into the frozen-yet-warm city under the aegis of the Astral Express.';
+        } else if (planetKey === 'xianzhou') {
+            text = 'Xianzhou Luofu: Preview locked. The jade immortals await in a future update.';
+        } else if (planetKey === 'penacony') {
+            text = 'Penacony: Preview locked. The dreamscape will open in a future update.';
         }
-    });
+        if (destinationLabel) destinationLabel.textContent = text;
+    }
 
-    // Main menu interactive objects (stands inside train interior)
-    const trashCans = [
-        {
-            id: 'map-stand',
-            title: 'Navigator Console',
-            content: `
-            <h3>Navigator Console</h3>
-            <div class="map-container">
-                <svg width="400" height="250" viewBox="0 0 400 250" class="map-svg">
-                    <circle cx="80" cy="125" r="25" fill="#55efc4" stroke="#ffffff" stroke-width="3" class="planet current-planet">
-                        <title>Current Planet: Belobog</title>
-                    </circle>
-                    <circle cx="200" cy="100" r="20" fill="#74b9ff" stroke="#ffffff" stroke-width="2" class="planet">
-                        <title>Next Planet: Xianzhou Luofu</title>
-                    </circle>
-                    <circle cx="320" cy="150" r="20" fill="#a29bfe" stroke="#ffffff" stroke-width="2" class="planet">
-                        <title>Planet: Penacony</title>
-                    </circle>
-                    <line x1="105" y1="125" x2="180" y2="100" stroke="#ffffff" stroke-width="3" class="route" />
-                    <line x1="220" y1="100" x2="300" y2="150" stroke="#ffffff" stroke-width="3" class="route" />
-                    <text x="80" y="165" text-anchor="middle" fill="#ffffff" font-size="12">Belobog</text>
-                    <text x="200" y="140" text-anchor="middle" fill="#ffffff" font-size="12">Xianzhou</text>
-                    <text x="320" y="190" text-anchor="middle" fill="#ffffff" font-size="12">Penacony</text>
-                </svg>
-                <p><strong>Current Location:</strong> Belobog</p>
-                <p><strong>Next Destination:</strong> Xianzhou Luofu</p>
-                <p><strong>Travel Time:</strong> 2.5 Aeons</p>
-            </div>
-        `},
-        {
-            id: 'log-stand',
-            title: 'Mission Log',
-            content: `
-            <h3>Mission Log</h3>
-            <div class="log-entries">
-                <div class="log-entry">
-                    <h4>Day 1: Arrival at Belobog</h4>
-                    <p>The Astral Express has arrived at the planet Belobog. Local time: 14:30. Crew status: Optimal.</p>
-                </div>
-                <div class="log-entry">
-                    <h4>Day 2: Exploration Mission</h4>
-                    <p>Conducting surface exploration. Discovered ancient ruins with potential for research.</p>
-                </div>
-                <div class="log-entry">
-                    <h4>Day 3: Data Collection</h4>
-                    <p>Collected valuable data on local ecosystem. Preparing for departure to next destination.</p>
-                </div>
-            </div>
-        `},
-        {
-            id: 'inv-stand',
-            title: 'Inventory',
-            content: `
-            <h3>Inventory Management</h3>
-            <div class="inventory-grid">
-                <div class="item">
-                    <div class="item-icon">🔧</div>
-                    <div class="item-name">Repair Kit</div>
-                    <div class="item-count">x3</div>
-                </div>
-                <div class="item">
-                    <div class="item-icon">⚡</div>
-                    <div class="item-name">Energy Cells</div>
-                    <div class="item-count">x12</div>
-                </div>
-                <div class="item">
-                    <div class="item-icon">🗺️</div>
-                    <div class="item-name">Star Maps</div>
-                    <div class="item-count">x5</div>
-                </div>
-                <div class="item">
-                    <div class="item-icon">💎</div>
-                    <div class="item-name">Rare Minerals</div>
-                    <div class="item-count">x8</div>
-                </div>
-            </div>
-        `},
-        {
-            id: 'com-stand',
-            title: 'Communications',
-            content: `
-            <h3>Communications Hub</h3>
-            <div class="comm-log">
-                <div class="message incoming">
-                    <strong>Incoming from HQ:</strong> Mission parameters updated. Proceed to Xianzhou Luofu upon completion.
-                </div>
-                <div class="message outgoing">
-                    <strong>To HQ:</strong> Acknowledged. Current mission status: 85% complete.
-                </div>
-                <div class="message incoming">
-                    <strong>Incoming from Xianzhou:</strong> Welcome message received. Docking coordinates transmitted.
-                </div>
-            </div>
-            <div class="comm-controls">
-                <button class="comm-btn">Send Message</button>
-                <button class="comm-btn">Emergency Signal</button>
-            </div>
-        `},
-        {
-            id: 'sys-stand',
-            title: 'Settings',
-            content: `
-            <h3>System Settings</h3>
-            <div class="settings-panel">
-                <div class="setting">
-                    <label>Auto-navigation:</label>
-                    <input type="checkbox" checked>
-                </div>
-                <div class="setting">
-                    <label>Emergency protocols:</label>
-                    <input type="checkbox" checked>
-                </div>
-                <div class="setting">
-                    <label>Life support systems:</label>
-                    <input type="checkbox" checked>
-                </div>
-                <div class="setting">
-                    <label>Communications array:</label>
-                    <input type="checkbox" checked>
-                </div>
-                <div class="setting">
-                    <label>Shield generators:</label>
-                    <input type="checkbox">
-                </div>
-            </div>
-            <button class="save-btn">Save Settings</button>
-        `}
-    ];
+    // Stand interactions
+    stands.forEach(stand => {
+        const target = stand.getAttribute('data-target');
 
-    trashCans.forEach(trash => {
-        document.getElementById(trash.id).addEventListener('click', function() {
-            modalBody.innerHTML = trash.content;
-            modal.style.display = 'flex';
-
-            // Add specific styling for modal content
-            const style = document.createElement('style');
-            style.textContent = `
-                .map-container { background: rgba(0, 0, 0, 0.5); border-radius: 10px; padding: 15px; margin: 15px 0; }
-                .log-entries { max-height: 300px; overflow-y: auto; }
-                .log-entry { background: rgba(255, 255, 255, 0.1); padding: 10px; margin: 10px 0; border-radius: 5px; }
-                .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-                .item { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 5px; text-align: center; }
-                .comm-log { max-height: 200px; overflow-y: auto; margin-bottom: 20px; }
-                .message { padding: 8px; margin: 5px 0; border-radius: 5px; }
-                .incoming { background: rgba(85, 239, 196, 0.2); border-left: 3px solid #55efc4; }
-                .outgoing { background: rgba(116, 185, 255, 0.2); border-left: 3px solid #74b9ff; }
-                .comm-btn { background: #e94560; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 5px; cursor: pointer; }
-                .settings-panel { display: flex; flex-direction: column; gap: 10px; }
-                .setting { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; }
-                .save-btn { background: #feca57; color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px; }
-            `;
-            modalBody.appendChild(style);
+        stand.addEventListener('click', () => {
+            if (target === 'map') {
+                // Open planet selection overlay
+                if (planetLabel) {
+                    planetLabel.textContent = 'Current route: Belobog (unlocked). Future destinations visible but locked.';
+                }
+                showPlanetSelection();
+            } else if (target === 'logs') {
+                console.log('[Main Menu] Mission Log opened.');
+            } else if (target === 'inventory') {
+                console.log('[Main Menu] Inventory opened.');
+            } else if (target === 'comms') {
+                console.log('[Main Menu] Comms opened.');
+            } else if (target === 'system') {
+                console.log('[Main Menu] System Core opened.');
+            }
         });
     });
+
+    // Planet selection: click planets to route to destination portal
+    if (planetSelection) {
+        const planetOptions = planetSelection.querySelectorAll('.planet-option');
+        planetOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const planetKey = option.getAttribute('data-planet');
+
+                if (option.classList.contains('locked')) {
+                    if (planetLabel) {
+                        planetLabel.textContent = 'This destination is locked for now. Only Belobog is available.';
+                    }
+                    return;
+                }
+
+                // Unlocked planet -> go to its portal
+                showDestinationPortal(planetKey);
+            });
+        });
+    }
+
+    // Back buttons
+    if (backToMenuBtn) {
+        backToMenuBtn.addEventListener('click', () => {
+            showMainMenu();
+        });
+    }
+
+    if (backToPlanetsBtn) {
+        backToPlanetsBtn.addEventListener('click', () => {
+            showPlanetSelection();
+        });
+    }
 });

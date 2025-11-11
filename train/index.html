@@ -365,33 +365,26 @@
         </svg>
     </div>
 
+    <!-- Main menu: train interior with navigation stands -->
     <div id="main-menu" class="main-menu" style="display: none;">
         <div class="train-interior">
-            <!-- Windows showing parallax space outside -->
+            <!-- Windows and ambient details -->
             <div class="train-window-strip">
-                <div class="window">
-                    <div class="stars-layer"></div>
-                </div>
-                <div class="window">
-                    <div class="stars-layer"></div>
-                </div>
-                <div class="window">
-                    <div class="stars-layer"></div>
-                </div>
+                <div class="window"><div class="stars-layer"></div></div>
+                <div class="window"><div class="stars-layer"></div></div>
+                <div class="window"><div class="stars-layer"></div></div>
             </div>
 
-            <!-- Overhead lights -->
             <div class="ceiling-lights">
                 <div class="light"></div>
                 <div class="light"></div>
                 <div class="light"></div>
             </div>
 
-            <!-- Floor / perspective rails -->
             <div class="floor-gradient"></div>
 
-            <!-- Left: Digital Map Stand (Object 1) -->
-            <div class="object-stand" id="map-stand" data-tooltip="Digital Map Stand">
+            <!-- Navigation stands (Main Menu contents) -->
+            <div id="map-stand" class="object-stand" data-tooltip="View route and destinations" data-target="map">
                 <div class="stand-base"></div>
                 <div class="stand-pole"></div>
                 <div class="stand-screen stand-glow">
@@ -401,60 +394,97 @@
                         <div class="map-planet"></div>
                         <div class="map-path"></div>
                     </div>
-                    <span class="stand-label">Navigator</span>
+                    <div class="stand-label">Route Map</div>
                 </div>
             </div>
 
-            <!-- Object 2: Mission Log Terminal -->
-            <div class="object-stand" id="log-stand" data-tooltip="Mission Log Terminal">
-                <div class="stand-base"></div>
-                <div class="stand-pole"></div>
+            <div id="log-stand" class="object-stand" data-tooltip="Mission and travel logs" data-target="logs">
                 <div class="stand-screen">
                     <div class="screen-lines">
-                        <span></span><span></span><span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
-                    <span class="stand-label">Mission Log</span>
+                    <div class="stand-label">Mission Log</div>
                 </div>
             </div>
 
-            <!-- Object 3: Inventory Locker -->
-            <div class="object-stand" id="inv-stand" data-tooltip="Inventory Locker">
+            <div id="inv-stand" class="object-stand" data-tooltip="Inventory and gifts" data-target="inventory">
+                <div class="stand-base"></div>
+                <div class="stand-pole"></div>
                 <div class="locker-body">
                     <div class="locker-door"></div>
                     <div class="locker-lights">
                         <span></span><span></span><span></span>
                     </div>
                 </div>
-                <span class="stand-label center">Inventory</span>
+                <div class="stand-label">Inventory</div>
             </div>
 
-            <!-- Object 4: Comms Console -->
-            <div class="object-stand" id="com-stand" data-tooltip="Communications Console">
+            <div id="com-stand" class="object-stand" data-tooltip="Messages and connections" data-target="comms">
                 <div class="stand-base"></div>
                 <div class="stand-pole"></div>
                 <div class="stand-screen">
                     <div class="wave"></div>
-                    <div class="wave wave2"></div>
-                    <span class="stand-label">Comms</span>
+                    <div class="wave2"></div>
+                    <div class="stand-label">Comms</div>
                 </div>
             </div>
 
-            <!-- Object 5: System Core / Settings -->
-            <div class="object-stand" id="sys-stand" data-tooltip="System Core Settings">
-                <div class="core-ring"></div>
-                <div class="core-orb"></div>
-                <span class="stand-label center">System</span>
-            </div>
-
-            <!-- Modal for interactions -->
-            <div id="interaction-modal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div id="modal-body">
-                        <!-- Content will be dynamically inserted -->
-                    </div>
+            <div id="sys-stand" class="object-stand" data-tooltip="Core settings" data-target="system">
+                <div class="stand-base"></div>
+                <div class="stand-pole"></div>
+                <div class="stand-screen">
+                    <div class="core-ring"></div>
+                    <div class="core-orb"></div>
+                    <div class="stand-label">System Core</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Planet selection overlay (opens when using Route Map in Main Menu) -->
+    <div id="planet-selection" class="planet-portal" style="display: none;">
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <div class="celestial-row">
+            <!-- Current/unlocked planet -->
+            <div class="celestial-orb planet-option unlocked" data-planet="belobog">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Belobog</span>
+            </div>
+            <!-- Future planets: visible, but visually locked -->
+            <div class="celestial-orb planet-option locked" data-planet="xianzhou">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Xianzhou Luofu</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="penacony">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Penacony</span>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <button id="back-to-menu" class="portal-back-btn">Back to Main Menu</button>
+            <div id="planet-label" class="mini-label">Select your destination.</div>
+        </div>
+    </div>
+
+    <!-- Destination portal screen (changes based on chosen planet) -->
+    <div id="destination-portal" class="planet-portal" style="display: none;">
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <div class="portal-ui">
+            <button id="back-to-planets" class="portal-back-btn">Back to Planet Selection</button>
+            <div id="destination-label" class="mini-label">Destination portal initialized.</div>
         </div>
     </div>
 
