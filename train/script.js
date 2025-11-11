@@ -108,12 +108,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             text = 'Xianzhou Luofu Portal: A field of fractured glass, holding quiet memories.';
         } else if (planetKey === 'penacony') {
-            // Penacony: slot-machine inspired dreamspace (visual WIP)
-            const penaconyPortalEl = document.getElementById('penacony-portal');
-            if (penaconyPortalEl) {
-                penaconyPortalEl.style.display = 'flex';
+            // Penacony: slot-machine dreamscape (new portal)
+            if (penaconyPortal) {
+                penaconyPortal.style.display = 'flex';
             }
-            text = 'Penacony Portal: The reels of fate begin to glow in distant dreams.';
+            text = 'Penacony Portal: A gilded dream-casino where fate spins in your favor.';
         }
 
         if (destinationLabel) destinationLabel.textContent = text;
@@ -182,20 +181,20 @@ document.addEventListener('DOMContentLoaded', function() {
         planetOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const planetKey = option.getAttribute('data-planet');
+
                 const invStand = document.getElementById('inv-stand');
-
                 const xianzhouTicketReady =
-                    invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready';
+                    (invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready');
                 const penaconyTicketReady =
-                    invStand && invStand.getAttribute('data-ticket-penacony') === 'ready';
+                    (invStand && invStand.getAttribute('data-ticket-penacony') === 'ready');
 
-                // Auto-unlock Xianzhou when its ticket is ready
+                // If this is Xianzhou and the ticket is ready, auto-unlock visually
                 if (planetKey === 'xianzhou' && xianzhouTicketReady) {
                     option.classList.remove('locked');
                     option.classList.add('unlocked');
                 }
 
-                // Auto-unlock Penacony when its ticket is ready
+                // If this is Penacony and its ticket is ready (from red shard), auto-unlock
                 if (planetKey === 'penacony' && penaconyTicketReady) {
                     option.classList.remove('locked');
                     option.classList.add('unlocked');
@@ -208,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 'Xianzhou Luofu is locked. Clear the Belobog Oath to attune its boarding pass.';
                         } else if (planetKey === 'penacony') {
                             planetLabel.textContent =
-                                'Penacony is locked. The red shard in Xianzhou must bear the true memory.';
+                                'Penacony remains sealed. Etch the true red shard vow to awaken its ticket.';
                         } else {
                             planetLabel.textContent =
                                 'This destination is locked for now. Clear current trials to forge the route.';
@@ -243,7 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Red shard: interactive input — key to Penacony
+    // Red shard: interactive input — user can "write" their own memory on click.
+    // If the exact phrase "I love you, Miraizel" is etched, that forges the Penacony ticket.
     if (xianzhouRedShard) {
         xianzhouRedShard.addEventListener('click', () => {
             const existing = xianzhouRedShard.getAttribute('data-memory') || '';
@@ -252,29 +252,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 existing
             );
 
-            if (!userText || !userText.trim()) {
-                return;
-            }
+            if (userText && userText.trim()) {
+                const trimmed = userText.trim();
+                xianzhouRedShard.setAttribute('data-memory', trimmed);
+                xianzhouRedShard.setAttribute('data-active', 'true');
 
-            const trimmed = userText.trim();
-            xianzhouRedShard.setAttribute('data-memory', trimmed);
-            xianzhouRedShard.setAttribute('data-active', 'true');
+                if (xianzhouLabel) {
+                    xianzhouLabel.textContent = 'Your red shard has been etched.';
+                }
 
-            // Check for the exact key phrase to forge Penacony ticket
-            if (trimmed === 'I love you, Miraizel') {
-                // Mark Penacony ticket as ready on inventory stand
-                const invStand = document.getElementById('inv-stand');
-                if (invStand) {
-                    invStand.setAttribute('data-ticket-penacony', 'ready');
-                }
-                if (xianzhouLabel) {
-                    xianzhouLabel.textContent =
-                        'Your red shard has opened a path — the Penacony ticket awakens.';
-                }
-            } else {
-                if (xianzhouLabel) {
-                    xianzhouLabel.textContent =
-                        'The shard remembers, but the path to the next dream remains sealed.';
+                // If the exact key phrase is entered, unlock Penacony via ticket flag.
+                if (trimmed === 'I love you, Miraizel') {
+                    const invStand = document.getElementById('inv-stand');
+                    if (invStand) {
+                        invStand.setAttribute('data-ticket-penacony', 'ready');
+                    }
+                    if (xianzhouLabel) {
+                        xianzhouLabel.textContent =
+                            'Your words resonate beyond — a distant dreamworld stirs awake.';
+                    }
                 }
             }
         });
@@ -289,12 +285,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Back from Penacony slot portal to planet selection
+    // Penacony portal: simple slot-machine-like spin (visual flavor only)
+    const penaconyPortal = document.getElementById('penacony-portal');
     const penaconyBackPlanets = document.getElementById('penacony-back-planets');
+    const penaconySpinBtn = document.getElementById('penacony-spin');
+    const penaconyResult = document.getElementById('penacony-result');
+    const penaconyReel1 = document.getElementById('penacony-reel-1');
+    const penaconyReel2 = document.getElementById('penacony-reel-2');
+    const penaconyReel3 = document.getElementById('penacony-reel-3');
+
+    if (penaconySpinBtn && penaconyReel1 && penaconyReel2 && penaconyReel3 && penaconyResult) {
+        penaconySpinBtn.addEventListener('click', () => {
+            const symbols = ['★', '♥', '♣', '♦', '∞'];
+            const rand = () => symbols[Math.floor(Math.random() * symbols.length)];
+
+            const r1 = rand();
+            const r2 = rand();
+            const r3 = rand();
+
+            // Update the first symbol in each reel to simulate a quick "result"
+            const s1 = penaconyReel1.querySelector('.penacony-symbol');
+            const s2 = penaconyReel2.querySelector('.penacony-symbol');
+            const s3 = penaconyReel3.querySelector('.penacony-symbol');
+            if (s1) s1.textContent = r1;
+            if (s2) s2.textContent = r2;
+            if (s3) s3.textContent = r3;
+
+            if (r1 === r2 && r2 === r3) {
+                penaconyResult.textContent = 'Jackpot — in every dream, you still choose each other.';
+            } else {
+                penaconyResult.textContent = 'The reels keep spinning; your promise stays constant.';
+            }
+        });
+    }
+
+    // Back from Penacony to planet selection
     if (penaconyBackPlanets && planetSelection) {
         penaconyBackPlanets.addEventListener('click', () => {
-            const penaconyPortalEl = document.getElementById('penacony-portal');
-            if (penaconyPortalEl) penaconyPortalEl.style.display = 'none';
+            if (penaconyPortal) penaconyPortal.style.display = 'none';
             showPlanetSelection();
         });
     }

@@ -483,7 +483,7 @@
                 <div class="orb-glow"></div>
                 <span class="orb-label">Xianzhou Luofu</span>
             </div>
-            <!-- Future planet: Penacony (still locked) -->
+            <!-- Future planet: Penacony (locked until red shard vow is etched) -->
             <div class="celestial-orb planet-option locked" data-planet="penacony">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Penacony</span>
@@ -675,7 +675,7 @@
         </div>
     </div>
 
-    <!-- Penacony portal (slot machine inspired, WIP) -->
+    <!-- Penacony portal: slot machine dreamscape -->
     <div id="penacony-portal" class="planet-portal penacony-slot" style="display: none;">
 
         <!-- Back to planet selection: top-left revert icon -->
@@ -683,36 +683,45 @@
             ⬅
         </button>
 
-        <!-- Slot machine frame backdrop -->
-        <div class="portal-backdrop penacony-frame">
-            <div class="penacony-marquee">PENACONY DREAMLINER</div>
-            <div class="penacony-lights penacony-lights-top"></div>
-            <div class="penacony-lights penacony-lights-bottom"></div>
+        <!-- Ambient portal frame -->
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
         </div>
 
-        <!-- Central slot reels (visual-only for now) -->
-        <div class="penacony-slot-body">
-            <div class="penacony-reel">
-                <div class="penacony-symbol">★</div>
-                <div class="penacony-symbol">♥</div>
-                <div class="penacony-symbol">♣</div>
-            </div>
-            <div class="penacony-reel">
-                <div class="penacony-symbol">♠</div>
-                <div class="penacony-symbol">♬</div>
-                <div class="penacony-symbol">☾</div>
-            </div>
-            <div class="penacony-reel">
-                <div class="penacony-symbol">♦</div>
-                <div class="penacony-symbol">∞</div>
-                <div class="penacony-symbol">★</div>
-            </div>
-        </div>
+        <!-- Slot machine frame -->
+        <div class="penacony-slot-frame">
+            <div class="penacony-slot-header">Penacony Dreamline</div>
+            <div class="penacony-slot-subtitle">Spin through memories, fates, and futures.</div>
 
-        <!-- Penacony hint text -->
-        <div class="portal-ui penacony-ui">
-            <div id="penacony-label" class="mini-label">
-                The reels are quiet for now — your next game of fate awaits here.
+            <div class="penacony-slot-window">
+                <div class="penacony-reel" id="penacony-reel-1">
+                    <div class="penacony-symbol">★</div>
+                    <div class="penacony-symbol">♥</div>
+                    <div class="penacony-symbol">♣</div>
+                    <div class="penacony-symbol">♦</div>
+                    <div class="penacony-symbol">∞</div>
+                </div>
+                <div class="penacony-reel" id="penacony-reel-2">
+                    <div class="penacony-symbol">♥</div>
+                    <div class="penacony-symbol">★</div>
+                    <div class="penacony-symbol">♦</div>
+                    <div class="penacony-symbol">∞</div>
+                    <div class="penacony-symbol">♣</div>
+                </div>
+                <div class="penacony-reel" id="penacony-reel-3">
+                    <div class="penacony-symbol">♦</div>
+                    <div class="penacony-symbol">♣</div>
+                    <div class="penacony-symbol">★</div>
+                    <div class="penacony-symbol">♥</div>
+                    <div class="penacony-symbol">∞</div>
+                </div>
+            </div>
+
+            <button id="penacony-spin" class="penacony-spin-btn">Spin</button>
+            <div id="penacony-result" class="penacony-result-label">
+                Align your stars and see what this dream would say.
             </div>
         </div>
     </div>
