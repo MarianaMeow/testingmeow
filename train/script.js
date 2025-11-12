@@ -295,9 +295,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const penaconyReel3 = document.getElementById('penacony-reel-3');
 
     if (penaconySpinBtn && penaconyReel1 && penaconyReel2 && penaconyReel3 && penaconyResult) {
+        let penaconySpinCount = 0;
+        let penaconyLockedMessageShown = false;
+
         penaconySpinBtn.addEventListener('click', () => {
             const symbols = ['★', '♥', '♣', '♦', '∞'];
             const rand = () => symbols[Math.floor(Math.random() * symbols.length)];
+
+            penaconySpinCount += 1;
+
+            // After 3 spins, override with the apology message once.
+            if (penaconySpinCount >= 3 && !penaconyLockedMessageShown) {
+                penaconyLockedMessageShown = true;
+
+                const apology =
+                    "I’m sorry for leaving u hanging. I love you, please forgive me or let me make it up for u";
+
+                // Clear reels visually into a highlighted line
+                const s1 = penaconyReel1.querySelector('.penacony-symbol');
+                const s2 = penaconyReel2.querySelector('.penacony-symbol');
+                const s3 = penaconyReel3.querySelector('.penacony-symbol');
+                if (s1) s1.textContent = '♥';
+                if (s2) s2.textContent = '♥';
+                if (s3) s3.textContent = '♥';
+
+                penaconyResult.textContent = apology;
+                return;
+            }
 
             const r1 = rand();
             const r2 = rand();
