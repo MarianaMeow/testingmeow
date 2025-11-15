@@ -108,11 +108,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             text = 'Xianzhou Luofu Portal: A field of fractured glass, holding quiet memories.';
         } else if (planetKey === 'penacony') {
-            // Penacony: slot-machine dreamscape (new portal)
+            // Penacony: bright learning arcade (math mini-quest)
             if (penaconyPortal) {
                 penaconyPortal.style.display = 'flex';
             }
-            text = 'Penacony Portal: A gilded dream-casino where fate spins in your favor.';
+            text = 'Penacony Portal: A bright learning arcade — simple, gentle questions only.';
         }
 
         if (destinationLabel) destinationLabel.textContent = text;
@@ -285,62 +285,112 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Penacony portal: simple slot-machine-like spin (visual flavor only)
+    // Penacony portal: bright arcade math mini-game
     const penaconyPortal = document.getElementById('penacony-portal');
     const penaconyBackPlanets = document.getElementById('penacony-back-planets');
-    const penaconySpinBtn = document.getElementById('penacony-spin');
-    const penaconyResult = document.getElementById('penacony-result');
-    const penaconyReel1 = document.getElementById('penacony-reel-1');
-    const penaconyReel2 = document.getElementById('penacony-reel-2');
-    const penaconyReel3 = document.getElementById('penacony-reel-3');
+    const penaconyPlayBtn = document.getElementById('penacony-play');
+    const penaconyQuizModal = document.getElementById('penacony-quiz-modal');
+    const penaconyQuestion = document.getElementById('penacony-question');
+    const penaconyChoices = document.getElementById('penacony-choices');
+    const penaconyFeedback = document.getElementById('penacony-feedback');
+    const penaconyCloseQuiz = document.getElementById('penacony-close-quiz');
 
-    if (penaconySpinBtn && penaconyReel1 && penaconyReel2 && penaconyReel3 && penaconyResult) {
-        let penaconySpinCount = 0;
-        let penaconyLockedMessageShown = false;
+    function generateEasyProblem() {
+        // Only +, -, * with operands 1–99 so result stays small/clean
+        const ops = ['+', '-', '*'];
+        const op = ops[Math.floor(Math.random() * ops.length)];
+        let a = Math.floor(Math.random() * 99) + 1;
+        let b = Math.floor(Math.random() * 99) + 1;
 
-        penaconySpinBtn.addEventListener('click', () => {
-            const symbols = ['★', '♥', '♣', '♦', '∞'];
-            const rand = () => symbols[Math.floor(Math.random() * symbols.length)];
+        // Keep subtraction non-negative
+        if (op === '-' && b > a) [a, b] = [b, a];
 
-            penaconySpinCount += 1;
+        // Keep multiplication modest (<= 3 digits)
+        if (op === '*') {
+            a = Math.floor(Math.random() * 20) + 1;
+            b = Math.floor(Math.random() * 10) + 1;
+        }
 
-            // After 3 spins, override with the apology message once.
-            if (penaconySpinCount >= 3 && !penaconyLockedMessageShown) {
-                penaconyLockedMessageShown = true;
+        let correct;
+        if (op === '+') correct = a + b;
+        else if (op === '-') correct = a - b;
+        else correct = a * b;
 
-                const apology =
-                    "I’m sorry for leaving u hanging. I love you, please forgive me or let me make it up for u";
+        // Build 3 options: 1 correct, 2 nearby distractors
+        const choices = new Set([correct]);
+        while (choices.size < 3) {
+            const delta = Math.floor(Math.random() * 9) - 4; // -4..+4
+            const alt = correct + delta;
+            if (alt > 0 && alt !== correct) choices.add(alt);
+        }
 
-                // Clear reels visually into a highlighted line
-                const s1 = penaconyReel1.querySelector('.penacony-symbol');
-                const s2 = penaconyReel2.querySelector('.penacony-symbol');
-                const s3 = penaconyReel3.querySelector('.penacony-symbol');
-                if (s1) s1.textContent = '♥';
-                if (s2) s2.textContent = '♥';
-                if (s3) s3.textContent = '♥';
+        const shuffled = Array.from(choices).sort(() => Math.random() - 0.5);
 
-                penaconyResult.textContent = apology;
-                return;
-            }
+        return {
+            text: `What is ${a} ${op} ${b} ?`,
+            correct,
+            options: shuffled
+        };
+    }
 
-            const r1 = rand();
-            const r2 = rand();
-            const r3 = rand();
+    if (penaconyPlayBtn && penaconyQuizModal && penaconyQuestion && penaconyChoices && penaconyFeedback) {
+        let currentAnswer = null;
+        let questionsAsked = 0;
+        const totalQuestions = 3;
 
-            // Update the first symbol in each reel to simulate a quick "result"
-            const s1 = penaconyReel1.querySelector('.penacony-symbol');
-            const s2 = penaconyReel2.querySelector('.penacony-symbol');
-            const s3 = penaconyReel3.querySelector('.penacony-symbol');
-            if (s1) s1.textContent = r1;
-            if (s2) s2.textContent = r2;
-            if (s3) s3.textContent = r3;
+        function renderProblem() {
+            const { text, correct, options } = generateEasyProblem();
+            currentAnswer = correct;
+            penaconyQuestion.textContent = text;
+            penaconyChoices.innerHTML = '';
+            penaconyFeedback.textContent = '';
 
-            if (r1 === r2 && r2 === r3) {
-                penaconyResult.textContent = 'Jackpot — in every dream, you still choose each other.';
-            } else {
-                penaconyResult.textContent = 'The reels keep spinning; your promise stays constant.';
-            }
+            options.forEach(val => {
+                const btn = document.createElement('button');
+                btn.className = 'penacony-choice-btn';
+                btn.textContent = val.toString();
+                btn.addEventListener('click', () => {
+                    if (val === currentAnswer) {
+                        penaconyFeedback.textContent =
+                            'Correct! Even in this dream, you’ve got this.';
+                        penaconyFeedback.style.color = '#2ecc71';
+                        questionsAsked += 1;
+
+                        if (questionsAsked < totalQuestions) {
+                            setTimeout(renderProblem, 600);
+                        } else {
+                            penaconyFeedback.textContent =
+                                'You cleared all 3. Thank you for playing with me.';
+                        }
+                    } else {
+                        penaconyFeedback.textContent =
+                            'Close. Try another — this arcade never judges.';
+                        penaconyFeedback.style.color = '#e67e22';
+                    }
+                });
+                penaconyChoices.appendChild(btn);
+            });
+        }
+
+        penaconyPlayBtn.addEventListener('click', () => {
+            questionsAsked = 0;
+            penaconyQuizModal.style.display = 'flex';
+            renderProblem();
         });
+
+        if (penaconyCloseQuiz) {
+            penaconyCloseQuiz.addEventListener('click', () => {
+                penaconyQuizModal.style.display = 'none';
+            });
+        }
+
+        // Close modal when clicking backdrop
+        const backdrop = penaconyQuizModal.querySelector('.penacony-quiz-modal-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', () => {
+                penaconyQuizModal.style.display = 'none';
+            });
+        }
     }
 
     // Back from Penacony to planet selection
