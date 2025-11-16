@@ -91,8 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         destinationPortal.style.display = 'none';
         const xianzhouPortal = document.getElementById('xianzhou-portal');
         if (xianzhouPortal) xianzhouPortal.style.display = 'none';
-        const penaconyPortal = document.getElementById('penacony-portal');
-        if (penaconyPortal) penaconyPortal.style.display = 'none';
 
         let text = 'Destination portal initialized.';
 
@@ -185,8 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const invStand = document.getElementById('inv-stand');
                 const xianzhouTicketReady =
                     (invStand && invStand.getAttribute('data-ticket-xianzhou') === 'ready');
-                const penaconyTicketReady =
-                    (invStand && invStand.getAttribute('data-ticket-penacony') === 'ready');
 
                 // If this is Xianzhou and the ticket is ready, auto-unlock visually
                 if (planetKey === 'xianzhou' && xianzhouTicketReady) {
@@ -264,9 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If the exact key phrase is entered, unlock Penacony via ticket flag.
                 if (trimmed === 'I love you, Miraizel') {
                     const invStand = document.getElementById('inv-stand');
-                    if (invStand) {
-                        invStand.setAttribute('data-ticket-penacony', 'ready');
-                    }
                     if (xianzhouLabel) {
                         xianzhouLabel.textContent =
                             'Your words resonate beyond — a distant dreamworld stirs awake.';
@@ -285,15 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Penacony portal: bright arcade math mini-game
-    const penaconyPortal = document.getElementById('penacony-portal');
-    const penaconyBackPlanets = document.getElementById('penacony-back-planets');
-    const penaconyPlayBtn = document.getElementById('penacony-play');
-    const penaconyQuizModal = document.getElementById('penacony-quiz-modal');
-    const penaconyQuestion = document.getElementById('penacony-question');
-    const penaconyChoices = document.getElementById('penacony-choices');
-    const penaconyFeedback = document.getElementById('penacony-feedback');
-    const penaconyCloseQuiz = document.getElementById('penacony-close-quiz');
 
     function generateEasyProblem() {
         // Only +, -, * with operands 1–99 so result stays small/clean
@@ -333,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    if (penaconyPlayBtn && penaconyQuizModal && penaconyQuestion && penaconyChoices && penaconyFeedback) {
+    if (false) {
         let currentAnswer = null;
         let questionsAsked = 0;
         const totalQuestions = 3;
@@ -341,13 +325,9 @@ document.addEventListener('DOMContentLoaded', function() {
         function renderProblem() {
             const { text, correct, options } = generateEasyProblem();
             currentAnswer = correct;
-            penaconyQuestion.textContent = text;
-            penaconyChoices.innerHTML = '';
-            penaconyFeedback.textContent = '';
 
             options.forEach(val => {
                 const btn = document.createElement('button');
-                btn.className = 'penacony-choice-btn';
                 btn.textContent = val.toString();
                 btn.addEventListener('click', () => {
                     if (val === currentAnswer) {
@@ -372,34 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        penaconyPlayBtn.addEventListener('click', () => {
-            questionsAsked = 0;
-            penaconyQuizModal.style.display = 'flex';
-            renderProblem();
-        });
 
-        if (penaconyCloseQuiz) {
-            penaconyCloseQuiz.addEventListener('click', () => {
-                penaconyQuizModal.style.display = 'none';
-            });
-        }
 
-        // Close modal when clicking backdrop
-        const backdrop = penaconyQuizModal.querySelector('.penacony-quiz-modal-backdrop');
-        if (backdrop) {
-            backdrop.addEventListener('click', () => {
-                penaconyQuizModal.style.display = 'none';
-            });
-        }
     }
 
-    // Back from Penacony to planet selection
-    if (penaconyBackPlanets && planetSelection) {
-        penaconyBackPlanets.addEventListener('click', () => {
-            if (penaconyPortal) penaconyPortal.style.display = 'none';
-            showPlanetSelection();
-        });
-    }
 
     // Belobog destination: celestial relic interactions
     const celestial1 = document.getElementById('belobog-celestial-1');

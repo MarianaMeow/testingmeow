@@ -1,7 +1,10 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e, #0f3460, #0a0a0a);
-    color: #ffffff;
+    /* Deep casino night gradient with subtle table green hint */
+    background:
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.18), transparent 60%),
+        linear-gradient(135deg, #1a0004, #3b0008, #120000);
+    color: #ffe8c2;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,33 +12,38 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    transition: background 1s ease;
+    transition: background 0.8s ease;
     position: relative;
 }
 
 body::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(254, 202, 87, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(85, 239, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(116, 185, 255, 0.1) 0%, transparent 50%);
+    inset: 0;
+    /* Soft spotlight and vignette, like overhead casino lighting */
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.16) 0%, transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(255, 51, 102, 0.18) 0%, transparent 55%),
+        radial-gradient(circle at 50% 90%, rgba(0, 0, 0, 0.9) 0%, transparent 70%);
     pointer-events: none;
 }
 
-/* Welcome / password screen */
+/* Welcome / password screen – casino table card style */
 .welcome-container {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-    border: 2px solid #e94560;
-    border-radius: 20px;
-    padding: 50px;
+    background:
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.12), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(255, 51, 102, 0.14), transparent 60%),
+        #190002;
+    border: 3px solid rgba(255, 215, 0, 0.9);
+    border-radius: 26px;
+    padding: 48px 52px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(233, 69, 96, 0.6), inset 0 0 40px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    max-width: 500px;
+    box-shadow:
+        0 0 32px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(255, 51, 102, 0.6),
+        inset 0 0 14px rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(18px);
+    max-width: 520px;
     width: 90%;
     position: relative;
     overflow: hidden;
@@ -43,12 +51,21 @@ body::before {
 
 .welcome-glow {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(254, 202, 87, 0.1) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
+    top: -40%;
+    left: -40%;
+    width: 180%;
+    height: 180%;
+    /* Rotating roulette-like glow */
+    background:
+        radial-gradient(circle, rgba(255, 215, 0, 0.12) 0%, transparent 55%),
+        repeating-conic-gradient(
+            from 0deg,
+            rgba(255, 51, 102, 0.18) 0 6deg,
+            transparent 6deg 12deg
+        );
+    mix-blend-mode: screen;
+    opacity: 0.9;
+    animation: rotate 18s linear infinite;
 }
 
 @keyframes rotate {
@@ -57,84 +74,103 @@ body::before {
 }
 
 .welcome-title {
-    font-size: 3em;
-    margin-bottom: 20px;
-    color: #feca57;
-    text-shadow: 0 0 20px #feca57, 0 0 40px #feca57;
+    font-size: 3.1em;
+    margin-bottom: 18px;
+    color: #ffd700;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.9),
+        0 0 22px rgba(255, 51, 102, 0.9),
+        0 0 42px rgba(255, 215, 0, 0.9);
     position: relative;
     z-index: 2;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
 }
 
 .welcome-text {
-    font-size: 1.3em;
-    margin: 20px 0;
-    color: #ffffff;
+    font-size: 1.1em;
+    margin: 18px 0 24px;
+    color: #ffe8c2;
     position: relative;
     z-index: 2;
 }
 
 .input-container {
     display: flex;
-    gap: 15px;
+    gap: 16px;
     justify-content: center;
     align-items: center;
-    margin: 30px 0;
+    margin: 26px 0 18px;
     position: relative;
     z-index: 2;
 }
 
 .password-input {
-    padding: 15px 20px;
-    font-size: 1.1em;
-    border: 2px solid #e94560;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    width: 250px;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
+    padding: 14px 20px;
+    font-size: 1.05em;
+    border: 2px solid rgba(255, 215, 0, 0.9);
+    border-radius: 999px;
+    background:
+        radial-gradient(circle at top, rgba(40, 40, 40, 0.9), rgba(10, 0, 0, 0.95));
+    color: #ffe8c2;
+    width: 260px;
+    backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+    box-shadow:
+        0 0 12px rgba(0, 0, 0, 0.9),
+        0 0 16px rgba(255, 215, 0, 0.4);
 }
 
 .password-input:focus {
     outline: none;
-    border-color: #feca57;
-    box-shadow: 0 0 20px rgba(254, 202, 87, 0.5);
+    border-color: #ff3366;
+    box-shadow:
+        0 0 20px rgba(255, 51, 102, 0.95),
+        0 0 28px rgba(255, 215, 0, 0.9);
 }
 
 .submit-btn {
-    padding: 15px 30px;
-    font-size: 1.1em;
-    background: linear-gradient(135deg, #e94560, #d63031);
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
+    padding: 14px 30px;
+    font-size: 1.02em;
+    background:
+        linear-gradient(135deg, #ff3366, #b30021);
+    color: #fff5e1;
+    border: 2px solid rgba(255, 215, 0, 0.8);
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
+    transition: all 0.22s ease;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.18em;
+    box-shadow:
+        0 0 16px rgba(255, 51, 102, 0.9),
+        0 0 28px rgba(255, 215, 0, 0.6);
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(233, 69, 96, 0.6);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.9),
+        0 0 26px rgba(255, 215, 0, 0.95);
 }
 
 .message {
-    color: #ff7675;
-    font-weight: bold;
-    font-size: 1.1em;
-    margin: 15px 0;
+    color: #ff9999;
+    font-weight: 600;
+    font-size: 1.05em;
+    margin: 14px 0;
     position: relative;
     z-index: 2;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
 }
 
 .hint {
-    color: #74b9ff;
+    color: #ffd700;
     font-style: italic;
-    font-size: 1em;
+    font-size: 0.95em;
     position: relative;
     z-index: 2;
+    opacity: 0.85;
 }
 
 /* Loading screen */
@@ -152,11 +188,12 @@ body::before {
     height: 100%;
 }
 
-/* Main menu (train interior wrapper) */
+/* Main menu – transformed into casino hall wrapper */
 .main-menu {
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at top, rgba(254,202,87,0.12), transparent 70%) #02030a;
+    background:
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.2), transparent 70%) #160003;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -164,7 +201,7 @@ body::before {
     overflow: hidden;
 }
 
-/* Train interior: full-width futuristic carriage */
+/* Casino interior: full-width luxurious hall */
 .train-interior {
     position: relative;
     width: 95%;
@@ -173,22 +210,23 @@ body::before {
     margin: 0 auto;
     padding: 40px 40px 30px;
     border-radius: 30px;
-    background: radial-gradient(circle at top, rgba(254, 202, 87, 0.1), transparent),
-                linear-gradient(to bottom, #14151f, #05060b);
+    background:
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.16), transparent 70%),
+        radial-gradient(circle at bottom, rgba(60, 0, 0, 0.9), #080000);
     box-shadow:
-        0 0 40px rgba(0, 0, 0, 0.9),
-        0 0 60px rgba(254, 202, 87, 0.25);
-    border: 3px solid rgba(254, 202, 87, 0.5);
+        0 0 38px rgba(0, 0, 0, 0.95),
+        0 0 70px rgba(255, 215, 0, 0.4);
+    border: 3px solid rgba(255, 215, 0, 0.8);
     overflow: hidden;
 }
 
-/* Window strip like real train windows */
+/* Top light strip – stylized as casino marquee lights */
 .train-window-strip {
     position: absolute;
     top: 40px;
     left: 40px;
     right: 40px;
-    height: 90px;
+    height: 80px;
     display: flex;
     gap: 16px;
     z-index: 1;
@@ -197,8 +235,9 @@ body::before {
 .window {
     flex: 1;
     border-radius: 18px;
-    background: radial-gradient(circle at top, rgba(116,185,255,0.22), transparent);
-    border: 1px solid rgba(255,255,255,0.18);
+    background:
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.3), transparent 70%);
+    border: 1px solid rgba(255, 215, 0, 0.4);
     overflow: hidden;
     position: relative;
 }
@@ -206,15 +245,16 @@ body::before {
 .stars-layer {
     position: absolute;
     inset: 0;
+    /* Twinkling marquee bulbs */
     background:
-        radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 3px);
+        radial-gradient(circle, rgba(255, 215, 0, 0.9) 2px, transparent 3px),
+        radial-gradient(circle, rgba(255, 51, 102, 0.8) 2px, transparent 3px);
     background-size: 40px 40px, 70px 70px;
-    animation: parallax-stars 10s linear infinite;
-    opacity: 0.7;
+    animation: parallax-stars 8s linear infinite;
+    opacity: 0.9;
 }
 
-/* Ceiling lights */
+/* Ceiling lights – golden strips */
 .ceiling-lights {
     position: absolute;
     top: 10px;
@@ -229,12 +269,12 @@ body::before {
     width: 80px;
     height: 8px;
     border-radius: 999px;
-    background: linear-gradient(to right, transparent, rgba(254, 202, 87, 0.9), transparent);
-    box-shadow: 0 0 14px rgba(254, 202, 87, 0.8);
-    opacity: 0.7;
+    background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.95), transparent);
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.9);
+    opacity: 0.9;
 }
 
-/* Floor gradient / rails giving depth */
+/* Floor gradient / felt table hints */
 .floor-gradient {
     position: absolute;
     left: 0;
@@ -242,15 +282,15 @@ body::before {
     bottom: 0;
     height: 120px;
     background:
-        linear-gradient(to top, rgba(0,0,0,0.95), transparent),
+        linear-gradient(to top, rgba(0, 0, 0, 0.98), transparent),
         repeating-linear-gradient(
             to right,
-            rgba(254, 202, 87, 0.15),
-            rgba(254, 202, 87, 0.15) 40px,
+            rgba(0, 120, 60, 0.42),
+            rgba(0, 120, 60, 0.42) 40px,
             transparent 40px,
             transparent 80px
         );
-    opacity: 0.9;
+    opacity: 0.95;
     pointer-events: none;
 }
 
@@ -304,18 +344,18 @@ body::before {
 .stand-base {
     width: 80px;
     height: 10px;
-    background: linear-gradient(to right, #111, #333, #111);
+    background: linear-gradient(to right, #330000, #550000, #330000);
     border-radius: 999px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.7);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.9);
 }
 
 .stand-pole {
     width: 10px;
     height: 40px;
     margin-top: -4px;
-    background: linear-gradient(to bottom, #feca57, #e94560);
+    background: linear-gradient(to bottom, #ffd700, #ff3366);
     border-radius: 999px;
-    box-shadow: 0 0 10px rgba(233,69,96,0.6);
+    box-shadow: 0 0 14px rgba(255, 51, 102, 0.9);
 }
 
 /* Holographic/digital screen */
@@ -325,9 +365,13 @@ body::before {
     margin-top: 8px;
     border-radius: 14px;
     padding: 8px;
-    background: radial-gradient(circle at top, rgba(116,185,255,0.35), rgba(10,10,20,0.98));
-    border: 1px solid rgba(116,185,255,0.7);
-    box-shadow: 0 0 18px rgba(116,185,255,0.6);
+    background:
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.2), transparent 70%),
+        #210004;
+    border: 1px solid rgba(255, 215, 0, 0.8);
+    box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.7),
+        0 0 26px rgba(255, 51, 102, 0.7);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -335,7 +379,9 @@ body::before {
 }
 
 .stand-glow {
-    box-shadow: 0 0 26px rgba(85,239,196,0.9);
+    box-shadow:
+        0 0 26px rgba(255, 215, 0, 0.95),
+        0 0 34px rgba(255, 51, 102, 0.85);
 }
 
 /* Map mini-visual */
@@ -387,10 +433,12 @@ body::before {
 .stand-label {
     margin-top: 2px;
     font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #feca57;
-    text-shadow: 0 0 5px rgba(0,0,0,0.9);
+    color: #ffd700;
+    text-shadow:
+        0 0 6px rgba(0, 0, 0, 1),
+        0 0 10px rgba(255, 215, 0, 0.7);
 }
 
 .stand-label.center {
@@ -430,18 +478,18 @@ body::before {
 .screen-lines span {
     height: 3px;
     border-radius: 999px;
-    background: linear-gradient(to right, rgba(254,202,87,0.9), transparent);
-    opacity: 0.8;
+    background: linear-gradient(to right, rgba(255, 215, 0, 0.9), transparent);
+    opacity: 0.9;
 }
 
 #log-stand .screen-lines span {
-    background: linear-gradient(to right, #f1c40f, transparent);
-    opacity: 0.9;
+    background: linear-gradient(to right, #ffd700, transparent);
+    opacity: 1;
 }
 
 #log-stand .stand-label {
     margin-top: 4px;
-    color: #3498db;
+    color: #ffd700;
 }
 
 /* Inventory locker */
@@ -486,9 +534,8 @@ body::before {
 
 #inv-stand .locker-body {
     background:
-        linear-gradient(145deg, #1e272e, #000000),
-        radial-gradient(circle at top, rgba(254,202,87,0.18), transparent 70%);
-    border: 2px solid rgba(254,202,87,0.6);
+        radial-gradient(circle at top, rgba(0, 120, 60, 0.7), rgba(0, 40, 20, 0.95));
+    border: 2px solid rgba(255, 215, 0, 0.9);
 }
 
 #inv-stand .locker-door {
@@ -496,7 +543,7 @@ body::before {
 }
 
 #inv-stand .stand-label {
-    color: #feca57;
+    color: #ffd700;
 }
 
 /* Comms waves */
@@ -505,8 +552,8 @@ body::before {
     width: 80%;
     height: 10px;
     border-radius: 999px;
-    border: 2px solid #74b9ff;
-    border-color: #74b9ff transparent;
+    border: 2px solid #ff3366;
+    border-color: #ff3366 transparent;
     margin-bottom: 3px;
     animation: pulse-wave 1.4s infinite;
 }
@@ -517,34 +564,40 @@ body::before {
 
 #com-stand .stand-screen {
     background:
-        radial-gradient(circle at top, rgba(116,185,255,0.45), transparent 70%),
-        radial-gradient(circle at bottom, rgba(155,89,182,0.3), transparent 80%),
-        rgba(3,6,14,0.98);
-    border: 2px solid rgba(116,185,255,0.95);
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.32), transparent 70%),
+        radial-gradient(circle at bottom, rgba(255, 51, 102, 0.3), transparent 80%),
+        #210004;
+    border: 2px solid rgba(255, 215, 0, 0.95);
     box-shadow:
-        0 0 24px rgba(116,185,255,1),
-        0 0 40px rgba(155,89,182,0.8);
+        0 0 24px rgba(255, 215, 0, 1),
+        0 0 40px rgba(255, 51, 102, 0.8);
 }
 
 #com-stand .wave,
 #com-stand .wave2 {
-    border-color: #74b9ff transparent;
+    border-color: #ff3366 transparent;
 }
 
 #com-stand .stand-label {
-    color: #74b9ff;
+    color: #ffd700;
 }
 
-/* System core */
+/* System core – jackpot wheel */
 .core-ring {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 3px solid rgba(254,202,87,0.7);
+    border: 3px solid rgba(255, 215, 0, 0.9);
     box-shadow:
-        0 0 20px rgba(254,202,87,0.9),
-        0 0 40px rgba(231,76,60,0.7),
-        0 0 40px rgba(52,152,219,0.7);
+        0 0 20px rgba(255, 215, 0, 1),
+        0 0 40px rgba(255, 51, 102, 0.9),
+        0 0 40px rgba(255, 255, 255, 0.8);
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            #ffd700 0 15deg,
+            #ff3366 15deg 30deg
+        );
     animation: spin-core 4s linear infinite;
 }
 
@@ -554,26 +607,25 @@ body::before {
     height: 30px;
     border-radius: 50%;
     background:
-        radial-gradient(circle, #feca57, #e94560),
-        radial-gradient(circle at top, rgba(52,152,219,0.5), transparent 80%);
+        radial-gradient(circle, #ffffff, #ffd700);
     box-shadow:
-        0 0 18px rgba(233,69,96,1),
-        0 0 26px rgba(52,152,219,0.9);
+        0 0 18px rgba(255, 255, 255, 1),
+        0 0 26px rgba(255, 215, 0, 1);
     top: 50%;
     transform: translateY(-50%);
 }
 
 #sys-stand .stand-label {
-    color: #e17055;
+    color: #ffd700;
 }
 
 /* Hover states for interactive feel */
 .object-stand:hover {
-    transform: translateY(-6px);
-    filter: drop-shadow(0 10px 25px rgba(254,202,87,0.6));
+    transform: translateY(-6px) scale(1.03);
+    filter: drop-shadow(0 10px 25px rgba(255, 215, 0, 0.9));
 }
 
-/* Tooltips for stands */
+/* Tooltips for stands – casino chip style */
 .object-stand::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -582,24 +634,27 @@ body::before {
     transform: translateX(-50%);
     padding: 4px 10px;
     font-size: 10px;
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    border-radius: 6px;
+    background: radial-gradient(circle, #ffd700, #b30021);
+    color: #1b0004;
+    border-radius: 999px;
+    border: 1px solid #ffe8c2;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
     transition: opacity 0.25s ease;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
 }
 
 .object-stand:hover::after {
     opacity: 1;
 }
 
-/* Inventory Overlay: full-screen categorized inventory with ticket card */
+/* Inventory Overlay: full-screen casino vault */
 .inventory-overlay {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at top, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0.97));
+    background:
+        radial-gradient(circle at top, rgba(40, 0, 0, 0.98), rgba(0, 0, 0, 0.98));
     display: none;
     align-items: center;
     justify-content: center;
@@ -615,14 +670,13 @@ body::before {
     padding: 20px 22px;
     border-radius: 24px;
     background:
-        radial-gradient(circle at top left, rgba(254, 202, 87, 0.14), transparent 65%),
-        radial-gradient(circle at top right, rgba(116, 185, 255, 0.12), transparent 65%),
-        rgba(3, 5, 12, 0.98);
-    border: 1px solid rgba(254, 202, 87, 0.55);
+        radial-gradient(circle at top left, rgba(255, 215, 0, 0.18), transparent 65%),
+        radial-gradient(circle at top right, rgba(255, 51, 102, 0.16), transparent 65%),
+        #190002;
+    border: 1px solid rgba(255, 215, 0, 0.8);
     box-shadow:
-        0 0 40px rgba(254, 202, 87, 0.6),
-        0 0 50px rgba(9, 132, 227, 0.45),
-        0 30px 80px rgba(0, 0, 0, 0.98);
+        0 0 40px rgba(0, 0, 0, 1),
+        0 0 58px rgba(255, 215, 0, 0.7);
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 220px 1fr;
@@ -644,9 +698,9 @@ body::before {
 
 .inventory-title {
     font-size: 1.15rem;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #feca57;
+    color: #ffd700;
 }
 
 .inventory-subtitle {
@@ -671,7 +725,7 @@ body::before {
     letter-spacing: 0.14em;
 }
 
-/* Ticket card design */
+/* Ticket card design – redesigned as casino ticket / chip pass */
 .inventory-ticket-card {
     position: relative;
     width: 260px;
@@ -679,13 +733,13 @@ body::before {
     padding: 10px 12px;
     border-radius: 16px;
     background:
-        radial-gradient(circle at top, rgba(254, 202, 87, 0.18), transparent),
-        radial-gradient(circle at bottom right, rgba(9, 132, 227, 0.22), transparent),
-        #050814;
-    border: 1px solid rgba(254, 202, 87, 0.55);
+        radial-gradient(circle at top, rgba(255, 215, 0, 0.25), transparent),
+        radial-gradient(circle at bottom right, rgba(255, 51, 102, 0.32), transparent),
+        #2a0005;
+    border: 1px solid rgba(255, 215, 0, 0.9);
     box-shadow:
         0 10px 26px rgba(0, 0, 0, 0.96),
-        0 0 18px rgba(254, 202, 87, 0.45);
+        0 0 20px rgba(255, 215, 0, 0.8);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -697,8 +751,8 @@ body::before {
     position: absolute;
     inset: -30%;
     background:
-        radial-gradient(circle at 0 0, rgba(254, 202, 87, 0.12), transparent),
-        radial-gradient(circle at 100% 0, rgba(85, 239, 196, 0.08), transparent);
+        radial-gradient(circle at 0 0, rgba(255, 215, 0, 0.2), transparent),
+        radial-gradient(circle at 100% 0, rgba(255, 51, 102, 0.16), transparent);
     mix-blend-mode: screen;
     opacity: 0.9;
     pointer-events: none;
@@ -706,27 +760,27 @@ body::before {
 
 .inventory-ticket-card .ticket-label {
     font-size: 0.66rem;
-    color: #feca57;
-    letter-spacing: 0.14em;
+    color: #ffd700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
 }
 
 .inventory-ticket-card .ticket-world {
     font-size: 0.9rem;
-    color: #ffffff;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    color: #fffaf0;
+    font-weight: 700;
+    letter-spacing: 0.08em;
 }
 
 .inventory-ticket-card .ticket-note {
     font-size: 0.6rem;
-    color: #9ca3af;
+    color: #f7d7ad;
     max-width: 220px;
 }
 
 .inventory-ticket-card .ticket-meta {
     font-size: 0.52rem;
-    color: #747d8c;
+    color: #f0b27a;
     display: flex;
     justify-content: space-between;
     gap: 6px;
@@ -736,8 +790,9 @@ body::before {
     padding: 2px 7px;
     border-radius: 999px;
     font-size: 0.48rem;
-    border: 1px solid rgba(254, 202, 87, 0.6);
-    color: #feca57;
+    border: 1px solid rgba(255, 215, 0, 0.9);
+    color: #1b0004;
+    background: radial-gradient(circle, #ffd700, #ff9a00);
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -750,14 +805,14 @@ body::before {
 }
 
 .inventory-ticket-card.locked .ticket-world {
-    color: #f1c40f;
+    color: #ffd700;
 }
 
 .inventory-ticket-card.ready {
     box-shadow:
-        0 0 20px rgba(85, 239, 196, 0.65),
-        0 0 26px rgba(254, 202, 87, 0.75);
-    border-color: rgba(85, 239, 196, 0.9);
+        0 0 20px rgba(255, 215, 0, 0.9),
+        0 0 26px rgba(255, 51, 102, 0.9);
+    border-color: rgba(255, 215, 0, 1);
 }
 
 /* Inventory footer + close */
@@ -767,28 +822,28 @@ body::before {
     justify-content: space-between;
     align-items: center;
     font-size: 0.58rem;
-    color: #636e72;
+    color: #f7d7ad;
     padding-top: 4px;
-    border-top: 1px solid rgba(254, 202, 87, 0.16);
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 .inventory-close-btn {
     padding: 5px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(254, 202, 87, 0.75);
-    background: transparent;
-    color: #feca57;
+    border: 1px solid rgba(255, 215, 0, 0.95);
+    background: radial-gradient(circle, #ffd700, #b30021);
+    color: #1b0004;
     font-size: 0.65rem;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 0 12px rgba(254, 202, 87, 0.5);
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.9);
     transition: all 0.2s ease;
 }
 
 .inventory-close-btn:hover {
-    background: rgba(254, 202, 87, 0.12);
-    transform: translateY(-1px);
+    background: radial-gradient(circle, #fff5d6, #ffb300);
+    transform: translateY(-1px) scale(1.03);
 }
 
 /* Generic text elements */
