@@ -473,20 +473,39 @@
         </div>
 
         <div class="celestial-row">
-            <!-- Current/unlocked planet -->
+
+            <!-- Planets arranged in half-heart constellation -->
             <div class="celestial-orb planet-option unlocked" data-planet="belobog">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Belobog</span>
             </div>
-            <!-- Next planet: Xianzhou Luofu (locked until Belobog Oath is complete) -->
             <div class="celestial-orb planet-option locked" data-planet="xianzhou">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Xianzhou Luofu</span>
             </div>
-            <!-- Future planet: Penacony (locked until red shard vow is etched) -->
             <div class="celestial-orb planet-option locked" data-planet="penacony">
                 <div class="orb-glow"></div>
                 <span class="orb-label">Penacony</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="jarilo">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Jarilo-VI</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="herta">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Herta Station</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="luofu">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Luofu Sanctum</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="stellaron">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Stellaron</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="terminus">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Terminus</span>
             </div>
         </div>
 
@@ -704,7 +723,6 @@
 
         <!-- Glass shard field -->
         <div class="xianzhou-glass-layer">
-            <!-- Memory shards: static text only appears after "Start Memories" is pressed -->
             <div class="glass-shard" data-memory="I love being with you."></div>
             <div class="glass-shard" data-memory="You make every station feel like home."></div>
             <div class="glass-shard" data-memory="Your laughter is my favorite signal."></div>
@@ -714,13 +732,14 @@
             <div class="glass-shard" data-memory="You are my safe carriage in every storm."></div>
             <div class="glass-shard" data-memory="I choose you in every universe."></div>
 
-            <!-- Red shard: reserved for user-filled memory (left blank for now) -->
-            <div id="xianzhou-red-shard" class="glass-shard red-shard" data-memory=""></div>
-
             <!-- More generic shards to make the mirror feel shattered -->
             <div class="glass-shard" data-memory="You are the warmth between cold stars."></div>
             <div class="glass-shard" data-memory="You’re the soft pause between my battles."></div>
             <div class="glass-shard" data-memory="You are my favorite anomaly."></div>
+            <div class="glass-shard" data-memory="With you, time feels infinite."></div>
+            <div class="glass-shard" data-memory="Your smile is my constellation."></div>
+            <div class="glass-shard" data-memory="You are my anchor in the void."></div>
+            <div id="xianzhou-red-shard" class="glass-shard red-shard" data-memory=""></div>
         </div>
 
         <!-- Portal UI for Xianzhou -->
@@ -731,8 +750,421 @@
         </div>
     </div>
 
-    <!-- Penacony portal intentionally left blank -->
+    <!-- Jarilo-VI portal (frozen world) -->
+    <div id="jarilo-portal" class="planet-portal jarilo-frozen" style="display: none;">
+        <button id="jarilo-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <!-- Frozen landscape -->
+        <div class="frozen-content">
+            <div class="jarilo-title">Jarilo-VI - Frozen Memory</div>
+            <div class="jarilo-message">
+                Collect the frozen fragments to restore the memory.
+            </div>
+
+            <!-- Puzzle frame in center - 3x3 grid -->
+            <div class="puzzle-frame">
+                <div class="puzzle-grid-container">
+                    <div class="puzzle-slot" data-position="1"></div>
+                    <div class="puzzle-slot" data-position="2"></div>
+                    <div class="puzzle-slot" data-position="3"></div>
+                    <div class="puzzle-slot" data-position="4"></div>
+                    <div class="puzzle-slot" data-position="5"></div>
+                    <div class="puzzle-slot" data-position="6"></div>
+                    <div class="puzzle-slot" data-position="7"></div>
+                    <div class="puzzle-slot" data-position="8"></div>
+                    <div class="puzzle-slot" data-position="9"></div>
+                </div>
+                <div class="puzzle-counter">
+                    <span id="pieces-collected">0</span> / 9
+                </div>
+            </div>
+
+            <!-- Scattered draggable puzzle pieces with Elysia image parts -->
+            <div class="puzzle-piece" data-piece="1" data-position="1" draggable="true" style="top: 8%; left: 5%;"></div>
+            <div class="puzzle-piece" data-piece="2" data-position="2" draggable="true" style="top: 12%; right: 7%;"></div>
+            <div class="puzzle-piece" data-piece="3" data-position="3" draggable="true" style="top: 30%; left: 2%;"></div>
+            <div class="puzzle-piece" data-piece="4" data-position="4" draggable="true" style="top: 38%; right: 4%;"></div>
+            <div class="puzzle-piece" data-piece="5" data-position="5" draggable="true" style="top: 60%; left: 6%;"></div>
+            <div class="puzzle-piece" data-piece="6" data-position="6" draggable="true" style="top: 68%; right: 8%;"></div>
+            <div class="puzzle-piece" data-piece="7" data-position="7" draggable="true" style="bottom: 12%; left: 10%;"></div>
+            <div class="puzzle-piece" data-piece="8" data-position="8" draggable="true" style="bottom: 8%; right: 12%;"></div>
+            <div class="puzzle-piece" data-piece="9" data-position="9" draggable="true" style="top: 48%; left: 1%;"></div>
+
+            <div class="snowflakes">
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❄</div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="jarilo-label" class="mini-label">
+                Welcome to the frozen world of Jarilo-VI.
+            </div>
+        </div>
+    </div>
+
+    <!-- Herta Station portal (tech/research facility) -->
+    <div id="herta-portal" class="planet-portal herta-station" style="display: none;">
+        <button id="herta-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <!-- Tech interface -->
+        <div class="herta-content">
+            <div class="herta-title">Herta Station</div>
+            <div class="herta-subtitle">Dimensional Research Lab</div>
+
+            <!-- Portal Button on Left -->
+            <button id="dimension-portal-btn" class="dimension-portal-btn">
+                <div class="portal-icon">🔍</div>
+                <div class="portal-text">Find</div>
+            </button>
+
+            <!-- Incomplete Puzzle -->
+            <div class="research-puzzle">
+                <div class="puzzle-title">DIMENSIONAL FRAGMENT ANALYSIS</div>
+                <div class="incomplete-puzzle-grid">
+                    <div class="research-piece filled">1</div>
+                    <div class="research-piece filled">2</div>
+                    <div class="research-piece filled">3</div>
+                    <div class="research-piece filled">4</div>
+                    <div class="research-piece missing">?</div>
+                    <div class="research-piece filled">6</div>
+                    <div class="research-piece filled">7</div>
+                    <div class="research-piece filled">8</div>
+                    <div class="research-piece filled">9</div>
+                </div>
+                <div class="puzzle-status">
+                    <span id="herta-puzzle-status">Fragment 5 missing - Enter dimension to retrieve</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dimension Portal Overlay -->
+        <div id="dimension-space" class="dimension-space" style="display: none;">
+            <button id="dimension-back-btn" class="dimension-back-btn">← Exit Dimension</button>
+            
+            <div class="dimension-title">Dimensional Rift</div>
+            <div class="dimension-message">Find the missing fragment among the chaos...</div>
+            
+            <!-- Lots of floating objects -->
+            <div class="floating-object" style="top: 10%; left: 15%;">📦</div>
+            <div class="floating-object" style="top: 15%; left: 45%;">⭐</div>
+            <div class="floating-object" style="top: 20%; right: 20%;">🔮</div>
+            <div class="floating-object" style="top: 25%; left: 70%;">💎</div>
+            <div class="floating-object" style="top: 35%; left: 10%;">🌀</div>
+            <div class="floating-object" style="top: 40%; right: 15%;">⚙️</div>
+            <div class="floating-object" style="top: 45%; left: 55%;">🎯</div>
+            <div class="floating-object" style="top: 50%; left: 25%;">🔷</div>
+            <div class="floating-object" style="top: 55%; right: 40%;">✨</div>
+            <div class="floating-object" style="top: 60%; left: 80%;">🌟</div>
+            <div class="floating-object" style="top: 65%; left: 35%;">💫</div>
+            <div class="floating-object" style="top: 70%; right: 25%;">🔶</div>
+            <div class="floating-object" style="top: 75%; left: 60%;">🎲</div>
+            <div class="floating-object" style="top: 80%; left: 20%;">🧩</div>
+            <div class="floating-object" style="top: 85%; right: 50%;">🎨</div>
+            
+            <!-- The actual missing piece disguised as an object -->
+            <div id="missing-piece" class="floating-object hidden-piece" style="top: 42%; left: 38%;">🔸</div>
+            
+            <!-- More objects -->
+            <div class="floating-object" style="top: 12%; right: 35%;">🔺</div>
+            <div class="floating-object" style="top: 30%; left: 5%;">🔻</div>
+            <div class="floating-object" style="top: 48%; right: 8%;">⬡</div>
+            <div class="floating-object" style="top: 68%; left: 12%;">⬢</div>
+            <div class="floating-object" style="top: 78%; right: 18%;">◆</div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="herta-label" class="mini-label">
+                Advanced research facility of the Genius Society.
+            </div>
+        </div>
+    </div>
+
+    <!-- Luofu Sanctum portal (nature/autumn theme) -->
+    <div id="luofu-portal" class="planet-portal luofu-sanctum" style="display: none;">
+        <button id="luofu-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <!-- Nature scene -->
+        <div class="luofu-content">
+            <div class="luofu-title">Luofu Sanctum</div>
+            <div class="luofu-subtitle">Sacred Riverbank</div>
+
+            <!-- Falling leaves -->
+            <div class="falling-leaves">
+                <div class="leaf">🍂</div>
+                <div class="leaf">🍁</div>
+                <div class="leaf">🍂</div>
+                <div class="leaf">🍁</div>
+                <div class="leaf">🍂</div>
+                <div class="leaf">🍁</div>
+                <div class="leaf">🍂</div>
+                <div class="leaf">🍁</div>
+            </div>
+
+            <!-- River -->
+            <div class="river">
+                <div class="water-ripple"></div>
+                <div class="water-ripple"></div>
+                <div class="water-ripple"></div>
+            </div>
+
+            <!-- Nature elements -->
+            <div class="nature-scene">
+                <div class="tree">🌳</div>
+                <div class="tree">🌲</div>
+                <div class="flowers">🌸</div>
+                <div class="flowers">🌺</div>
+            </div>
+
+            <div class="luofu-message">
+                Cross the sacred river by following the path of stones.<br/>
+                Remember the sequence to reach the other side.
+            </div>
+
+            <!-- River Stone Stepping Game -->
+            <div class="stone-game">
+                <div class="game-title">Sacred River Crossing</div>
+                <div class="game-instructions">Watch the stones light up, then repeat the pattern!</div>
+                
+                <div class="river-stones">
+                    <div class="stepping-stone" data-stone="1">
+                        <div class="stone-ripple"></div>
+                    </div>
+                    <div class="stepping-stone" data-stone="2">
+                        <div class="stone-ripple"></div>
+                    </div>
+                    <div class="stepping-stone" data-stone="3">
+                        <div class="stone-ripple"></div>
+                    </div>
+                    <div class="stepping-stone" data-stone="4">
+                        <div class="stone-ripple"></div>
+                    </div>
+                    <div class="stepping-stone" data-stone="5">
+                        <div class="stone-ripple"></div>
+                    </div>
+                    <div class="stepping-stone" data-stone="6">
+                        <div class="stone-ripple"></div>
+                    </div>
+                </div>
+
+                <button id="start-crossing" class="start-btn">Start Crossing</button>
+                <div id="stone-feedback" class="stone-feedback"></div>
+                <div class="stone-progress">
+                    Round: <span id="stone-round">1</span> / 3
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="luofu-label" class="mini-label">
+                Welcome to the peaceful Luofu Sanctum.
+            </div>
+        </div>
+    </div>
+
+    <!-- Stellaron portal (villain/dark theme) -->
+    <div id="stellaron-portal" class="planet-portal stellaron-dark" style="display: none;">
+        <button id="stellaron-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <!-- Dark villain atmosphere -->
+        <div class="stellaron-content">
+            <div class="stellaron-title">STELLARON</div>
+            <div class="stellaron-subtitle">Corrupted Core</div>
+
+
+
+            <!-- Dark energy particles -->
+            <div class="dark-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+
+            <!-- Ominous eye/core -->
+            <div class="evil-core">
+                <div class="core-eye"></div>
+                <div class="core-pulse"></div>
+            </div>
+
+            <div class="stellaron-message">
+                Escape the shadow maze before the darkness consumes you.<br/>
+                Only a small light guides your way...
+            </div>
+
+            <!-- Shadow Maze Game -->
+            <div class="shadow-maze-game">
+                <div class="maze-title">SHADOW MAZE</div>
+                <button id="start-maze" class="maze-start-btn">Enter the Darkness</button>
+                
+                <div id="maze-container" class="maze-container" style="display: none;">
+                    <canvas id="maze-canvas" width="500" height="500"></canvas>
+                    <div id="maze-light" class="maze-light"></div>
+                    <div id="maze-status" class="maze-status">Find the exit...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="stellaron-label" class="mini-label">
+                Beware the corrupted Stellaron...
+            </div>
+        </div>
+    </div>
+
+    <!-- Penacony portal -->
     <div id="penacony-portal" class="planet-portal penacony-casino" style="display: none;">
+        <!-- Back to planet selection: top-left revert icon -->
+        <button id="penacony-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <div class="penacony-content">
+            <div class="penacony-title">Penacony - Dream Casino</div>
+            
+            <!-- Slot Machine -->
+            <div class="slot-machine">
+                <div class="slot-machine-top"></div>
+                <div class="slot-machine-body">
+                    <div class="slot-display">
+                        <div id="slot-equation" class="slot-equation">Press Start</div>
+                    </div>
+                    <div class="slot-lever"></div>
+                </div>
+                <button id="slot-start-btn" class="slot-start-btn">START</button>
+            </div>
+
+            <!-- Coin Stack (right side) -->
+            <div class="coin-stack">
+                <div class="coin-label">Select Answer:</div>
+                <div id="coin-container" class="coin-container">
+                    <!-- Coins will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="penacony-feedback" class="penacony-feedback"></div>
+
+            <!-- Ticket Shards Collection -->
+            <div class="ticket-shards-container">
+                <div class="ticket-shards-label">Ticket Shards:</div>
+                <div class="ticket-shards">
+                    <div id="shard-1" class="ticket-shard locked">
+                        <div class="shard-number">1</div>
+                    </div>
+                    <div id="shard-2" class="ticket-shard locked">
+                        <div class="shard-number">2</div>
+                    </div>
+                    <div id="shard-3" class="ticket-shard locked">
+                        <div class="shard-number">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="penacony-label" class="mini-label">
+                Test your luck and wit in the Dream Casino.
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminus portal (final lobby with door) -->
+    <div id="terminus-portal" class="planet-portal terminus-lobby" style="display: none;">
+        <button id="terminus-back-planets" class="portal-back-icon" aria-label="Back to planet selection">
+            ⬅
+        </button>
+
+        <!-- Lobby atmosphere -->
+        <div class="terminus-content">
+            <div class="terminus-title">TERMINUS</div>
+            <div class="terminus-subtitle">The Final Threshold</div>
+
+            <!-- Elegant lobby room -->
+            <div class="lobby-room">
+                <!-- Floor tiles -->
+                <div class="lobby-floor"></div>
+                
+                <!-- Walls with ambient lighting -->
+                <div class="lobby-walls">
+                    <div class="wall-light left"></div>
+                    <div class="wall-light right"></div>
+                </div>
+
+                <!-- The mysterious door -->
+                <div class="mysterious-door" id="terminus-door">
+                    <div class="door-frame">
+                        <div class="door-panel">
+                            <div class="door-handle"></div>
+                            <div class="door-glow"></div>
+                        </div>
+                        <div class="door-inscription">Beyond lies the truth...</div>
+                    </div>
+                </div>
+
+                <!-- Ambient particles -->
+                <div class="lobby-particles">
+                    <div class="light-particle"></div>
+                    <div class="light-particle"></div>
+                    <div class="light-particle"></div>
+                    <div class="light-particle"></div>
+                </div>
+            </div>
+
+            <div class="terminus-message">
+                You stand before the final door.<br/>
+                All your trials have led to this moment.
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="terminus-label" class="mini-label">
+                The journey's end awaits beyond this threshold.
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

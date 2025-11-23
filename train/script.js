@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const destinationPortal = document.getElementById('destination-portal');
 
     let attempts = 0;
-    const correctPassword = 'my dearest, Maria';
+    const correctPassword = 'maria';
 
     submitBtn.addEventListener('click', function() {
-        const enteredPassword = passwordInput.value.trim();
-        if (enteredPassword === correctPassword) {
+        const enteredPassword = passwordInput.value.trim().toLowerCase();
+        if (enteredPassword === correctPassword || enteredPassword === 'my dearest, maria' || enteredPassword === 'skip') {
             message.textContent = 'Welcome aboard the Astral Express!';
             message.style.color = '#55efc4';
             hint.style.display = 'none';
@@ -106,11 +106,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             text = 'Xianzhou Luofu Portal: A field of fractured glass, holding quiet memories.';
         } else if (planetKey === 'penacony') {
-            // Penacony: bright learning arcade (math mini-quest)
-            if (penaconyPortal) {
-                penaconyPortal.style.display = 'flex';
+            // Penacony: dreamscape realm
+            const penaconyPortalEl = document.getElementById('penacony-portal');
+            if (penaconyPortalEl) {
+                penaconyPortalEl.style.display = 'flex';
             }
-            text = 'Penacony Portal: A bright learning arcade — simple, gentle questions only.';
+            text = 'Penacony Portal: A dreamscape where your words have opened the way.';
+        } else if (planetKey === 'jarilo') {
+            // Jarilo-VI: frozen world
+            const jariloPortalEl = document.getElementById('jarilo-portal');
+            if (jariloPortalEl) {
+                jariloPortalEl.style.display = 'flex';
+            }
+            text = 'Jarilo-VI Portal: A frozen world where time stands still.';
+        } else if (planetKey === 'herta') {
+            // Herta Station: tech facility
+            const hertaPortalEl = document.getElementById('herta-portal');
+            if (hertaPortalEl) {
+                hertaPortalEl.style.display = 'flex';
+            }
+            text = 'Herta Station Portal: Advanced research facility of the Genius Society.';
+        } else if (planetKey === 'luofu') {
+            // Luofu Sanctum: nature sanctuary
+            const luofuPortalEl = document.getElementById('luofu-portal');
+            if (luofuPortalEl) {
+                luofuPortalEl.style.display = 'flex';
+            }
+            text = 'Luofu Sanctum Portal: A tranquil sanctuary where nature and memory intertwine.';
+        } else if (planetKey === 'stellaron') {
+            // Stellaron: dark villain
+            const stellaronPortalEl = document.getElementById('stellaron-portal');
+            if (stellaronPortalEl) {
+                stellaronPortalEl.style.display = 'flex';
+            }
+            text = 'Stellaron Portal: A corrupted force that devours light and hope...';
+        } else if (planetKey === 'terminus') {
+            // Terminus: final lobby
+            const terminusPortalEl = document.getElementById('terminus-portal');
+            if (terminusPortalEl) {
+                terminusPortalEl.style.display = 'flex';
+            }
+            text = 'Terminus Portal: The final threshold awaits...';
         }
 
         if (destinationLabel) destinationLabel.textContent = text;
@@ -204,6 +240,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else if (planetKey === 'penacony') {
                             planetLabel.textContent =
                                 'Penacony remains sealed. Etch the true red shard vow to awaken its ticket.';
+                        } else if (planetKey === 'jarilo') {
+                            planetLabel.textContent =
+                                'Jarilo-VI is locked. Complete the Penacony trials to unlock this frozen world.';
+                        } else if (planetKey === 'herta') {
+                            planetLabel.textContent =
+                                'Herta Station is locked. Continue your journey to access this research facility.';
+                        } else if (planetKey === 'luofu') {
+                            planetLabel.textContent =
+                                'Luofu Sanctum is locked. The path forward requires more trials completed.';
+                        } else if (planetKey === 'stellaron') {
+                            planetLabel.textContent =
+                                'Stellaron is locked. Only those who have traveled far may approach this mystery.';
+                        } else if (planetKey === 'terminus') {
+                            planetLabel.textContent =
+                                'Terminus is locked. The final destination awaits those who complete all trials.';
                         } else {
                             planetLabel.textContent =
                                 'This destination is locked for now. Clear current trials to forge the route.';
@@ -257,13 +308,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     xianzhouLabel.textContent = 'Your red shard has been etched.';
                 }
 
-                // If the exact key phrase is entered, unlock Penacony via ticket flag.
+                // If the exact key phrase is entered, unlock Penacony
                 if (trimmed === 'I love you, Miraizel') {
-                    const invStand = document.getElementById('inv-stand');
                     if (xianzhouLabel) {
                         xianzhouLabel.textContent =
-                            'Your words resonate beyond — a distant dreamworld stirs awake.';
+                            'Your words resonate beyond — a distant dreamworld stirs awake. Penacony is now accessible.';
                     }
+                    
+                    // Unlock Penacony in planet selection
+                    const penaconyOrb = document.querySelector('.planet-option[data-planet="penacony"]');
+                    if (penaconyOrb) {
+                        penaconyOrb.classList.remove('locked');
+                        penaconyOrb.classList.add('unlocked');
+                    }
+                    
+                    // Set flag for Penacony ticket
+                    window.penaconyTicketReady = true;
                 }
             }
         });
@@ -275,6 +335,770 @@ document.addEventListener('DOMContentLoaded', function() {
             const xianzhouPortalEl = document.getElementById('xianzhou-portal');
             if (xianzhouPortalEl) xianzhouPortalEl.style.display = 'none';
             showPlanetSelection();
+        });
+    }
+
+    // Back from Penacony to planet selection
+    const penaconyBackPlanets = document.getElementById('penacony-back-planets');
+    if (penaconyBackPlanets && planetSelection) {
+        penaconyBackPlanets.addEventListener('click', () => {
+            const penaconyPortalEl = document.getElementById('penacony-portal');
+            if (penaconyPortalEl) penaconyPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Jarilo-VI to planet selection
+    const jariloBackPlanets = document.getElementById('jarilo-back-planets');
+    if (jariloBackPlanets && planetSelection) {
+        jariloBackPlanets.addEventListener('click', () => {
+            const jariloPortalEl = document.getElementById('jarilo-portal');
+            if (jariloPortalEl) jariloPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Herta Station to planet selection
+    const hertaBackPlanets = document.getElementById('herta-back-planets');
+    if (hertaBackPlanets && planetSelection) {
+        hertaBackPlanets.addEventListener('click', () => {
+            const hertaPortalEl = document.getElementById('herta-portal');
+            if (hertaPortalEl) hertaPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Luofu Sanctum to planet selection
+    const luofuBackPlanets = document.getElementById('luofu-back-planets');
+    if (luofuBackPlanets && planetSelection) {
+        luofuBackPlanets.addEventListener('click', () => {
+            const luofuPortalEl = document.getElementById('luofu-portal');
+            if (luofuPortalEl) luofuPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Stellaron to planet selection
+    const stellaronBackPlanets = document.getElementById('stellaron-back-planets');
+    if (stellaronBackPlanets && planetSelection) {
+        stellaronBackPlanets.addEventListener('click', () => {
+            const stellaronPortalEl = document.getElementById('stellaron-portal');
+            if (stellaronPortalEl) stellaronPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Back from Terminus to planet selection
+    const terminusBackPlanets = document.getElementById('terminus-back-planets');
+    if (terminusBackPlanets && planetSelection) {
+        terminusBackPlanets.addEventListener('click', () => {
+            const terminusPortalEl = document.getElementById('terminus-portal');
+            if (terminusPortalEl) terminusPortalEl.style.display = 'none';
+            showPlanetSelection();
+        });
+    }
+
+    // Terminus Door Interaction
+    const terminusDoor = document.getElementById('terminus-door');
+    const terminusLabel = document.getElementById('terminus-label');
+    
+    if (terminusDoor) {
+        terminusDoor.addEventListener('click', () => {
+            if (terminusLabel) {
+                terminusLabel.textContent = 'The door opens... revealing a message of eternal love.';
+                terminusLabel.style.color = '#ffd700';
+            }
+            
+            // Add unlock animation
+            terminusDoor.classList.add('unlocked');
+            
+            // Show a special message after a moment
+            setTimeout(() => {
+                alert('🌟 Thank you for completing this journey! 🌟\n\nThis adventure was crafted with love.\nMay your own journey be filled with light and wonder.');
+            }, 800);
+        });
+    }
+
+    // Stellaron - Shadow Maze Game
+    const startMazeBtn = document.getElementById('start-maze');
+    const mazeContainer = document.getElementById('maze-container');
+    const mazeCanvas = document.getElementById('maze-canvas');
+    const mazeLight = document.getElementById('maze-light');
+    const mazeStatus = document.getElementById('maze-status');
+
+    if (startMazeBtn && mazeCanvas) {
+        startMazeBtn.addEventListener('click', () => {
+            startMazeBtn.style.display = 'none';
+            if (mazeContainer) mazeContainer.style.display = 'block';
+            initMaze();
+        });
+    }
+
+    function initMaze() {
+        const ctx = mazeCanvas.getContext('2d');
+        const cellSize = 50;
+        const cols = 10;
+        const rows = 10;
+
+        // Simple maze layout (1 = wall, 0 = path)
+        const maze = [
+            [1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,1,0,0,0,0,1],
+            [1,0,1,0,1,0,1,1,0,1],
+            [1,0,1,0,0,0,1,0,0,1],
+            [1,0,1,1,1,0,1,0,1,1],
+            [1,0,0,0,0,0,0,0,0,1],
+            [1,1,1,0,1,1,1,1,0,1],
+            [1,0,0,0,1,0,0,0,0,1],
+            [1,0,1,0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1,1,1,1]
+        ];
+
+        let playerX = 1;
+        let playerY = 1;
+        const exitX = 9;
+        const exitY = 8;
+
+        function drawMaze() {
+            // Fill with darkness
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, 500, 500);
+
+            // Draw only visible area around player
+            const visionRadius = 2;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const distance = Math.sqrt(Math.pow(col - playerX, 2) + Math.pow(row - playerY, 2));
+                    
+                    if (distance <= visionRadius) {
+                        if (maze[row][col] === 1) {
+                            // Wall
+                            ctx.fillStyle = '#4B0000';
+                            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                            ctx.strokeStyle = '#8B0000';
+                            ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                        } else {
+                            // Path
+                            ctx.fillStyle = '#1a0000';
+                            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                        }
+                    }
+                }
+            }
+
+            // Draw exit (if visible)
+            const exitDistance = Math.sqrt(Math.pow(exitX - playerX, 2) + Math.pow(exitY - playerY, 2));
+            if (exitDistance <= visionRadius) {
+                ctx.fillStyle = '#FFD700';
+                ctx.fillRect(exitX * cellSize + 10, exitY * cellSize + 10, cellSize - 20, cellSize - 20);
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#FFD700';
+                ctx.fillRect(exitX * cellSize + 10, exitY * cellSize + 10, cellSize - 20, cellSize - 20);
+                ctx.shadowBlur = 0;
+            }
+
+            // Draw player
+            ctx.fillStyle = '#DC143C';
+            ctx.beginPath();
+            ctx.arc(playerX * cellSize + cellSize/2, playerY * cellSize + cellSize/2, cellSize/3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function movePlayer(dx, dy) {
+            const newX = playerX + dx;
+            const newY = playerY + dy;
+
+            // Check bounds and walls
+            if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && maze[newY][newX] === 0) {
+                playerX = newX;
+                playerY = newY;
+
+                // Update light position
+                if (mazeLight) {
+                    mazeLight.style.left = (playerX * cellSize + cellSize/2) + 'px';
+                    mazeLight.style.top = (playerY * cellSize + cellSize/2) + 'px';
+                }
+
+                // Check if reached exit
+                if (playerX === exitX && playerY === exitY) {
+                    winMaze();
+                }
+
+                drawMaze();
+            }
+        }
+
+        function winMaze() {
+            if (mazeStatus) {
+                mazeStatus.textContent = '✨ You escaped the darkness! ✨';
+                mazeStatus.style.color = '#FFD700';
+            }
+            
+            const shadowMazeGame = document.querySelector('.shadow-maze-game');
+            if (shadowMazeGame) {
+                shadowMazeGame.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.9)';
+                shadowMazeGame.style.borderColor = 'rgba(255, 215, 0, 0.8)';
+            }
+
+            // Unlock Terminus
+            const terminusOrb = document.querySelector('.planet-option[data-planet="terminus"]');
+            if (terminusOrb) {
+                terminusOrb.classList.remove('locked');
+                terminusOrb.classList.add('unlocked');
+            }
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!mazeContainer || mazeContainer.style.display === 'none') return;
+
+            switch(e.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    movePlayer(0, -1);
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    movePlayer(0, 1);
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    movePlayer(-1, 0);
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    movePlayer(1, 0);
+                    break;
+            }
+        });
+
+        // Initial draw
+        drawMaze();
+        if (mazeLight) {
+            mazeLight.style.left = (playerX * cellSize + cellSize/2) + 'px';
+            mazeLight.style.top = (playerY * cellSize + cellSize/2) + 'px';
+        }
+    }
+
+    // Luofu Sanctum - River Stone Stepping Game
+    const startCrossingBtn = document.getElementById('start-crossing');
+    const steppingStones = document.querySelectorAll('.stepping-stone');
+    const stoneFeedback = document.getElementById('stone-feedback');
+    const stoneRoundEl = document.getElementById('stone-round');
+
+    let stoneSequence = [];
+    let playerSequence = [];
+    let currentRound = 1;
+    const maxRounds = 3;
+    let isShowingSequence = false;
+    let canClick = false;
+
+    function generateSequence(length) {
+        const sequence = [];
+        for (let i = 0; i < length; i++) {
+            sequence.push(Math.floor(Math.random() * 6) + 1);
+        }
+        return sequence;
+    }
+
+    function showSequence() {
+        isShowingSequence = true;
+        canClick = false;
+        let index = 0;
+
+        const interval = setInterval(() => {
+            if (index < stoneSequence.length) {
+                const stoneNum = stoneSequence[index];
+                const stone = document.querySelector(`.stepping-stone[data-stone="${stoneNum}"]`);
+                
+                if (stone) {
+                    stone.classList.add('active');
+                    setTimeout(() => {
+                        stone.classList.remove('active');
+                    }, 500);
+                }
+                index++;
+            } else {
+                clearInterval(interval);
+                isShowingSequence = false;
+                canClick = true;
+                if (stoneFeedback) {
+                    stoneFeedback.textContent = 'Now repeat the pattern!';
+                    stoneFeedback.style.color = '#F4A460';
+                }
+            }
+        }, 800);
+    }
+
+    function checkPlayerStep(stoneNum) {
+        const currentIndex = playerSequence.length - 1;
+        const stone = document.querySelector(`.stepping-stone[data-stone="${stoneNum}"]`);
+
+        if (stoneNum === stoneSequence[currentIndex]) {
+            // Correct!
+            if (stone) {
+                stone.classList.add('correct');
+                setTimeout(() => stone.classList.remove('correct'), 500);
+            }
+
+            if (playerSequence.length === stoneSequence.length) {
+                // Round complete!
+                canClick = false;
+                if (stoneFeedback) {
+                    stoneFeedback.textContent = '✨ Perfect crossing! ✨';
+                    stoneFeedback.style.color = '#90EE90';
+                }
+
+                if (currentRound < maxRounds) {
+                    currentRound++;
+                    if (stoneRoundEl) stoneRoundEl.textContent = currentRound;
+                    setTimeout(() => {
+                        startNewRound();
+                    }, 2000);
+                } else {
+                    // Game complete!
+                    setTimeout(() => {
+                        completeStoneGame();
+                    }, 2000);
+                }
+            }
+        } else {
+            // Wrong!
+            canClick = false;
+            if (stone) {
+                stone.classList.add('wrong');
+                setTimeout(() => stone.classList.remove('wrong'), 500);
+            }
+            if (stoneFeedback) {
+                stoneFeedback.textContent = 'Wrong step! Try again...';
+                stoneFeedback.style.color = '#FF6B6B';
+            }
+            setTimeout(() => {
+                playerSequence = [];
+                showSequence();
+            }, 1500);
+        }
+    }
+
+    function startNewRound() {
+        playerSequence = [];
+        stoneSequence = generateSequence(currentRound + 2); // Round 1: 3 stones, Round 2: 4 stones, Round 3: 5 stones
+        if (stoneFeedback) {
+            stoneFeedback.textContent = 'Watch the stones...';
+            stoneFeedback.style.color = '#F4A460';
+        }
+        setTimeout(() => {
+            showSequence();
+        }, 1000);
+    }
+
+    function completeStoneGame() {
+        if (stoneFeedback) {
+            stoneFeedback.textContent = '🌸 You have crossed the sacred river! 🌸';
+            stoneFeedback.style.color = '#FFD700';
+        }
+        if (startCrossingBtn) {
+            startCrossingBtn.textContent = 'Completed!';
+            startCrossingBtn.disabled = true;
+        }
+        
+        const stoneGame = document.querySelector('.stone-game');
+        if (stoneGame) {
+            stoneGame.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8)';
+            stoneGame.style.borderColor = 'rgba(255, 215, 0, 0.9)';
+        }
+
+        // Unlock Stellaron
+        const stellaronOrb = document.querySelector('.planet-option[data-planet="stellaron"]');
+        if (stellaronOrb) {
+            stellaronOrb.classList.remove('locked');
+            stellaronOrb.classList.add('unlocked');
+        }
+    }
+
+    if (startCrossingBtn) {
+        startCrossingBtn.addEventListener('click', () => {
+            startCrossingBtn.disabled = true;
+            currentRound = 1;
+            if (stoneRoundEl) stoneRoundEl.textContent = currentRound;
+            startNewRound();
+        });
+    }
+
+    steppingStones.forEach(stone => {
+        stone.addEventListener('click', () => {
+            if (!canClick || isShowingSequence) return;
+
+            const stoneNum = parseInt(stone.getAttribute('data-stone'));
+            playerSequence.push(stoneNum);
+            
+            stone.classList.add('active');
+            setTimeout(() => stone.classList.remove('active'), 300);
+
+            checkPlayerStep(stoneNum);
+        });
+    });
+
+    // Herta Station - Dimension Portal
+    const dimensionPortalBtn = document.getElementById('dimension-portal-btn');
+    const dimensionSpace = document.getElementById('dimension-space');
+    const dimensionBackBtn = document.getElementById('dimension-back-btn');
+    const missingPiece = document.getElementById('missing-piece');
+    const hertaPuzzleStatus = document.getElementById('herta-puzzle-status');
+
+    if (dimensionPortalBtn) {
+        dimensionPortalBtn.addEventListener('click', () => {
+            if (dimensionSpace) {
+                dimensionSpace.style.display = 'flex';
+            }
+        });
+    }
+
+    if (dimensionBackBtn) {
+        dimensionBackBtn.addEventListener('click', () => {
+            if (dimensionSpace) {
+                dimensionSpace.style.display = 'none';
+            }
+        });
+    }
+
+    if (missingPiece) {
+        missingPiece.addEventListener('click', () => {
+            // Collect the missing piece
+            missingPiece.style.animation = 'collect-piece 0.6s ease forwards';
+            
+            setTimeout(() => {
+                // Return to Herta Station
+                if (dimensionSpace) {
+                    dimensionSpace.style.display = 'none';
+                }
+
+                // Complete the puzzle
+                const missingSlot = document.querySelector('.research-piece.missing');
+                if (missingSlot) {
+                    missingSlot.classList.remove('missing');
+                    missingSlot.classList.add('completed');
+                    missingSlot.textContent = '5';
+                }
+
+                if (hertaPuzzleStatus) {
+                    hertaPuzzleStatus.textContent = 'Fragment retrieved! Analysis complete.';
+                    hertaPuzzleStatus.style.color = '#40ff80';
+                }
+
+                // Add completion effect
+                const researchPuzzle = document.querySelector('.research-puzzle');
+                if (researchPuzzle) {
+                    researchPuzzle.style.boxShadow = '0 0 50px rgba(64, 255, 128, 0.8)';
+                    researchPuzzle.style.borderColor = 'rgba(64, 255, 128, 0.8)';
+                }
+
+                // Unlock Luofu Sanctum
+                const luofuOrb = document.querySelector('.planet-option[data-planet="luofu"]');
+                if (luofuOrb) {
+                    luofuOrb.classList.remove('locked');
+                    luofuOrb.classList.add('unlocked');
+                }
+            }, 600);
+        });
+    }
+
+    // Jarilo-VI Puzzle Game - proper jigsaw puzzle
+    const puzzlePieces = document.querySelectorAll('.puzzle-piece');
+    const puzzleSlots = document.querySelectorAll('.puzzle-slot');
+    const piecesCollectedEl = document.getElementById('pieces-collected');
+    let collectedCount = 0;
+    const totalPieces = 9;
+    let draggedPiece = null;
+
+    puzzlePieces.forEach(piece => {
+        piece.addEventListener('dragstart', (e) => {
+            draggedPiece = piece;
+            piece.style.opacity = '0.5';
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        piece.addEventListener('dragend', (e) => {
+            piece.style.opacity = '1';
+        });
+    });
+
+    puzzleSlots.forEach(slot => {
+        slot.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            if (!slot.classList.contains('filled')) {
+                slot.style.background = 'rgba(255, 215, 0, 0.3)';
+            }
+        });
+
+        slot.addEventListener('dragleave', () => {
+            slot.style.background = '';
+        });
+
+        slot.addEventListener('drop', (e) => {
+            e.preventDefault();
+            slot.style.background = '';
+
+            if (draggedPiece && !slot.classList.contains('filled')) {
+                const piecePosition = draggedPiece.getAttribute('data-position');
+                const slotPosition = slot.getAttribute('data-position');
+
+                // Check if piece matches slot
+                if (piecePosition === slotPosition) {
+                    // Correct position!
+                    draggedPiece.classList.add('placed');
+                    draggedPiece.style.position = 'static';
+                    draggedPiece.style.top = 'auto';
+                    draggedPiece.style.left = 'auto';
+                    draggedPiece.style.right = 'auto';
+                    draggedPiece.style.bottom = 'auto';
+                    draggedPiece.draggable = false;
+                    
+                    slot.appendChild(draggedPiece);
+                    slot.classList.add('filled');
+                    
+                    collectedCount++;
+                    if (piecesCollectedEl) {
+                        piecesCollectedEl.textContent = collectedCount;
+                    }
+
+                    // Check if puzzle is complete
+                    if (collectedCount === totalPieces) {
+                        setTimeout(() => {
+                            completePuzzle();
+                        }, 500);
+                    }
+                }
+                
+                draggedPiece = null;
+            }
+        });
+    });
+
+    function completePuzzle() {
+        const puzzleFrame = document.querySelector('.puzzle-frame');
+        const puzzleGrid = document.querySelector('.puzzle-grid-container');
+        
+        if (puzzleFrame && puzzleGrid) {
+            // Remove borders between pieces
+            puzzleSlots.forEach(slot => {
+                slot.style.border = 'none';
+            });
+            
+            // Add glow effect
+            puzzleFrame.style.boxShadow = '0 0 60px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 150, 255, 0.7)';
+            puzzleFrame.style.border = '3px solid rgba(255, 215, 0, 0.9)';
+            puzzleGrid.style.border = '3px solid rgba(255, 215, 0, 0.6)';
+
+            // Unlock Herta Station
+            const hertaOrb = document.querySelector('.planet-option[data-planet="herta"]');
+            if (hertaOrb) {
+                hertaOrb.classList.remove('locked');
+                hertaOrb.classList.add('unlocked');
+            }
+        }
+    }
+
+    // Penacony Slot Machine Math Game
+    const slotStartBtn = document.getElementById('slot-start-btn');
+    const slotEquation = document.getElementById('slot-equation');
+    const coinContainer = document.getElementById('coin-container');
+    const penaconyFeedback = document.getElementById('penacony-feedback');
+
+    let currentAnswer = null;
+    let gameActive = false;
+    let gamePhase = 'start'; // 'start', 'coins-shown', 'coin-selected'
+    let selectedCoinValue = null;
+    let problemsSolved = 0;
+    let totalProblems = 3;
+
+    function generateMathProblem() {
+        const operators = ['+', '-', '*', '/'];
+        const operator = operators[Math.floor(Math.random() * operators.length)];
+        let num1, num2, answer;
+
+        if (operator === '+') {
+            num1 = Math.floor(Math.random() * 50) + 1;
+            num2 = Math.floor(Math.random() * 50) + 1;
+            answer = num1 + num2;
+        } else if (operator === '-') {
+            num1 = Math.floor(Math.random() * 50) + 20;
+            num2 = Math.floor(Math.random() * 20) + 1;
+            answer = num1 - num2;
+        } else if (operator === '*') {
+            num1 = Math.floor(Math.random() * 12) + 1;
+            num2 = Math.floor(Math.random() * 12) + 1;
+            answer = num1 * num2;
+        } else { // division
+            num2 = Math.floor(Math.random() * 10) + 2;
+            answer = Math.floor(Math.random() * 15) + 1;
+            num1 = num2 * answer;
+        }
+
+        return {
+            equation: `${num1} ${operator} ${num2} = ?`,
+            answer: answer
+        };
+    }
+
+    function generateCoinOptions(correctAnswer) {
+        const options = new Set([correctAnswer]);
+        
+        while (options.size < 7) {
+            const offset = Math.floor(Math.random() * 20) - 10;
+            const option = correctAnswer + offset;
+            if (option > 0 && option !== correctAnswer) {
+                options.add(option);
+            }
+        }
+
+        return Array.from(options).sort(() => Math.random() - 0.5);
+    }
+
+    function showCoinsPhase(options, correctAnswer) {
+        gamePhase = 'coins-shown';
+        coinContainer.innerHTML = '';
+        penaconyFeedback.textContent = 'Pick a coin to insert into the machine!';
+        penaconyFeedback.style.color = '#ff99ff';
+        
+        options.forEach(value => {
+            const coin = document.createElement('div');
+            coin.className = 'coin coin-pop';
+            coin.textContent = value;
+            
+            coin.addEventListener('click', () => {
+                if (gamePhase !== 'coins-shown') return;
+                
+                selectedCoinValue = value;
+                gamePhase = 'coin-selected';
+                
+                // Hide all coins with pop animation
+                document.querySelectorAll('.coin').forEach(c => {
+                    c.classList.add('coin-hide');
+                });
+                
+                setTimeout(() => {
+                    insertCoinPhase(value, correctAnswer);
+                }, 500);
+            });
+            
+            coinContainer.appendChild(coin);
+        });
+    }
+
+    function insertCoinPhase(selectedValue, correctAnswer) {
+        coinContainer.innerHTML = '';
+        penaconyFeedback.textContent = `Inserting coin with value ${selectedValue}...`;
+        penaconyFeedback.style.color = '#ffd700';
+        
+        setTimeout(() => {
+            if (selectedValue === correctAnswer) {
+                problemsSolved++;
+                
+                // Collect ticket shard
+                const shard = document.getElementById(`shard-${problemsSolved}`);
+                if (shard) {
+                    shard.classList.remove('locked');
+                    shard.classList.add('collected');
+                }
+                
+                penaconyFeedback.textContent = `Correct! ✨ Ticket shard ${problemsSolved} collected!`;
+                penaconyFeedback.style.color = '#55efc4';
+                
+                setTimeout(() => {
+                    if (problemsSolved >= totalProblems) {
+                        completeGame();
+                    } else {
+                        resetGame();
+                    }
+                }, 2000);
+            } else {
+                penaconyFeedback.textContent = `Wrong! The answer was ${correctAnswer}. (${problemsSolved}/${totalProblems} shards collected)`;
+                penaconyFeedback.style.color = '#ff6b6b';
+                
+                setTimeout(() => {
+                    resetGame();
+                }, 2500);
+            }
+        }, 800);
+    }
+
+    function completeGame() {
+        gameActive = false;
+        gamePhase = 'completed';
+        slotEquation.textContent = '🎉 WINNER! 🎉';
+        penaconyFeedback.textContent = 'All 3 ticket shards collected! Jarilo-VI is now accessible!';
+        penaconyFeedback.style.color = '#ffd700';
+        slotStartBtn.textContent = 'PLAY AGAIN';
+        slotStartBtn.disabled = false;
+
+        // Unlock Jarilo-VI
+        const jariloOrb = document.querySelector('.planet-option[data-planet="jarilo"]');
+        if (jariloOrb) {
+            jariloOrb.classList.remove('locked');
+            jariloOrb.classList.add('unlocked');
+        }
+    }
+
+    function resetGame() {
+        gameActive = false;
+        gamePhase = 'start';
+        currentAnswer = null;
+        selectedCoinValue = null;
+        slotEquation.textContent = problemsSolved > 0 ? `${problemsSolved}/${totalProblems} shards - Press Start` : 'Press Start';
+        coinContainer.innerHTML = '';
+        penaconyFeedback.textContent = '';
+        slotStartBtn.textContent = 'START';
+        slotStartBtn.disabled = false;
+    }
+
+    // Reset shards when playing again
+    if (slotStartBtn) {
+        const originalClickHandler = slotStartBtn.onclick;
+        slotStartBtn.addEventListener('click', () => {
+            if (gamePhase === 'completed') {
+                // Reset all shards
+                problemsSolved = 0;
+                for (let i = 1; i <= totalProblems; i++) {
+                    const shard = document.getElementById(`shard-${i}`);
+                    if (shard) {
+                        shard.classList.remove('collected');
+                        shard.classList.add('locked');
+                    }
+                }
+                gamePhase = 'start';
+            }
+        });
+    }
+
+    if (slotStartBtn) {
+        slotStartBtn.addEventListener('click', () => {
+            if (gameActive) return;
+            
+            gameActive = true;
+            gamePhase = 'equation-showing';
+            slotStartBtn.disabled = true;
+            penaconyFeedback.textContent = '';
+            
+            // Slot machine animation
+            slotEquation.textContent = '...';
+            
+            setTimeout(() => {
+                const problem = generateMathProblem();
+                currentAnswer = problem.answer;
+                slotEquation.textContent = problem.equation;
+                
+                // Show coins after equation appears
+                setTimeout(() => {
+                    const coinOptions = generateCoinOptions(currentAnswer);
+                    showCoinsPhase(coinOptions, currentAnswer);
+                }, 500);
+            }, 800);
         });
     }
 
