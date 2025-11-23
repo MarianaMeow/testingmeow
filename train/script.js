@@ -416,16 +416,91 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Celestial 2 & 3: placeholder redirects/logs for future mini-games
+    // Track completion of all three trials
+    let trial1Complete = false;
+    let trial2Complete = false;
+    let trial3Complete = false;
+
+    function checkAllTrialsComplete() {
+        if (trial1Complete && trial2Complete && trial3Complete) {
+            // Mark Belobog mission as complete
+            const statusEl = document.getElementById('belobog-mission-status');
+            if (statusEl) {
+                statusEl.textContent = 'Complete — All trials cleared. Ticket forging conditions satisfied.';
+                statusEl.classList.remove('status-pending');
+                statusEl.classList.add('status-complete');
+            }
+            const ticketCard = document.querySelector('.belobog-mission-panel .ticket-card');
+            if (ticketCard) {
+                ticketCard.classList.remove('locked');
+                const noteEl = ticketCard.querySelector('.ticket-note');
+                if (noteEl) {
+                    noteEl.textContent = 'Ready — Your resolve has lit the way to Xianzhou Luofu.';
+                }
+            }
+            if (belobogMissionPill) {
+                belobogMissionPill.textContent = 'Complete';
+                belobogMissionPill.classList.remove('mission-pill-pending');
+                belobogMissionPill.classList.add('mission-pill-complete');
+            }
+            if (belobogMissionPanel) {
+                belobogMissionPanel.classList.add('open');
+            }
+
+            // Fill the circular forge ring = ticket card forged
+            setBelobogForgeProgress(1);
+            if (belobogTicketForgeCircle) {
+                belobogTicketForgeCircle.classList.add('complete');
+            }
+
+            // Simulate transferring the forged ticket into Inventory
+            const invStand = document.getElementById('inv-stand');
+            if (invStand) {
+                invStand.setAttribute('data-ticket-xianzhou', 'ready');
+                invStand.classList.add('has-ticket-upgrade');
+            }
+        }
+    }
+
+    // Celestial 2: Frostbound Seal fill-in-the-blank
+    const belobogFillGame2 = document.getElementById('belobog-fill-game-2');
+    const belobogFillInput2 = document.getElementById('belobog-fill-input-2');
+    const belobogFillSubmit2 = document.getElementById('belobog-fill-submit-2');
+    const belobogFillFeedback2 = document.getElementById('belobog-fill-feedback-2');
+
     if (celestial2) {
         celestial2.addEventListener('click', () => {
-            console.log('[Belobog] Frostbound Seal mini-game (coming soon).');
+            if (belobogFillGame2) {
+                belobogFillGame2.style.display = 'flex';
+                if (belobogFillInput2) {
+                    belobogFillInput2.value = '';
+                    belobogFillInput2.focus();
+                }
+                if (belobogFillFeedback2) {
+                    belobogFillFeedback2.textContent = '';
+                }
+            }
         });
     }
 
+    // Celestial 3: Stellar Choir fill-in-the-blank
+    const belobogFillGame3 = document.getElementById('belobog-fill-game-3');
+    const belobogFillInput3 = document.getElementById('belobog-fill-input-3');
+    const belobogFillSubmit3 = document.getElementById('belobog-fill-submit-3');
+    const belobogFillFeedback3 = document.getElementById('belobog-fill-feedback-3');
+
     if (celestial3) {
         celestial3.addEventListener('click', () => {
-            console.log('[Belobog] Stellar Choir mini-game (coming soon).');
+            if (belobogFillGame3) {
+                belobogFillGame3.style.display = 'flex';
+                if (belobogFillInput3) {
+                    belobogFillInput3.value = '';
+                    belobogFillInput3.focus();
+                }
+                if (belobogFillFeedback3) {
+                    belobogFillFeedback3.textContent = '';
+                }
+            }
         });
     }
 
@@ -465,47 +540,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Correct. "You are my light among the stars." The castle itself seems to glow at your words.';
                 belobogFillFeedback.style.color = '#55efc4';
 
-                // Mark Belobog mission as complete + visually hint ticket progress
-                const statusEl = document.getElementById('belobog-mission-status');
-                if (statusEl) {
-                    statusEl.textContent = 'Complete — Ticket forging conditions satisfied.';
-                    statusEl.classList.remove('status-pending');
-                    statusEl.classList.add('status-complete');
-                }
-                const ticketCard = document.querySelector('.belobog-mission-panel .ticket-card');
-                if (ticketCard) {
-                    ticketCard.classList.remove('locked');
-                    const noteEl = ticketCard.querySelector('.ticket-note');
-                    if (noteEl) {
-                        noteEl.textContent = 'Ready — Your resolve has lit the way to Xianzhou Luofu.';
-                    }
-                }
-                if (belobogMissionPill) {
-                    belobogMissionPill.textContent = 'Complete';
-                    belobogMissionPill.classList.remove('mission-pill-pending');
-                    belobogMissionPill.classList.add('mission-pill-complete');
-                }
-                if (belobogMissionPanel) {
-                    belobogMissionPanel.classList.add('open');
-                }
-
-                // Fill the circular forge ring = ticket card forged
-                setBelobogForgeProgress(1);
-                if (belobogTicketForgeCircle) {
-                    belobogTicketForgeCircle.classList.add('complete');
-                }
+                trial1Complete = true;
+                setBelobogForgeProgress(0.33);
 
                 setTimeout(() => {
                     belobogFillGame.style.display = 'none';
+                    checkAllTrialsComplete();
                 }, 1600);
-
-                // Simulate transferring the forged ticket into Inventory (Main Menu)
-                const invStand = document.getElementById('inv-stand');
-                if (invStand) {
-                    invStand.setAttribute('data-ticket-xianzhou', 'ready');
-                    // Optional subtle visual cue hook:
-                    invStand.classList.add('has-ticket-upgrade');
-                }
             } else {
                 if (blankSpan) blankSpan.textContent = attempt;
                 belobogFillFeedback.textContent =
@@ -520,6 +561,124 @@ document.addEventListener('DOMContentLoaded', function() {
         belobogFillInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 evaluateFill();
+            }
+        });
+    }
+
+    // Fill-in-the-blank game 2 logic (Frostbound Seal)
+    if (belobogFillSubmit2 && belobogFillInput2 && belobogFillFeedback2 && belobogFillGame2) {
+        const correctWord2 = 'warmth';
+        const optionButtons2 = document.querySelectorAll('.belobog-fill-option-2');
+        const blankSpan2 = document.querySelector('.belobog-fill-blank-2');
+
+        optionButtons2.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chosen = btn.getAttribute('data-word') || '';
+                belobogFillInput2.value = chosen;
+                if (blankSpan2) {
+                    blankSpan2.textContent = chosen || '______';
+                }
+                if (belobogFillFeedback2) {
+                    belobogFillFeedback2.textContent = '';
+                }
+            });
+        });
+
+        function evaluateFill2() {
+            const attempt = belobogFillInput2.value.trim().toLowerCase();
+
+            if (!attempt) {
+                belobogFillFeedback2.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                belobogFillFeedback2.style.color = '#feca57';
+                if (blankSpan2) blankSpan2.textContent = '______';
+                return;
+            }
+
+            if (attempt === correctWord2) {
+                if (blankSpan2) blankSpan2.textContent = 'warmth';
+                belobogFillFeedback2.textContent =
+                    'Correct. "Your presence is my warmth in the cold." The frozen seal begins to thaw.';
+                belobogFillFeedback2.style.color = '#55efc4';
+
+                trial2Complete = true;
+                setBelobogForgeProgress(0.66);
+
+                setTimeout(() => {
+                    belobogFillGame2.style.display = 'none';
+                    checkAllTrialsComplete();
+                }, 1600);
+            } else {
+                if (blankSpan2) blankSpan2.textContent = attempt;
+                belobogFillFeedback2.textContent =
+                    'Not quite. Read it with your choice — only one truly melts the ice.';
+                belobogFillFeedback2.style.color = '#e94560';
+            }
+        }
+
+        belobogFillSubmit2.addEventListener('click', evaluateFill2);
+
+        belobogFillInput2.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                evaluateFill2();
+            }
+        });
+    }
+
+    // Fill-in-the-blank game 3 logic (Stellar Choir)
+    if (belobogFillSubmit3 && belobogFillInput3 && belobogFillFeedback3 && belobogFillGame3) {
+        const correctWord3 = 'forever';
+        const optionButtons3 = document.querySelectorAll('.belobog-fill-option-3');
+        const blankSpan3 = document.querySelector('.belobog-fill-blank-3');
+
+        optionButtons3.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chosen = btn.getAttribute('data-word') || '';
+                belobogFillInput3.value = chosen;
+                if (blankSpan3) {
+                    blankSpan3.textContent = chosen || '______';
+                }
+                if (belobogFillFeedback3) {
+                    belobogFillFeedback3.textContent = '';
+                }
+            });
+        });
+
+        function evaluateFill3() {
+            const attempt = belobogFillInput3.value.trim().toLowerCase();
+
+            if (!attempt) {
+                belobogFillFeedback3.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                belobogFillFeedback3.style.color = '#feca57';
+                if (blankSpan3) blankSpan3.textContent = '______';
+                return;
+            }
+
+            if (attempt === correctWord3) {
+                if (blankSpan3) blankSpan3.textContent = 'forever';
+                belobogFillFeedback3.textContent =
+                    'Correct. "I will love you forever, across all worlds." The stars sing in harmony with your vow.';
+                belobogFillFeedback3.style.color = '#55efc4';
+
+                trial3Complete = true;
+                setBelobogForgeProgress(1);
+
+                setTimeout(() => {
+                    belobogFillGame3.style.display = 'none';
+                    checkAllTrialsComplete();
+                }, 1600);
+            } else {
+                if (blankSpan3) blankSpan3.textContent = attempt;
+                belobogFillFeedback3.textContent =
+                    'Not quite. Listen to the stars — only one word echoes through eternity.';
+                belobogFillFeedback3.style.color = '#e94560';
+            }
+        }
+
+        belobogFillSubmit3.addEventListener('click', evaluateFill3);
+
+        belobogFillInput3.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                evaluateFill3();
             }
         });
     }
