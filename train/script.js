@@ -555,10 +555,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Stellaron - Shadow Maze Game
     const startMazeBtn = document.getElementById('start-maze');
+    const exitMazeBtn = document.getElementById('exit-maze');
     const mazeContainer = document.getElementById('maze-container');
     const mazeCanvas = document.getElementById('maze-canvas');
     const mazeLight = document.getElementById('maze-light');
     const mazeStatus = document.getElementById('maze-status');
+
+    function closeMaze() {
+        if (mazeContainer) mazeContainer.style.display = 'none';
+        if (startMazeBtn) {
+            startMazeBtn.style.display = 'block';
+            startMazeBtn.textContent = 'Enter Again';
+        }
+        if (mazeStatus) {
+            mazeStatus.textContent = 'Find the exit...';
+            mazeStatus.style.color = '';
+        }
+    }
 
     if (startMazeBtn && mazeCanvas) {
         startMazeBtn.addEventListener('click', () => {
@@ -566,6 +579,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mazeContainer) mazeContainer.style.display = 'block';
             initMaze();
         });
+    }
+
+    if (exitMazeBtn) {
+        exitMazeBtn.addEventListener('click', closeMaze);
     }
 
     function initMaze() {
@@ -681,6 +698,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 terminusOrb.classList.add('unlocked');
             }
             saveProgress();
+
+            // Auto-close maze after 2 seconds
+            setTimeout(closeMaze, 2000);
         }
 
         // Keyboard controls
@@ -719,9 +739,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Luofu Sanctum - River Stone Stepping Game
+    // Luofu Sanctum - Lotus Flower Memory Game
     const startCrossingBtn = document.getElementById('start-crossing');
-    const steppingStones = document.querySelectorAll('.stepping-stone');
+    const steppingStones = document.querySelectorAll('.lotus-flower');
     const stoneFeedback = document.getElementById('stone-feedback');
     const stoneRoundEl = document.getElementById('stone-round');
 
@@ -748,7 +768,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const interval = setInterval(() => {
             if (index < stoneSequence.length) {
                 const stoneNum = stoneSequence[index];
-                const stone = document.querySelector(`.stepping-stone[data-stone="${stoneNum}"]`);
+                const stone = document.querySelector(`.lotus-flower[data-stone="${stoneNum}"]`);
                 
                 if (stone) {
                     stone.classList.add('active');
@@ -771,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkPlayerStep(stoneNum) {
         const currentIndex = playerSequence.length - 1;
-        const stone = document.querySelector(`.stepping-stone[data-stone="${stoneNum}"]`);
+        const stone = document.querySelector(`.lotus-flower[data-stone="${stoneNum}"]`);
 
         if (stoneNum === stoneSequence[currentIndex]) {
             // Correct!
@@ -841,10 +861,10 @@ document.addEventListener('DOMContentLoaded', function() {
             startCrossingBtn.disabled = true;
         }
         
-        const stoneGame = document.querySelector('.stone-game');
-        if (stoneGame) {
-            stoneGame.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8)';
-            stoneGame.style.borderColor = 'rgba(255, 215, 0, 0.9)';
+        const lotusGame = document.querySelector('.lotus-game');
+        if (lotusGame) {
+            lotusGame.style.boxShadow = '0 0 50px rgba(82, 183, 136, 0.8)';
+            lotusGame.style.borderColor = 'rgba(82, 183, 136, 0.9)';
         }
 
         // Unlock Stellaron

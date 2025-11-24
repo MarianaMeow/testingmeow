@@ -4073,64 +4073,808 @@ button:hover {
     filter: brightness(1.5) drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
 }
 
-/* Luofu Sanctum - Nature/Autumn Theme - Sacred Grove */
+/* Herta Station - Holographic Cubes */
+.holo-cubes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.holo-cube {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, 
+        rgba(255, 150, 64, 0.15), 
+        rgba(255, 180, 100, 0.25),
+        rgba(255, 150, 64, 0.15));
+    border: 2px solid rgba(255, 150, 64, 0.6);
+    box-shadow: 
+        0 0 30px rgba(255, 150, 64, 0.4),
+        inset 0 0 20px rgba(255, 150, 64, 0.2);
+    animation: cube-float 6s ease-in-out infinite, cube-rotate 8s linear infinite;
+    transform-style: preserve-3d;
+}
+
+.holo-cube::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(255, 150, 64, 0.4);
+    animation: inner-pulse 2s ease-in-out infinite;
+}
+
+.holo-cube::after {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(255, 150, 64, 0.3);
+    animation: inner-pulse 2s ease-in-out infinite 0.5s;
+}
+
+.holo-cube:nth-child(1) {
+    animation-delay: 0s, 0s;
+}
+
+.holo-cube:nth-child(2) {
+    animation-delay: 1s, 2s;
+}
+
+.holo-cube:nth-child(3) {
+    animation-delay: 2s, 4s;
+}
+
+.holo-cube:nth-child(4) {
+    animation-delay: 3s, 1s;
+}
+
+.holo-cube:nth-child(5) {
+    animation-delay: 4s, 3s;
+}
+
+.holo-cube:nth-child(6) {
+    animation-delay: 5s, 5s;
+}
+
+@keyframes cube-float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.6;
+    }
+    25% {
+        transform: translateY(-30px) translateX(15px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-10px) translateX(-20px);
+        opacity: 0.7;
+    }
+    75% {
+        transform: translateY(-40px) translateX(10px);
+        opacity: 0.9;
+    }
+}
+
+@keyframes cube-rotate {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+@keyframes inner-pulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Herta Station - Holographic Screens */
+.holo-screens {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.holo-screen {
+    position: absolute;
+    width: 280px;
+    height: 160px;
+    background: linear-gradient(135deg, 
+        rgba(20, 20, 40, 0.85), 
+        rgba(30, 30, 50, 0.9));
+    border: 2px solid rgba(255, 150, 64, 0.7);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 
+        0 0 40px rgba(255, 150, 64, 0.5),
+        inset 0 0 30px rgba(0, 0, 0, 0.6);
+    animation: screen-float 8s ease-in-out infinite;
+    backdrop-filter: blur(5px);
+}
+
+.holo-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 150, 64, 0.9), 
+        transparent);
+    animation: screen-scan 3s linear infinite;
+}
+
+.screen-data {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #ffc080;
+}
+
+.data-line {
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: data-appear 0.5s ease forwards;
+    text-shadow: 0 0 5px rgba(255, 192, 128, 0.6);
+}
+
+.data-line:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.data-line:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.data-line:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes screen-float {
+    0%, 100% {
+        transform: translateY(0px);
+        opacity: 0.85;
+    }
+    50% {
+        transform: translateY(-20px);
+        opacity: 0.95;
+    }
+}
+
+@keyframes screen-scan {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(160px);
+    }
+}
+
+@keyframes data-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Herta Station - Mechanical Puppet Dolls */
+.mechanical-puppets {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.mech-puppet {
+    position: absolute;
+    width: 100px;
+    height: 140px;
+    opacity: 0.25;
+    animation: puppet-float 10s ease-in-out infinite;
+    filter: blur(1px) drop-shadow(0 0 8px rgba(255, 150, 64, 0.2));
+}
+
+.mech-puppet:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.mech-puppet:nth-child(2) {
+    animation-delay: 2.5s;
+}
+
+.mech-puppet:nth-child(3) {
+    animation-delay: 5s;
+}
+
+.mech-puppet:nth-child(4) {
+    animation-delay: 7.5s;
+}
+
+/* Puppet head */
+.puppet-head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 150, 64, 0.15);
+    border: 1px solid rgba(255, 150, 64, 0.3);
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(255, 150, 64, 0.1);
+    animation: head-tilt 4s ease-in-out infinite;
+}
+
+/* Glowing eyes */
+.puppet-eye {
+    position: absolute;
+    top: 12px;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 150, 64, 0.4);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255, 150, 64, 0.3);
+    animation: eye-glow 2s ease-in-out infinite;
+}
+
+.puppet-eye.left {
+    left: 10px;
+}
+
+.puppet-eye.right {
+    right: 10px;
+}
+
+/* Puppet body */
+.puppet-body {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 45px;
+    background: rgba(255, 150, 64, 0.12);
+    border: 1px solid rgba(255, 150, 64, 0.25);
+    border-radius: 8px;
+    box-shadow: inset 0 0 4px rgba(255, 150, 64, 0.1);
+}
+
+/* Puppet arms */
+.puppet-arm {
+    position: absolute;
+    top: 45px;
+    width: 3px;
+    height: 35px;
+    background: rgba(255, 150, 64, 0.15);
+    border: 1px solid rgba(255, 150, 64, 0.2);
+    border-radius: 2px;
+}
+
+.puppet-arm.left {
+    left: 20px;
+    transform-origin: top center;
+    animation: arm-swing-left 3s ease-in-out infinite;
+}
+
+.puppet-arm.right {
+    right: 20px;
+    transform-origin: top center;
+    animation: arm-swing-right 3s ease-in-out infinite 1.5s;
+}
+
+/* Puppet legs */
+.puppet-leg {
+    position: absolute;
+    top: 85px;
+    width: 3px;
+    height: 40px;
+    background: rgba(255, 150, 64, 0.15);
+    border: 1px solid rgba(255, 150, 64, 0.2);
+    border-radius: 2px;
+}
+
+.puppet-leg.left {
+    left: 38px;
+    transform-origin: top center;
+    animation: leg-swing-left 3s ease-in-out infinite;
+}
+
+.puppet-leg.right {
+    right: 38px;
+    transform-origin: top center;
+    animation: leg-swing-right 3s ease-in-out infinite 1.5s;
+}
+
+/* Mechanical joints */
+.puppet-joint {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 150, 64, 0.2);
+    border: 1px solid rgba(255, 150, 64, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255, 150, 64, 0.2);
+    animation: joint-pulse 2s ease-in-out infinite;
+}
+
+.puppet-joint.head-joint {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.puppet-joint.shoulder-left {
+    top: 43px;
+    left: 23px;
+}
+
+.puppet-joint.shoulder-right {
+    top: 43px;
+    right: 23px;
+}
+
+.puppet-joint.hip-left {
+    top: 83px;
+    left: 41px;
+}
+
+.puppet-joint.hip-right {
+    top: 83px;
+    right: 41px;
+}
+
+/* Animations */
+@keyframes puppet-float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.2;
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-10px) translateX(-15px);
+        opacity: 0.35;
+    }
+    75% {
+        transform: translateY(-30px) translateX(5px);
+        opacity: 0.25;
+    }
+}
+
+@keyframes head-tilt {
+    0%, 100% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+    25% {
+        transform: translateX(-50%) rotate(-5deg);
+    }
+    75% {
+        transform: translateX(-50%) rotate(5deg);
+    }
+}
+
+@keyframes eye-glow {
+    0%, 100% {
+        opacity: 0.5;
+        box-shadow: 0 0 3px rgba(255, 150, 64, 0.3);
+    }
+    50% {
+        opacity: 0.3;
+        box-shadow: 0 0 2px rgba(255, 150, 64, 0.2);
+    }
+}
+
+@keyframes arm-swing-left {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-15deg);
+    }
+}
+
+@keyframes arm-swing-right {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+@keyframes leg-swing-left {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+}
+
+@keyframes leg-swing-right {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+}
+
+@keyframes joint-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 3px rgba(255, 150, 64, 0.2);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 4px rgba(255, 150, 64, 0.3);
+    }
+}
+
+/* Luofu Sanctum - Night River Theme */
 .luofu-sanctum {
     background: 
-        /* Dappled sunlight through trees */
-        radial-gradient(ellipse at 30% 20%, rgba(255, 220, 150, 0.35), transparent 30%),
-        radial-gradient(ellipse at 70% 30%, rgba(255, 200, 120, 0.3), transparent 35%),
-        radial-gradient(ellipse at 50% 60%, rgba(240, 180, 100, 0.25), transparent 40%),
-        /* Autumn mist */
-        radial-gradient(circle at 20% 70%, rgba(200, 150, 100, 0.2), transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(180, 130, 80, 0.2), transparent 45%),
-        /* Organic gradient base */
+        /* Moon glow */
+        radial-gradient(ellipse at 50% 15%, rgba(200, 220, 255, 0.15), transparent 35%),
+        /* Stars scattered */
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+        radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+        radial-gradient(circle at 65% 20%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+        radial-gradient(circle at 90% 30%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 15% 35%, rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+        /* Night mist */
+        radial-gradient(circle at 30% 60%, rgba(100, 120, 150, 0.15), transparent 50%),
+        radial-gradient(circle at 70% 65%, rgba(120, 140, 170, 0.15), transparent 50%),
+        /* Night sky gradient */
         linear-gradient(to bottom, 
-            rgba(255, 200, 150, 0.3) 0%,
-            rgba(210, 160, 110, 0.4) 30%,
-            rgba(180, 140, 90, 0.45) 60%,
-            rgba(120, 160, 140, 0.5) 100%),
-        linear-gradient(135deg, #8B4513, #A0522D, #D2691E, #6B8E23);
+            #0a0e1a 0%,
+            #1a1e2e 30%,
+            #2a2e3e 60%,
+            #1a2e3a 100%);
     overflow: hidden;
-    animation: nature-breathe 16s ease-in-out infinite;
+    animation: night-breathe 20s ease-in-out infinite;
 }
 
-@keyframes nature-breathe {
-    0%, 100% { filter: brightness(1) saturate(1); }
-    50% { filter: brightness(1.08) saturate(1.1); }
+@keyframes night-breathe {
+    0%, 100% { filter: brightness(0.9) saturate(1.1); }
+    50% { filter: brightness(1) saturate(1.2); }
 }
 
+/* Bamboo Forest Silhouettes */
+.bamboo-forest {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.4;
+}
+
+.bamboo-stalk {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    background: 
+        linear-gradient(to bottom,
+            transparent 0%,
+            transparent 12%,
+            rgba(20, 30, 35, 0.6) 12%,
+            rgba(20, 30, 35, 0.6) 15%,
+            transparent 15%,
+            transparent 28%,
+            rgba(20, 30, 35, 0.6) 28%,
+            rgba(20, 30, 35, 0.6) 31%,
+            transparent 31%,
+            transparent 44%,
+            rgba(20, 30, 35, 0.6) 44%,
+            rgba(20, 30, 35, 0.6) 47%,
+            transparent 47%,
+            transparent 60%,
+            rgba(20, 30, 35, 0.6) 60%,
+            rgba(20, 30, 35, 0.6) 63%,
+            transparent 63%,
+            transparent 76%,
+            rgba(20, 30, 35, 0.6) 76%,
+            rgba(20, 30, 35, 0.6) 79%,
+            transparent 79%
+        ),
+        linear-gradient(to right,
+            rgba(25, 35, 40, 0.5),
+            rgba(30, 40, 45, 0.6),
+            rgba(35, 45, 50, 0.65),
+            rgba(30, 40, 45, 0.6),
+            rgba(25, 35, 40, 0.5));
+    border-radius: 20px 20px 0 0;
+    animation: bamboo-sway 12s ease-in-out infinite;
+    box-shadow: 
+        inset 3px 0 6px rgba(0, 0, 0, 0.4),
+        inset -2px 0 4px rgba(50, 60, 70, 0.3);
+}
+
+.bamboo-stalk.left:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.bamboo-stalk.left:nth-child(2) {
+    animation-delay: 1.5s;
+}
+
+.bamboo-stalk.left:nth-child(3) {
+    animation-delay: 3s;
+}
+
+.bamboo-stalk.right:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.bamboo-stalk.right:nth-child(5) {
+    animation-delay: 2.3s;
+}
+
+.bamboo-stalk.right:nth-child(6) {
+    animation-delay: 3.8s;
+}
+
+@keyframes bamboo-sway {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(0.5deg);
+    }
+    75% {
+        transform: rotate(-0.5deg);
+    }
+}
+
+/* Fireflies */
+.fireflies {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.firefly {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, 
+        rgba(200, 255, 150, 1), 
+        rgba(180, 255, 120, 0.8),
+        transparent);
+    border-radius: 50%;
+    animation: firefly-glow 3s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(200, 255, 150, 1);
+}
+
+.firefly:nth-child(1) { animation-delay: 0s; }
+.firefly:nth-child(2) { animation-delay: 0.5s; }
+.firefly:nth-child(3) { animation-delay: 1s; }
+.firefly:nth-child(4) { animation-delay: 1.5s; }
+.firefly:nth-child(5) { animation-delay: 2s; }
+.firefly:nth-child(6) { animation-delay: 2.5s; }
+.firefly:nth-child(7) { animation-delay: 0.3s; }
+.firefly:nth-child(8) { animation-delay: 0.8s; }
+.firefly:nth-child(9) { animation-delay: 1.3s; }
+.firefly:nth-child(10) { animation-delay: 1.8s; }
+.firefly:nth-child(11) { animation-delay: 0.2s; }
+.firefly:nth-child(12) { animation-delay: 0.7s; }
+.firefly:nth-child(13) { animation-delay: 1.2s; }
+.firefly:nth-child(14) { animation-delay: 1.7s; }
+.firefly:nth-child(15) { animation-delay: 2.2s; }
+.firefly:nth-child(16) { animation-delay: 0.4s; }
+.firefly:nth-child(17) { animation-delay: 0.9s; }
+.firefly:nth-child(18) { animation-delay: 1.4s; }
+.firefly:nth-child(19) { animation-delay: 1.9s; }
+.firefly:nth-child(20) { animation-delay: 2.4s; }
+
+@keyframes firefly-glow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(0.8);
+        box-shadow: 0 0 15px rgba(200, 255, 150, 0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+        box-shadow: 0 0 25px rgba(200, 255, 150, 1);
+    }
+}
+
+/* Sacred River */
+.sacred-river {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 320px;
+    transform: translateY(-50%);
+    background: 
+        /* Water ripples */
+        radial-gradient(ellipse at 20% 30%, rgba(100, 150, 200, 0.15), transparent 40%),
+        radial-gradient(ellipse at 80% 60%, rgba(100, 150, 200, 0.15), transparent 40%),
+        radial-gradient(ellipse at 50% 80%, rgba(100, 150, 200, 0.12), transparent 35%),
+        /* Water depth gradient */
+        linear-gradient(to bottom,
+            rgba(30, 50, 80, 0.6),
+            rgba(20, 40, 70, 0.75),
+            rgba(15, 35, 65, 0.85),
+            rgba(10, 30, 60, 0.9));
+    border-top: 3px solid rgba(100, 150, 200, 0.4);
+    border-bottom: 3px solid rgba(10, 30, 60, 0.6);
+    overflow: hidden;
+    z-index: 4;
+    box-shadow: 
+        inset 0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.river-flow {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 50px,
+        rgba(100, 150, 200, 0.08) 50px,
+        rgba(100, 150, 200, 0.08) 52px,
+        transparent 52px,
+        transparent 100px
+    );
+    animation: river-flow 12s linear infinite;
+}
+
+@keyframes river-flow {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100px);
+    }
+}
+
+.river-shimmer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, 
+        rgba(200, 220, 255, 0.25), 
+        transparent 40%);
+    animation: moonlight-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes moonlight-shimmer {
+    0%, 100% {
+        transform: translateX(-15%);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateX(15%);
+        opacity: 0.7;
+    }
+}
+
+/* Koi Fish */
+.koi-fish-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.koi-fish {
+    position: absolute;
+    left: -80px;
+    font-size: 3rem;
+    animation: koi-swim 15s linear infinite;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.koi-fish:nth-child(1) {
+    animation-delay: 0s;
+    animation-duration: 15s;
+}
+
+.koi-fish:nth-child(2) {
+    animation-delay: 5s;
+    animation-duration: 17s;
+}
+
+.koi-fish:nth-child(3) {
+    animation-delay: 10s;
+    animation-duration: 16s;
+}
+
+.koi-body {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+
+.koi-body::before {
+    content: '🐟';
+}
+
+.koi-body.orange::before {
+    content: '🐠';
+}
+
+.koi-body.gold::before {
+    content: '🐡';
+}
+
+.koi-tail {
+    display: none;
+}
+
+@keyframes koi-swim {
+    0% {
+        left: -80px;
+    }
+    100% {
+        left: calc(100% + 80px);
+    }
+}
+
+@keyframes fish-wiggle {
+    0%, 100% {
+        transform: scaleX(-1) translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: scaleX(-1) translateY(-3px) rotate(-2deg);
+    }
+    75% {
+        transform: scaleX(-1) translateY(3px) rotate(2deg);
+    }
+}
+
+/* Content Area */
 .luofu-content {
-    position: relative;
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10;
     text-align: center;
-    padding: 40px;
+    padding: 20px 40px;
     max-width: 700px;
 }
 
 .luofu-title {
     font-size: 2.8rem;
-    color: #D2691E;
+    color: #c0d8ff;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-shadow: 
-        0 0 20px rgba(210, 105, 30, 0.6),
-        2px 2px 4px rgba(0, 0, 0, 0.3);
+        0 0 25px rgba(150, 200, 255, 0.8),
+        0 0 40px rgba(100, 150, 255, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .luofu-subtitle {
     font-size: 1.2rem;
-    color: #F4A460;
+    color: #a0c8ff;
     letter-spacing: 0.1em;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(160, 200, 255, 0.6);
 }
 
 .luofu-message {
-    font-size: 1.1rem;
-    color: #FFE4B5;
-    line-height: 1.8;
-    margin-top: 40px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    display: none;
 }
 
 /* Falling Leaves */
@@ -4444,12 +5188,12 @@ button:hover {
     }
 }
 
-.start-btn {
-    display: block;
+.lotus-game .start-btn {
+    display: inline-block;
     margin: 0 auto 15px;
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #D2691E, #8B4513);
-    border: 2px solid #F4A460;
+    padding: 12px 35px;
+    background: linear-gradient(135deg, #6080c0, #4060a0);
+    border: 2px solid rgba(160, 200, 255, 0.6);
     border-radius: 25px;
     color: #FFF;
     font-size: 1rem;
@@ -4458,90 +5202,195 @@ button:hover {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    box-shadow: 0 4px 15px rgba(64, 96, 160, 0.5);
+    backdrop-filter: blur(5px);
+    text-shadow: 0 0 10px rgba(150, 200, 255, 0.5);
 }
 
-.start-btn:hover {
-    background: linear-gradient(135deg, #F4A460, #D2691E);
+.lotus-game .start-btn:hover {
+    background: linear-gradient(135deg, #7090d0, #6080c0);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(210, 105, 30, 0.6);
+    box-shadow: 0 6px 25px rgba(96, 128, 192, 0.7);
 }
 
-.start-btn:disabled {
+.lotus-game .start-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
 }
 
-.stone-feedback {
+.lotus-game .stone-feedback {
     text-align: center;
     font-size: 1.1rem;
     font-weight: 600;
     min-height: 30px;
     margin-bottom: 10px;
+    color: #c0d8ff;
+    text-shadow: 0 0 15px rgba(150, 200, 255, 0.8);
 }
 
-.stone-progress {
+.lotus-game .stone-progress {
     text-align: center;
     font-size: 0.9rem;
-    color: #F4A460;
+    color: #a0c8ff;
+    text-shadow: 0 0 10px rgba(160, 200, 255, 0.6);
+    background: rgba(40, 60, 90, 0.4);
+    padding: 5px 15px;
+    border-radius: 12px;
+    display: inline-block;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(160, 200, 255, 0.3);
 }
 
-/* Stellaron - Villain/Dark Theme - Corrupted Void */
+/* Stellaron - Corrupted Digital Reality */
 .stellaron-dark {
     background: 
-        /* Malevolent energy pulses */
-        radial-gradient(ellipse at 50% 30%, rgba(139, 0, 0, 0.5), transparent 35%),
-        radial-gradient(ellipse at 30% 60%, rgba(100, 0, 50, 0.4), transparent 40%),
-        radial-gradient(ellipse at 70% 70%, rgba(75, 0, 130, 0.35), transparent 45%),
-        /* Corruption veins */
-        repeating-radial-gradient(
-            circle at 50% 50%,
-            transparent,
-            transparent 100px,
-            rgba(139, 0, 0, 0.08) 100px,
-            rgba(139, 0, 0, 0.08) 102px
-        ),
-        /* Void cracks */
-        linear-gradient(45deg, 
-            transparent 0%, 
-            rgba(75, 0, 130, 0.1) 25%, 
-            transparent 50%,
-            rgba(139, 0, 0, 0.1) 75%,
-            transparent 100%),
-        /* Absolute darkness */
+        /* Energy pulses */
+        radial-gradient(ellipse at 50% 30%, rgba(139, 0, 0, 0.4), transparent 40%),
+        radial-gradient(ellipse at 30% 60%, rgba(100, 0, 50, 0.3), transparent 45%),
+        radial-gradient(ellipse at 70% 70%, rgba(75, 0, 130, 0.3), transparent 50%),
+        /* Dark base */
         linear-gradient(135deg, #0a0000, #150010, #1a0010, #0f0005);
-    overflow-y: auto;
-    animation: corruption-pulse 10s ease-in-out infinite;
+    overflow: hidden;
+    animation: corruption-pulse 8s ease-in-out infinite;
 }
 
 @keyframes corruption-pulse {
-    0%, 100% { filter: brightness(0.9) contrast(1.1); }
-    50% { filter: brightness(1) contrast(1.2); }
+    0%, 100% { filter: brightness(0.85) contrast(1.2); }
+    50% { filter: brightness(1) contrast(1.3); }
 }
 
-.stellaron-dark::before {
-    content: '';
+/* Electric Reality Cracks */
+.reality-cracks {
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(139, 0, 0, 0.05) 3px,
-        rgba(139, 0, 0, 0.05) 6px
-    );
-    animation: dark-scan 10s linear infinite;
     pointer-events: none;
+    z-index: 5;
 }
 
-@keyframes dark-scan {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(30px); }
+.crack-line {
+    stroke: #ff2060;
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px #ff2060) drop-shadow(0 0 20px #ff0040) drop-shadow(0 0 30px rgba(255, 0, 64, 0.5));
+    animation: crack-appear 3s ease-in-out infinite;
+}
+
+.crack-line:nth-child(1) { animation-delay: 0s; }
+.crack-line:nth-child(2) { animation-delay: 0.15s; }
+.crack-line:nth-child(3) { animation-delay: 0.3s; }
+.crack-line:nth-child(4) { animation-delay: 0.8s; }
+.crack-line:nth-child(5) { animation-delay: 0.95s; }
+.crack-line:nth-child(6) { animation-delay: 1.5s; }
+.crack-line:nth-child(7) { animation-delay: 1.65s; }
+.crack-line:nth-child(8) { animation-delay: 2.2s; }
+.crack-line:nth-child(9) { animation-delay: 2.35s; }
+.crack-line:nth-child(10) { animation-delay: 1.1s; }
+.crack-line:nth-child(11) { animation-delay: 1.25s; }
+
+@keyframes crack-appear {
+    0%, 100% {
+        opacity: 0;
+        stroke-width: 2;
+    }
+    5% {
+        opacity: 1;
+        stroke-width: 4;
+    }
+    15%, 85% {
+        opacity: 0.9;
+        stroke-width: 3;
+    }
+    50% {
+        opacity: 1;
+        stroke-width: 3.5;
+    }
+    95% {
+        opacity: 0.5;
+        stroke-width: 2;
+    }
+}
+
+/* Corruption Smoke */
+.corruption-smoke {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.smoke-layer {
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    background: radial-gradient(ellipse at center, 
+        rgba(139, 0, 0, 0.35), 
+        rgba(75, 0, 130, 0.3),
+        rgba(100, 0, 50, 0.2) 40%,
+        transparent 70%);
+    animation: smoke-drift 15s ease-in-out infinite;
+    filter: blur(40px);
+}
+
+.smoke-layer:nth-child(1) {
+    top: -60%;
+    left: -60%;
+    animation-duration: 14s;
+    animation-delay: 0s;
+}
+
+.smoke-layer:nth-child(2) {
+    top: -40%;
+    left: -40%;
+    animation-duration: 16s;
+    animation-delay: 2s;
+}
+
+.smoke-layer:nth-child(3) {
+    top: -50%;
+    left: -70%;
+    animation-duration: 15s;
+    animation-delay: 4s;
+}
+
+.smoke-layer:nth-child(4) {
+    top: -30%;
+    left: -50%;
+    animation-duration: 17s;
+    animation-delay: 6s;
+}
+
+@keyframes smoke-drift {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
+    20% {
+        transform: translate(8%, 5%) rotate(3deg) scale(1.05);
+        opacity: 0.75;
+    }
+    40% {
+        transform: translate(15%, 12%) rotate(-2deg) scale(1.1);
+        opacity: 0.7;
+    }
+    60% {
+        transform: translate(10%, 18%) rotate(4deg) scale(1.08);
+        opacity: 0.8;
+    }
+    80% {
+        transform: translate(-5%, 15%) rotate(-3deg) scale(1.05);
+        opacity: 0.85;
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
 }
 
 .stellaron-content {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
@@ -4551,15 +5400,56 @@ button:hover {
 }
 
 .stellaron-title {
-    font-size: 2rem;
-    color: #8B0000;
+    font-size: 3rem;
+    color: #ff0040;
     text-transform: uppercase;
     letter-spacing: 0.3em;
     margin-bottom: 10px;
     text-shadow: 
-        0 0 30px rgba(139, 0, 0, 1),
-        0 0 60px rgba(139, 0, 0, 0.8);
+        0 0 30px rgba(255, 0, 64, 1),
+        0 0 60px rgba(255, 0, 64, 0.8),
+        2px 2px 0 rgba(0, 255, 255, 0.5),
+        -2px -2px 0 rgba(255, 0, 0, 0.5);
     font-family: 'Courier New', monospace;
+    position: relative;
+}
+
+/* Glitch Text Effect */
+.glitch-text {
+    animation: glitch 1.5s infinite;
+}
+
+@keyframes glitch {
+    0%, 80%, 100% {
+        transform: translate(0);
+        text-shadow: 
+            0 0 30px rgba(255, 0, 64, 1),
+            0 0 60px rgba(255, 0, 64, 0.8);
+    }
+    82% {
+        transform: translate(-3px, 2px);
+        text-shadow: 
+            3px 0 0 rgba(0, 255, 255, 0.8),
+            -3px 0 0 rgba(255, 0, 0, 0.8);
+    }
+    84% {
+        transform: translate(2px, -3px);
+        text-shadow: 
+            -2px 0 0 rgba(0, 255, 255, 0.8),
+            2px 0 0 rgba(255, 0, 0, 0.8);
+    }
+    86% {
+        transform: translate(-2px, 1px);
+        text-shadow: 
+            2px 0 0 rgba(0, 255, 255, 0.8),
+            -2px 0 0 rgba(255, 0, 0, 0.8);
+    }
+    88% {
+        transform: translate(1px, -2px);
+        text-shadow: 
+            -1px 0 0 rgba(0, 255, 255, 0.8),
+            1px 0 0 rgba(255, 0, 0, 0.8);
+    }
 }
 
 @keyframes evil-pulse {
@@ -4758,13 +5648,15 @@ button:hover {
 
 /* Shadow Maze Game */
 .shadow-maze-game {
-    position: relative;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 15;
     background: rgba(20, 0, 10, 0.8);
     border: 3px solid rgba(139, 0, 0, 0.6);
     border-radius: 15px;
     padding: 10px;
-    margin: 10px auto 0;
     box-shadow: 0 0 30px rgba(139, 0, 0, 0.6);
     max-width: 540px;
 }
@@ -4800,6 +5692,31 @@ button:hover {
     background: linear-gradient(135deg, #DC143C, #8B0000);
     transform: translateY(-2px);
     box-shadow: 0 5px 25px rgba(139, 0, 0, 0.9);
+}
+
+.maze-exit-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 16px;
+    background: rgba(139, 0, 0, 0.8);
+    border: 2px solid #DC143C;
+    border-radius: 20px;
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.maze-exit-btn:hover {
+    background: rgba(220, 20, 60, 0.9);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.8);
 }
 
 .maze-container {
@@ -5151,5 +6068,234 @@ button:hover {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+
+/* Lotus Flower Memory Game */
+.lotus-game {
+    position: absolute !important;
+    top: 17% !important;
+    left: 50% !important;
+    transform: translate(-50%, 0) !important;
+    width: 100%;
+    max-width: 750px;
+    z-index: 15;
+    text-align: center;
+    background: transparent;
+    padding: 20px 20px 25px;
+    border-radius: 30px;
+}
+
+.lotus-game .game-title {
+    font-size: 1.4rem;
+    color: #c0d8ff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 
+        0 0 20px rgba(150, 200, 255, 0.8),
+        0 0 30px rgba(100, 150, 255, 0.5);
+}
+
+.lotus-game .game-instructions {
+    font-size: 0.85rem;
+    color: #a0c8ff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(160, 200, 255, 0.6);
+}
+
+.lotus-flowers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.lotus-flower {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lotus-flower:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+.lotus-petals {
+    position: absolute;
+    inset: 0;
+}
+
+.petal {
+    position: absolute;
+    width: 32px;
+    height: 40px;
+    background: linear-gradient(to bottom,
+        rgba(255, 200, 220, 0.85),
+        rgba(255, 180, 210, 0.75));
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center bottom;
+    box-shadow: 
+        inset 0 -8px 12px rgba(255, 150, 180, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 180, 210, 0.3);
+    transition: all 0.4s ease;
+}
+
+.petal:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(0deg) translateY(-20px);
+}
+
+.petal:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-20px);
+}
+
+.petal:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-20px);
+}
+
+.petal:nth-child(4) {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-20px);
+}
+
+.petal:nth-child(5) {
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-20px);
+}
+
+.petal:nth-child(6) {
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-20px);
+}
+
+.lotus-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle,
+        rgba(255, 240, 150, 1),
+        rgba(255, 220, 120, 0.9));
+    border-radius: 50%;
+    box-shadow: 
+        inset 0 -4px 8px rgba(200, 180, 100, 0.5),
+        0 0 20px rgba(255, 240, 150, 0.9),
+        0 0 30px rgba(255, 220, 120, 0.6);
+    transition: all 0.4s ease;
+    z-index: 2;
+}
+
+.lotus-center::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: rgba(255, 230, 130, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
+}
+
+.lotus-ripple {
+    position: absolute;
+    inset: -15px;
+    border: 3px solid rgba(100, 180, 200, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+/* Active/Blooming State */
+.lotus-flower.active .petal:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(0deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(4) {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(5) {
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(6) {
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-28px);
+}
+
+.lotus-flower.active .lotus-center {
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 
+        inset 0 -5px 10px rgba(200, 180, 100, 0.5),
+        0 0 35px rgba(255, 240, 150, 1),
+        0 0 50px rgba(255, 220, 120, 0.8);
+}
+
+.lotus-flower.active .lotus-ripple {
+    animation: lotus-ripple-out 0.8s ease;
+}
+
+.lotus-flower.correct {
+    animation: lotus-bloom 0.6s ease;
+}
+
+.lotus-flower.correct .petal {
+    background: linear-gradient(to bottom,
+        rgba(144, 238, 144, 0.9),
+        rgba(152, 251, 152, 0.8));
+}
+
+.lotus-flower.wrong {
+    animation: lotus-shake 0.5s ease;
+}
+
+.lotus-flower.wrong .petal {
+    background: linear-gradient(to bottom,
+        rgba(220, 100, 120, 0.9),
+        rgba(200, 80, 100, 0.8));
+}
+
+@keyframes lotus-ripple-out {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+@keyframes lotus-bloom {
+    0%, 100% {
+        transform: translateY(-5px) scale(1.05);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.15) rotate(5deg);
+    }
+}
+
+@keyframes lotus-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-8px) rotate(-3deg);
+    }
+    75% {
+        transform: translateX(8px) rotate(3deg);
     }
 }

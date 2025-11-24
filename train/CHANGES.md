@@ -102,6 +102,38 @@ The groundwork has been laid. To complete the modularization:
 
 ---
 
+## Planet Backdrop Enhancements 🎨
+
+### Herta Station - Holographic Laboratory
+**Enhancement:** Added immersive sci-fi atmosphere with:
+- **Floating Holographic Cubes** - 5 animated 3D cubes that rotate and drift through space
+- **Holographic Data Screens** - 2 floating transparent screens displaying research data with scrolling scan lines
+- **Puppet Silhouettes** - 4 ghostly puppet figures drifting in the background (referencing Herta's puppet bodies)
+
+**Visual Effects:**
+- Cubes rotate in 3D space with inner pulsing borders
+- Screens show animated data lines appearing sequentially
+- Puppet silhouettes fade in/out with glowing head indicators
+- All elements have independent float animations for depth
+
+**Location:** 
+- HTML: `train/index.html` lines ~955-990
+- CSS: `train/main.css` lines ~4075-4380
+
+### Belobog - Candy Wonderland
+**Enhancement:** Cotton candy background, swaying lollipop trees, falling chocolates, circular candy cards, floating clouds
+
+### Xianzhou Luofu - Mystical Memory Realm
+**Enhancement:** Cosmic twilight background, floating memory shards, constellation connections, shooting stars, ethereal mist, mirror reflections
+
+### Penacony - Cosmic Casino
+**Enhancement:** Nebula background, velvet curtains, chandelier lights, string lights, floating poker chips, enhanced confetti rain
+
+### Jarilo-VI - Blizzard Aurora
+**Enhancement:** Aurora borealis background, 35 snowflakes, ice crystals, frost particles, enhanced fog layers, icebergs
+
+---
+
 ## Testing Status
 
 ### ✅ Tested & Working:
