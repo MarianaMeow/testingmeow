@@ -12,6 +12,130 @@ document.addEventListener('DOMContentLoaded', function() {
     let attempts = 0;
     const correctPassword = 'maria';
 
+    // ========================================
+    // GAME STATE VARIABLES
+    // ========================================
+    let trial1Complete = false;
+    let trial2Complete = false;
+    let trial3Complete = false;
+    let problemsSolved = 0;
+    let collectedCount = 0;
+    let penaconyTicketReady = false;
+
+    // ========================================
+    // LOCALSTORAGE PROGRESS SYSTEM
+    // ========================================
+    const STORAGE_KEY = 'astralExpressProgress';
+
+    function saveProgress() {
+        const progress = {
+            unlockedPlanets: [],
+            completedTrials: {
+                belobog1: trial1Complete,
+                belobog2: trial2Complete,
+                belobog3: trial3Complete
+            },
+            penaconyShards: problemsSolved,
+            xianzhouRedShardText: document.getElementById('xianzhou-red-shard')?.getAttribute('data-memory') || '',
+            jariloCollectedPieces: collectedCount
+        };
+
+        // Collect unlocked planets
+        document.querySelectorAll('.planet-option.unlocked').forEach(planet => {
+            const planetKey = planet.getAttribute('data-planet');
+            if (planetKey) progress.unlockedPlanets.push(planetKey);
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+
+    function loadProgress() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return null;
+
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            console.error('Failed to load progress:', e);
+            return null;
+        }
+    }
+
+    function applyProgress(progress) {
+        if (!progress) return;
+
+        // Always show login screen on refresh (removed auto-skip)
+        // Progress will be applied after successful login
+
+        // Unlock planets
+        progress.unlockedPlanets.forEach(planetKey => {
+            const planet = document.querySelector(`.planet-option[data-planet="${planetKey}"]`);
+            if (planet) {
+                planet.classList.remove('locked');
+                planet.classList.add('unlocked');
+            }
+        });
+
+        // Restore Belobog trials
+        if (progress.completedTrials) {
+            trial1Complete = progress.completedTrials.belobog1 || false;
+            trial2Complete = progress.completedTrials.belobog2 || false;
+            trial3Complete = progress.completedTrials.belobog3 || false;
+
+            if (trial1Complete && trial2Complete && trial3Complete) {
+                const statusEl = document.getElementById('belobog-mission-status');
+                if (statusEl) {
+                    statusEl.textContent = 'Complete — All trials cleared.';
+                    statusEl.classList.remove('status-pending');
+                    statusEl.classList.add('status-complete');
+                }
+                const belobogMissionPill = document.getElementById('belobog-mission-pill');
+                if (belobogMissionPill) {
+                    belobogMissionPill.textContent = 'Complete';
+                    belobogMissionPill.classList.remove('mission-pill-pending');
+                    belobogMissionPill.classList.add('mission-pill-complete');
+                }
+            }
+        }
+
+        // Restore Penacony shards
+        if (progress.penaconyShards) {
+            problemsSolved = progress.penaconyShards;
+            for (let i = 1; i <= progress.penaconyShards; i++) {
+                const shard = document.getElementById(`shard-${i}`);
+                if (shard) {
+                    shard.classList.remove('locked');
+                    shard.classList.add('collected');
+                }
+            }
+        }
+
+        // Restore Xianzhou red shard
+        if (progress.xianzhouRedShardText) {
+            const redShard = document.getElementById('xianzhou-red-shard');
+            if (redShard) {
+                redShard.setAttribute('data-memory', progress.xianzhouRedShardText);
+                redShard.setAttribute('data-active', 'true');
+            }
+        }
+
+        // Restore Jarilo puzzle progress
+        if (progress.jariloCollectedPieces) {
+            collectedCount = progress.jariloCollectedPieces;
+            const piecesCollectedEl = document.getElementById('pieces-collected');
+            if (piecesCollectedEl) {
+                piecesCollectedEl.textContent = collectedCount;
+            }
+        }
+    }
+
+    // Store progress reference but don't apply until after login
+    let savedProgress = null;
+    setTimeout(() => {
+        savedProgress = loadProgress();
+        // Don't apply progress yet - wait for login
+    }, 100);
+
     submitBtn.addEventListener('click', function() {
         const enteredPassword = passwordInput.value.trim().toLowerCase();
         if (enteredPassword === correctPassword || enteredPassword === 'my dearest, maria' || enteredPassword === 'skip') {
@@ -26,6 +150,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     mainMenu.style.display = 'flex';
+                    
+                    // Apply saved progress after successful login
+                    if (savedProgress) {
+                        applyProgress(savedProgress);
+                    }
+                    
+                    saveProgress(); // Save current state
                 }, 5000); // 5 seconds for cinematic loading
             }, 1000);
         } else {
@@ -275,6 +406,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const xianzhouBackPlanets = document.getElementById('xianzhou-back-planets');
     const xianzhouRedShard = document.getElementById('xianzhou-red-shard');
 
+    // Track Penacony ticket state (variable declared at top)
+
     // Normal shards: click to reveal their memory immediately
     if (xianzhouShards.length) {
         xianzhouShards.forEach(shard => {
@@ -323,7 +456,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     // Set flag for Penacony ticket
-                    window.penaconyTicketReady = true;
+                    penaconyTicketReady = true;
+                    saveProgress();
                 }
             }
         });
@@ -546,6 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 terminusOrb.classList.remove('locked');
                 terminusOrb.classList.add('unlocked');
             }
+            saveProgress();
         }
 
         // Keyboard controls
@@ -718,6 +853,7 @@ document.addEventListener('DOMContentLoaded', function() {
             stellaronOrb.classList.remove('locked');
             stellaronOrb.classList.add('unlocked');
         }
+        saveProgress();
     }
 
     if (startCrossingBtn) {
@@ -803,6 +939,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     luofuOrb.classList.remove('locked');
                     luofuOrb.classList.add('unlocked');
                 }
+                saveProgress();
             }, 600);
         });
     }
@@ -811,7 +948,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const puzzlePieces = document.querySelectorAll('.puzzle-piece');
     const puzzleSlots = document.querySelectorAll('.puzzle-slot');
     const piecesCollectedEl = document.getElementById('pieces-collected');
-    let collectedCount = 0;
+    // collectedCount declared at top
     const totalPieces = 9;
     let draggedPiece = null;
 
@@ -873,6 +1010,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             completePuzzle();
                         }, 500);
                     }
+
+                    saveProgress();
                 }
                 
                 draggedPiece = null;
@@ -901,6 +1040,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hertaOrb.classList.remove('locked');
                 hertaOrb.classList.add('unlocked');
             }
+            saveProgress();
         }
     }
 
@@ -914,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let gameActive = false;
     let gamePhase = 'start'; // 'start', 'coins-shown', 'coin-selected'
     let selectedCoinValue = null;
-    let problemsSolved = 0;
+    // problemsSolved declared at top
     let totalProblems = 3;
 
     function generateMathProblem() {
@@ -1043,6 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             jariloOrb.classList.remove('locked');
             jariloOrb.classList.add('unlocked');
         }
+        saveProgress();
     }
 
     function resetGame() {
@@ -1057,10 +1198,10 @@ document.addEventListener('DOMContentLoaded', function() {
         slotStartBtn.disabled = false;
     }
 
-    // Reset shards when playing again
+    // Single event listener for slot machine start button
     if (slotStartBtn) {
-        const originalClickHandler = slotStartBtn.onclick;
         slotStartBtn.addEventListener('click', () => {
+            // Handle replay after completion
             if (gamePhase === 'completed') {
                 // Reset all shards
                 problemsSolved = 0;
@@ -1072,12 +1213,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 gamePhase = 'start';
+                slotEquation.textContent = 'Press Start';
+                return;
             }
-        });
-    }
 
-    if (slotStartBtn) {
-        slotStartBtn.addEventListener('click', () => {
+            // Don't start if already active
             if (gameActive) return;
             
             gameActive = true;
@@ -1190,15 +1330,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const belobogFillSubmit = document.getElementById('belobog-fill-submit');
     const belobogFillFeedback = document.getElementById('belobog-fill-feedback');
 
-    // Belobog mission dropdown + circular ticket forge
+    // Belobog mission dropdown
     const belobogMissionPanel = document.getElementById('belobog-mission-panel');
     const belobogMissionToggle = document.getElementById('belobog-mission-toggle');
     const belobogMissionContent = document.getElementById('belobog-mission-content');
     const belobogMissionPill = document.getElementById('belobog-mission-pill');
-
-    const belobogTicketForge = document.getElementById('belobog-ticket-forge');
-    const belobogTicketForgeCircle = document.getElementById('belobog-ticket-forge-circle');
-    const belobogTicketForgeFill = document.getElementById('belobog-ticket-forge-fill');
 
     if (belobogMissionPanel && belobogMissionToggle && belobogMissionContent) {
         // Start collapsed
@@ -1208,18 +1344,6 @@ document.addEventListener('DOMContentLoaded', function() {
             belobogMissionPanel.classList.toggle('open');
         });
     }
-
-    // Helper to set forge ring progress (0 to 1 -> 0deg to 270deg sweep)
-    function setBelobogForgeProgress(ratio) {
-        if (!belobogTicketForgeFill) return;
-        const clamped = Math.max(0, Math.min(1, ratio));
-        const maxDeg = 270; // not full, feels like "forging" arc
-        const deg = -90 + maxDeg * clamped;
-        belobogTicketForgeFill.style.transform = `rotate(${deg}deg)`;
-    }
-
-    // Initial: reached Belobog portal = some progress shown
-    setBelobogForgeProgress(0.3);
 
     function openBelobogFillGame() {
         if (!belobogFillGame) return;
@@ -1240,10 +1364,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Track completion of all three trials
-    let trial1Complete = false;
-    let trial2Complete = false;
-    let trial3Complete = false;
+    // Track completion of all three trials (variables declared at top)
 
     function checkAllTrialsComplete() {
         if (trial1Complete && trial2Complete && trial3Complete) {
@@ -1271,13 +1392,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 belobogMissionPanel.classList.add('open');
             }
 
-            // Fill the circular forge ring = ticket card forged
-            setBelobogForgeProgress(1);
-            if (belobogTicketForgeCircle) {
-                belobogTicketForgeCircle.classList.add('complete');
-            }
-
-            // Simulate transferring the forged ticket into Inventory
+            // Mark inventory as having the ticket ready
             const invStand = document.getElementById('inv-stand');
             if (invStand) {
                 invStand.setAttribute('data-ticket-xianzhou', 'ready');
@@ -1365,11 +1480,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 belobogFillFeedback.style.color = '#55efc4';
 
                 trial1Complete = true;
-                setBelobogForgeProgress(0.33);
 
                 setTimeout(() => {
                     belobogFillGame.style.display = 'none';
                     checkAllTrialsComplete();
+                    saveProgress();
                 }, 1600);
             } else {
                 if (blankSpan) blankSpan.textContent = attempt;
@@ -1425,11 +1540,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 belobogFillFeedback2.style.color = '#55efc4';
 
                 trial2Complete = true;
-                setBelobogForgeProgress(0.66);
 
                 setTimeout(() => {
                     belobogFillGame2.style.display = 'none';
                     checkAllTrialsComplete();
+                    saveProgress();
                 }, 1600);
             } else {
                 if (blankSpan2) blankSpan2.textContent = attempt;
@@ -1484,11 +1599,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 belobogFillFeedback3.style.color = '#55efc4';
 
                 trial3Complete = true;
-                setBelobogForgeProgress(1);
 
                 setTimeout(() => {
                     belobogFillGame3.style.display = 'none';
                     checkAllTrialsComplete();
+                    saveProgress();
                 }, 1600);
             } else {
                 if (blankSpan3) blankSpan3.textContent = attempt;
