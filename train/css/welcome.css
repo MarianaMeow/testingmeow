@@ -36,6 +36,7 @@
     mix-blend-mode: screen;
     opacity: 0.9;
     animation: rotate 18s linear infinite;
+    pointer-events: none;
 }
 
 @keyframes rotate {

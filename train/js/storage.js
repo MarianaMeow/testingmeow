@@ -1,5 +1,6 @@
 // ========================================
-// LOCALSTORAGE PROGRESS SYSTEM
+// SESSION STORAGE PROGRESS SYSTEM
+// Progress is cleared when tab/browser is closed
 // ========================================
 const STORAGE_KEY = 'astralExpressProgress';
 
@@ -14,7 +15,17 @@ export function saveProgress(gameState) {
         penaconyShards: gameState.problemsSolved,
         xianzhouRedShardText: document.getElementById('xianzhou-red-shard')?.getAttribute('data-memory') || '',
         jariloCollectedPieces: gameState.collectedCount,
-        hasLoggedIn: true
+        hasLoggedIn: true,
+        collectedKeys: gameState.collectedKeys || {
+            belobog: false,
+            xianzhou: false,
+            penacony: false,
+            jarilo: false,
+            herta: false,
+            luofu: false,
+            stellaron: false,
+            terminus: false
+        }
     };
 
     // Collect unlocked planets
@@ -23,11 +34,14 @@ export function saveProgress(gameState) {
         if (planetKey) progress.unlockedPlanets.push(planetKey);
     });
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    // Use sessionStorage instead of localStorage
+    // This clears when the tab/browser is closed
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
 }
 
 export function loadProgress() {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    // Load from sessionStorage (cleared on tab close)
+    const saved = sessionStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
 
     try {
@@ -109,8 +123,13 @@ export function applyProgress(progress, gameState) {
             piecesCollectedEl.textContent = gameState.collectedCount;
         }
     }
+
+    // Restore collected keys
+    if (progress.collectedKeys) {
+        gameState.collectedKeys = progress.collectedKeys;
+    }
 }
 
 export function clearProgress() {
-    localStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(STORAGE_KEY);
 }

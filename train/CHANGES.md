@@ -181,3 +181,52 @@ saveProgress();
 **Lines Refactored:** ~200 lines
 
 The project is now more maintainable, has persistent progress, and is ready for further modularization!
+
+
+## [Key Collection System] - 2024
+
+### Added
+- **Terminus Key Puzzle System**: Complete interactive key collection mechanic
+  - 8 unique themed keys (one per planet)
+  - Keys automatically awarded when completing each planet's challenge
+  - Visual notification popup when collecting keys
+  - Drag-and-drop puzzle to unlock the Terminus door
+  - Real-time visual feedback (green for correct, red for wrong matches)
+  - Animated key placement and door opening
+  - Progress tracking (X/7 keys collected)
+  - Keys persist during session via sessionStorage (cleared when tab closes)
+
+### Key Assets
+- Created 8 themed SVG key designs:
+  - Belobog: Candy/lollipop themed
+  - Xianzhou: Glass shard/crystalline
+  - Penacony: Dreamscape/ethereal
+  - Jarilo-VI: Frozen/snowflake
+  - Herta: Tech/circuit board
+  - Luofu: Nature/lotus flower
+  - Stellaron: Dark/corrupted
+  - Terminus: Golden/ornate (completion trophy)
+
+### Modified
+- `train/js/storage.js`: 
+  - Changed from localStorage to sessionStorage
+  - Progress now resets when tab/browser closes
+  - Added collectedKeys tracking to progress system
+- `train/script.js`: 
+  - Added awardKey() function
+  - Added showKeyNotification() function
+  - Integrated key awards into all planet completion functions
+  - Added complete drag-and-drop puzzle logic
+  - Added door unlock animation
+- `train/main.css`: 
+  - Added key notification styling
+  - Added key puzzle modal styling
+  - Added drag-and-drop interaction styles
+  - Added animations for key placement and door opening
+
+### Technical Details
+- Keys are awarded automatically on planet completion
+- Drag-and-drop uses HTML5 Drag and Drop API
+- Visual feedback uses CSS transitions and animations
+- All progress saved to sessionStorage (cleared when tab closes)
+- No changes to existing planet progression system

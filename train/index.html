@@ -1527,7 +1527,68 @@
                             <div class="door-handle"></div>
                             <div class="door-glow"></div>
                         </div>
-                        <div class="door-inscription">Beyond lies the truth...</div>
+                        <div class="door-inscription">Click to unlock...</div>
+                    </div>
+                </div>
+
+                <!-- Key Puzzle Overlay (hidden until door clicked) -->
+                <div id="key-puzzle-overlay" class="key-puzzle-overlay" style="display: none;">
+                    <div class="key-puzzle-panel">
+                        <div class="puzzle-header">
+                            <h2>Unlock the Final Door</h2>
+                            <p>Drag each key to its matching keyhole</p>
+                            <button id="close-key-puzzle" class="close-puzzle-btn">✕</button>
+                        </div>
+
+                        <div class="puzzle-content">
+                            <!-- Keyholes on the left -->
+                            <div class="keyholes-container">
+                                <div class="keyhole" data-planet="belobog">
+                                    <div class="keyhole-icon">🍭</div>
+                                    <div class="keyhole-label">Belobog</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="xianzhou">
+                                    <div class="keyhole-icon">🌙</div>
+                                    <div class="keyhole-label">Xianzhou</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="penacony">
+                                    <div class="keyhole-icon">🎰</div>
+                                    <div class="keyhole-label">Penacony</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="jarilo">
+                                    <div class="keyhole-icon">❄️</div>
+                                    <div class="keyhole-label">Jarilo-VI</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="herta">
+                                    <div class="keyhole-icon">🔬</div>
+                                    <div class="keyhole-label">Herta</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="luofu">
+                                    <div class="keyhole-icon">🪷</div>
+                                    <div class="keyhole-label">Luofu</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                                <div class="keyhole" data-planet="stellaron">
+                                    <div class="keyhole-icon">⚡</div>
+                                    <div class="keyhole-label">Stellaron</div>
+                                    <div class="keyhole-slot"></div>
+                                </div>
+                            </div>
+
+                            <!-- Keys on the right -->
+                            <div class="keys-container" id="keys-container">
+                                <!-- Keys will be dynamically added here based on collected keys -->
+                            </div>
+                        </div>
+
+                        <div class="puzzle-footer">
+                            <div id="key-count">Keys Collected: <span id="key-count-num">0</span>/7</div>
+                        </div>
                     </div>
                 </div>
 

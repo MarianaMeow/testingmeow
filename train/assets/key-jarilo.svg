@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Frozen/ice crystal themed key -->
+  <defs>
+    <linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#74ebd5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ACB6E5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Key shaft (icy) -->
+  <rect x="20" y="45" width="50" height="10" rx="2" fill="url(#iceGrad)" stroke="#e3f2fd" stroke-width="2"/>
+  <!-- Key head (snowflake) -->
+  <circle cx="15" cy="50" r="11" fill="url(#iceGrad)" stroke="#e3f2fd" stroke-width="2"/>
+  <line x1="15" y1="42" x2="15" y2="58" stroke="#fff" stroke-width="2"/>
+  <line x1="8" y1="50" x2="22" y2="50" stroke="#fff" stroke-width="2"/>
+  <line x1="10" y1="45" x2="20" y2="55" stroke="#fff" stroke-width="1.5"/>
+  <line x1="20" y1="45" x2="10" y2="55" stroke="#fff" stroke-width="1.5"/>
+  <!-- Key teeth (icicles) -->
+  <polygon points="70,45 72,40 74,45" fill="#74ebd5"/>
+  <polygon points="77,55 79,50 81,55" fill="#ACB6E5"/>
+  <polygon points="84,45 86,38 88,45" fill="#74ebd5"/>
+</svg>

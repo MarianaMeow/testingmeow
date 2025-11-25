@@ -21,9 +21,55 @@ document.addEventListener('DOMContentLoaded', function() {
     let problemsSolved = 0;
     let collectedCount = 0;
     let penaconyTicketReady = false;
+    let collectedKeys = {
+        belobog: false,
+        xianzhou: false,
+        penacony: false,
+        jarilo: false,
+        herta: false,
+        luofu: false,
+        stellaron: false,
+        terminus: false
+    };
 
     // ========================================
-    // LOCALSTORAGE PROGRESS SYSTEM
+    // KEY COLLECTION SYSTEM
+    // ========================================
+    function awardKey(planetName) {
+        if (!collectedKeys[planetName]) {
+            collectedKeys[planetName] = true;
+            console.log(`🔑 Key collected: ${planetName}`);
+            saveProgress();
+            
+            // Show notification
+            showKeyNotification(planetName);
+        }
+    }
+
+    function showKeyNotification(planetName) {
+        const notification = document.createElement('div');
+        notification.className = 'key-notification';
+        notification.innerHTML = `
+            <div class="key-notification-content">
+                <span class="key-icon">🔑</span>
+                <span class="key-text">${planetName.charAt(0).toUpperCase() + planetName.slice(1)} Key Collected!</span>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    // ========================================
+    // SESSION STORAGE PROGRESS SYSTEM
+    // Progress cleared when tab/browser closes
     // ========================================
     const STORAGE_KEY = 'astralExpressProgress';
 
@@ -46,11 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (planetKey) progress.unlockedPlanets.push(planetKey);
         });
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     }
 
     function loadProgress() {
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved = sessionStorage.getItem(STORAGE_KEY);
         if (!saved) return null;
 
         try {
@@ -457,6 +503,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Set flag for Penacony ticket
                     penaconyTicketReady = true;
+                    
+                    // Award Xianzhou key
+                    awardKey('xianzhou');
+                    
                     saveProgress();
                 }
             }
@@ -532,24 +582,195 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Terminus Door Interaction
+    // ========================================
+    // TERMINUS KEY PUZZLE SYSTEM
+    // ========================================
     const terminusDoor = document.getElementById('terminus-door');
     const terminusLabel = document.getElementById('terminus-label');
+    const keyPuzzleOverlay = document.getElementById('key-puzzle-overlay');
+    const closeKeyPuzzle = document.getElementById('close-key-puzzle');
+    const keysContainer = document.getElementById('keys-container');
+    const keyCountNum = document.getElementById('key-count-num');
     
+    let draggedKey = null;
+
     if (terminusDoor) {
         terminusDoor.addEventListener('click', () => {
-            if (terminusLabel) {
-                terminusLabel.textContent = 'The door opens... revealing a message of eternal love.';
-                terminusLabel.style.color = '#ffd700';
+            openKeyPuzzle();
+        });
+    }
+
+    function openKeyPuzzle() {
+        if (!keyPuzzleOverlay || !keysContainer) return;
+        
+        // Clear keys container
+        keysContainer.innerHTML = '';
+        
+        // Count and display collected keys
+        let collectedCount = 0;
+        Object.entries(collectedKeys).forEach(([planet, collected]) => {
+            if (collected && planet !== 'terminus') { // Don't show terminus key
+                collectedCount++;
+                const keyElement = createKeyElement(planet);
+                keysContainer.appendChild(keyElement);
             }
-            
-            // Add unlock animation
-            terminusDoor.classList.add('unlocked');
-            
-            // Show a special message after a moment
+        });
+        
+        // Update key count
+        if (keyCountNum) {
+            keyCountNum.textContent = collectedCount;
+        }
+        
+        // Show overlay
+        keyPuzzleOverlay.style.display = 'flex';
+    }
+
+    function createKeyElement(planet) {
+        const keyDiv = document.createElement('div');
+        keyDiv.className = 'draggable-key';
+        keyDiv.setAttribute('data-planet', planet);
+        keyDiv.draggable = true;
+        
+        const keyImg = document.createElement('img');
+        keyImg.src = `assets/key-${planet}.svg`;
+        keyImg.alt = `${planet} key`;
+        keyImg.draggable = false;
+        
+        keyDiv.appendChild(keyImg);
+        
+        // Drag events
+        keyDiv.addEventListener('dragstart', handleKeyDragStart);
+        keyDiv.addEventListener('dragend', handleKeyDragEnd);
+        
+        return keyDiv;
+    }
+
+    function handleKeyDragStart(e) {
+        draggedKey = this;
+        this.style.opacity = '0.5';
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.getAttribute('data-planet'));
+    }
+
+    function handleKeyDragEnd(e) {
+        this.style.opacity = '1';
+    }
+
+    // Setup keyhole drop zones
+    const keyholes = document.querySelectorAll('.keyhole');
+    keyholes.forEach(keyhole => {
+        keyhole.addEventListener('dragover', handleKeyholeDragOver);
+        keyhole.addEventListener('dragleave', handleKeyholeDragLeave);
+        keyhole.addEventListener('drop', handleKeyholeDrop);
+    });
+
+    function handleKeyholeDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        if (!draggedKey) return;
+        
+        const keyholePlanet = this.getAttribute('data-planet');
+        const keyPlanet = draggedKey.getAttribute('data-planet');
+        
+        // Visual feedback
+        if (keyholePlanet === keyPlanet && !this.classList.contains('filled')) {
+            this.classList.add('keyhole-match');
+        } else {
+            this.classList.add('keyhole-wrong');
+        }
+    }
+
+    function handleKeyholeDragLeave(e) {
+        this.classList.remove('keyhole-match', 'keyhole-wrong');
+    }
+
+    function handleKeyholeDrop(e) {
+        e.preventDefault();
+        this.classList.remove('keyhole-match', 'keyhole-wrong');
+        
+        if (!draggedKey) return;
+        
+        const keyholePlanet = this.getAttribute('data-planet');
+        const keyPlanet = draggedKey.getAttribute('data-planet');
+        
+        // Only accept matching keys
+        if (keyholePlanet === keyPlanet && !this.classList.contains('filled')) {
+            // Get the keyhole slot
+            const keyholeSlot = this.querySelector('.keyhole-slot');
+            if (keyholeSlot) {
+                // Clone the key and add to slot
+                const keyClone = draggedKey.cloneNode(true);
+                keyClone.classList.add('placed-key');
+                keyClone.draggable = false;
+                keyholeSlot.appendChild(keyClone);
+                
+                // Mark keyhole as filled
+                this.classList.add('filled');
+                
+                // Remove original key from container
+                draggedKey.remove();
+                
+                // Check if all keyholes are filled
+                checkAllKeysPlaced();
+            }
+        }
+        
+        draggedKey = null;
+    }
+
+    function checkAllKeysPlaced() {
+        const allKeyholes = document.querySelectorAll('.keyhole');
+        const filledKeyholes = document.querySelectorAll('.keyhole.filled');
+        
+        // Need 7 keys (all except terminus)
+        if (filledKeyholes.length === 7) {
             setTimeout(() => {
-                alert('🌟 Thank you for completing this journey! 🌟\n\nThis adventure was crafted with love.\nMay your own journey be filled with light and wonder.');
-            }, 800);
+                unlockTerminusDoor();
+            }, 500);
+        }
+    }
+
+    function unlockTerminusDoor() {
+        // Close puzzle overlay
+        if (keyPuzzleOverlay) {
+            keyPuzzleOverlay.style.display = 'none';
+        }
+        
+        // Animate door opening
+        if (terminusDoor) {
+            terminusDoor.classList.add('unlocked', 'door-opening');
+        }
+        
+        if (terminusLabel) {
+            terminusLabel.textContent = '✨ The door opens... revealing a message of eternal love. ✨';
+            terminusLabel.style.color = '#ffd700';
+        }
+        
+        // Award terminus key (completion)
+        awardKey('terminus');
+        
+        // Show completion message
+        setTimeout(() => {
+            alert('🌟 Thank you for completing this journey! 🌟\n\nThis adventure was crafted with love.\nMay your own journey be filled with light and wonder.');
+        }, 1500);
+    }
+
+    // Close puzzle button
+    if (closeKeyPuzzle) {
+        closeKeyPuzzle.addEventListener('click', () => {
+            if (keyPuzzleOverlay) {
+                keyPuzzleOverlay.style.display = 'none';
+            }
+        });
+    }
+
+    // Close puzzle when clicking outside
+    if (keyPuzzleOverlay) {
+        keyPuzzleOverlay.addEventListener('click', (e) => {
+            if (e.target === keyPuzzleOverlay) {
+                keyPuzzleOverlay.style.display = 'none';
+            }
         });
     }
 
@@ -697,6 +918,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 terminusOrb.classList.remove('locked');
                 terminusOrb.classList.add('unlocked');
             }
+            
+            // Award Stellaron key
+            awardKey('stellaron');
+            
             saveProgress();
 
             // Auto-close maze after 2 seconds
@@ -873,6 +1098,10 @@ document.addEventListener('DOMContentLoaded', function() {
             stellaronOrb.classList.remove('locked');
             stellaronOrb.classList.add('unlocked');
         }
+        
+        // Award Luofu key
+        awardKey('luofu');
+        
         saveProgress();
     }
 
@@ -959,6 +1188,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     luofuOrb.classList.remove('locked');
                     luofuOrb.classList.add('unlocked');
                 }
+                
+                // Award Herta key
+                awardKey('herta');
+                
                 saveProgress();
             }, 600);
         });
@@ -1060,6 +1293,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 hertaOrb.classList.remove('locked');
                 hertaOrb.classList.add('unlocked');
             }
+            
+            // Award Jarilo key
+            awardKey('jarilo');
+            
             saveProgress();
         }
     }
@@ -1203,6 +1440,10 @@ document.addEventListener('DOMContentLoaded', function() {
             jariloOrb.classList.remove('locked');
             jariloOrb.classList.add('unlocked');
         }
+        
+        // Award Penacony key
+        awardKey('penacony');
+        
         saveProgress();
     }
 
@@ -1418,6 +1659,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 invStand.setAttribute('data-ticket-xianzhou', 'ready');
                 invStand.classList.add('has-ticket-upgrade');
             }
+
+            // Award Belobog key
+            awardKey('belobog');
         }
     }
 

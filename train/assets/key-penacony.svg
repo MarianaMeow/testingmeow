@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dreamscape/ethereal themed key -->
+  <defs>
+    <linearGradient id="dreamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff99ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6c5ce7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Key shaft (wavy/dreamy) -->
+  <path d="M 20 50 Q 35 45, 50 50 T 70 50" stroke="url(#dreamGrad)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- Key head (cloud/dream shape) -->
+  <circle cx="15" cy="50" r="10" fill="url(#dreamGrad)" opacity="0.8"/>
+  <circle cx="10" cy="45" r="6" fill="#ff99ff" opacity="0.6"/>
+  <circle cx="20" cy="48" r="5" fill="#9b59b6" opacity="0.6"/>
+  <!-- Key teeth (stars) -->
+  <polygon points="75,50 77,47 80,50 77,53" fill="#ff99ff"/>
+  <polygon points="82,48 84,45 87,48 84,51" fill="#9b59b6"/>
+  <polygon points="88,50 90,47 93,50 90,53" fill="#6c5ce7"/>
+</svg>
