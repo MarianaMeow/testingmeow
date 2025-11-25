@@ -1,3 +1,17 @@
+// ========================================
+// GLOBAL GAME STATE (accessible to all functions)
+// ========================================
+let collectedKeys = {
+    belobog: false,
+    xianzhou: false,
+    penacony: false,
+    jarilo: false,
+    herta: false,
+    luofu: false,
+    stellaron: false,
+    terminus: false
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password-input');
     const submitBtn = document.getElementById('submit-btn');
@@ -21,16 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let problemsSolved = 0;
     let collectedCount = 0;
     let penaconyTicketReady = false;
-    let collectedKeys = {
-        belobog: false,
-        xianzhou: false,
-        penacony: false,
-        jarilo: false,
-        herta: false,
-        luofu: false,
-        stellaron: false,
-        terminus: false
-    };
 
     // ========================================
     // KEY COLLECTION SYSTEM
@@ -43,6 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show notification
             showKeyNotification(planetName);
+            
+            // Update progress bar
+            updateProgressBar();
+            onKeyCollected(planetName);
         }
     }
 
@@ -1900,4 +1908,1012 @@ document.addEventListener('DOMContentLoaded', function() {
             showPlanetSelection();
         });
     }
+
+    // ========================================
+    // PHASE 1: INITIALIZE ENHANCEMENTS
+    // ========================================
+    initFloatingStars();
+    initMuteToggle();
+    initKeyboardShortcuts();
+
+    // ========================================
+    // PHASE 2 & 3: INITIALIZE AFTER ALL CODE LOADS
+    // ========================================
+    setTimeout(() => {
+        // Phase 2
+        if (typeof initSettingsPanel === 'function') initSettingsPanel();
+        if (typeof initKeyPreview === 'function') initKeyPreview();
+        
+        // Phase 3
+        if (typeof initCursorTrail === 'function') initCursorTrail();
+        if (typeof initAudioSystem === 'function') initAudioSystem();
+        
+        // Randomize puzzles
+        setTimeout(() => {
+            if (typeof randomizeJariloPuzzle === 'function') randomizeJariloPuzzle();
+        }, 1000);
+    }, 100);
 });
+
+// ========================================
+// PHASE 1: FOUNDATION FEATURES
+// ========================================
+    function initFloatingStars() {
+        const container = document.getElementById('floating-stars');
+        if (!container) return;
+
+        const starCount = 50;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = `star layer-${(i % 3) + 1}`;
+            
+            // Random position
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            // Random animation delay
+            star.style.animationDelay = Math.random() * 3 + 's';
+            
+            // Slow upward drift
+            const duration = 20 + Math.random() * 30;
+            star.style.animation += `, float-up ${duration}s linear infinite`;
+            star.style.animationDelay = Math.random() * duration + 's';
+            
+            container.appendChild(star);
+        }
+        
+        console.log('[Phase 1] Floating stars initialized');
+    }
+
+    // ========================================
+    // PHASE 1: MUTE TOGGLE
+    // ========================================
+    function initMuteToggle() {
+        const muteBtn = document.getElementById('mute-toggle');
+        if (!muteBtn) return;
+
+        // Load mute state from sessionStorage
+        const isMuted = sessionStorage.getItem('audioMuted') === 'true';
+        if (isMuted) {
+            muteBtn.classList.add('muted');
+            muteBtn.querySelector('.mute-icon').textContent = '🔇';
+        }
+
+        muteBtn.addEventListener('click', () => {
+            const nowMuted = !muteBtn.classList.contains('muted');
+            
+            if (nowMuted) {
+                muteBtn.classList.add('muted');
+                muteBtn.querySelector('.mute-icon').textContent = '🔇';
+                sessionStorage.setItem('audioMuted', 'true');
+            } else {
+                muteBtn.classList.remove('muted');
+                muteBtn.querySelector('.mute-icon').textContent = '🔊';
+                sessionStorage.setItem('audioMuted', 'false');
+            }
+            
+            // Bounce animation
+            muteBtn.style.animation = 'none';
+            setTimeout(() => {
+                muteBtn.style.animation = '';
+            }, 10);
+            
+            console.log('[Phase 1] Audio muted:', nowMuted);
+        });
+        
+        console.log('[Phase 1] Mute toggle initialized');
+    }
+
+    // ========================================
+    // PHASE 1: PROGRESS BAR (TRAIN CARS)
+    // ========================================
+    function initProgressBar() {
+        updateProgressBar();
+        console.log('[Phase 1] Progress bar initialized');
+    }
+
+    function updateProgressBar() {
+        const trainCars = document.querySelectorAll('.train-car');
+        
+        trainCars.forEach(car => {
+            const planet = car.getAttribute('data-planet');
+            
+            // Check if this planet's key is collected
+            if (collectedKeys[planet]) {
+                car.classList.add('completed');
+            } else {
+                car.classList.remove('completed');
+            }
+        });
+    }
+
+    // Call updateProgressBar whenever a key is collected
+    // (integrate with existing awardKey function)
+    const originalAwardKey = awardKey;
+    awardKey = function(planetName) {
+        originalAwardKey(planetName);
+        updateProgressBar();
+    };
+
+    // ========================================
+    // PHASE 1: KEYBOARD SHORTCUTS
+    // ========================================
+    function initKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // Don't trigger shortcuts when typing (except ESC)
+            const isTyping = ['INPUT', 'TEXTAREA'].includes(e.target.tagName);
+            if (isTyping && e.key !== 'Escape') return;
+
+            const key = e.key.toLowerCase();
+
+            switch(key) {
+                case 'escape':
+                    handleEscape();
+                    e.preventDefault();
+                    break;
+                case 'enter':
+                    if (!isTyping) {
+                        handleEnter();
+                        e.preventDefault();
+                    }
+                    break;
+                case 'm':
+                    document.getElementById('mute-toggle')?.click();
+                    e.preventDefault();
+                    break;
+                case ' ':
+                    // Space for music control (Phase 3)
+                    e.preventDefault();
+                    break;
+                case 'h':
+                    // Help - Show keyboard shortcuts
+                    showHelpModal();
+                    e.preventDefault();
+                    break;
+                case 'k':
+                    // Show collected keys
+                    showCollectedKeysModal();
+                    e.preventDefault();
+                    break;
+                case 's':
+                    // Settings (Phase 2)
+                    if (!isTyping) {
+                        openSettings();
+                        e.preventDefault();
+                    }
+                    break;
+                case 'r':
+                    // Restart puzzle (with confirmation)
+                    console.log('[Keyboard] Restart requested');
+                    e.preventDefault();
+                    break;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                    // Quick jump to planets (if unlocked)
+                    handlePlanetJump(parseInt(key));
+                    e.preventDefault();
+                    break;
+            }
+        });
+        
+        console.log('[Phase 1] Keyboard shortcuts initialized');
+    }
+
+    function handleEscape() {
+        // Close any open modals
+        if (keyPuzzleOverlay && keyPuzzleOverlay.style.display === 'flex') {
+            keyPuzzleOverlay.style.display = 'none';
+            return;
+        }
+        
+        const invOverlay = document.getElementById('inventory-overlay');
+        if (invOverlay && invOverlay.style.display === 'flex') {
+            invOverlay.style.display = 'none';
+            return;
+        }
+        
+        // Close any fill-in-blank games
+        const fillGames = document.querySelectorAll('[id^="belobog-fill-game"]');
+        fillGames.forEach(game => {
+            if (game.style.display === 'flex') {
+                game.style.display = 'none';
+            }
+        });
+        
+        console.log('[Keyboard] ESC pressed - closing modals');
+    }
+
+    function handleEnter() {
+        // Submit password if on welcome screen
+        if (welcomeScreen && welcomeScreen.style.display !== 'none') {
+            submitBtn?.click();
+            return;
+        }
+        
+        console.log('[Keyboard] Enter pressed');
+    }
+
+    function handlePlanetJump(number) {
+        const planetMap = {
+            1: 'belobog',
+            2: 'xianzhou',
+            3: 'penacony',
+            4: 'jarilo',
+            5: 'herta',
+            6: 'luofu',
+            7: 'stellaron',
+            8: 'terminus'
+        };
+        
+        const planetKey = planetMap[number];
+        if (!planetKey) return;
+        
+        // Check if planet is unlocked
+        const planetOrb = document.querySelector(`.planet-option[data-planet="${planetKey}"]`);
+        if (planetOrb && planetOrb.classList.contains('unlocked')) {
+            planetOrb.click();
+            console.log(`[Keyboard] Jumped to planet: ${planetKey}`);
+        } else {
+            console.log(`[Keyboard] Planet ${planetKey} is locked`);
+        }
+    }
+
+    // ========================================
+    // LOADING INDICATOR
+    // ========================================
+    function showLoading(text = 'Loading...') {
+        let indicator = document.getElementById('loading-indicator');
+        
+        if (!indicator) {
+            indicator = document.createElement('div');
+            indicator.id = 'loading-indicator';
+            indicator.className = 'loading-indicator';
+            indicator.innerHTML = `
+                <div class="mini-train">
+                    <div class="mini-train-body">
+                        <div class="mini-train-wheel"></div>
+                        <div class="mini-train-wheel"></div>
+                    </div>
+                </div>
+                <div class="loading-text">${text}</div>
+            `;
+            document.body.appendChild(indicator);
+        }
+        
+        indicator.classList.add('active');
+        indicator.querySelector('.loading-text').textContent = text;
+    }
+
+    function hideLoading() {
+        const indicator = document.getElementById('loading-indicator');
+        if (indicator) {
+            indicator.classList.remove('active');
+        }
+    }
+
+    // Export for use in other functions
+    window.showLoading = showLoading;
+    window.hideLoading = hideLoading;
+    window.updateProgressBar = updateProgressBar;
+    window.showKeyNotification = showKeyNotification;
+    window.awardKey = awardKey;
+
+    console.log('[Phase 1] All enhancements initialized! 🚀');
+
+// ========================================
+// PHASE 2: VISUAL POLISH
+// ========================================
+
+// 5. Fade to Black Transitions
+function fadeTransition(callback) {
+    let overlay = document.getElementById('transition-overlay');
+    
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'transition-overlay';
+        overlay.className = 'transition-overlay';
+        
+        // Add stars to transition
+        for (let i = 0; i < 30; i++) {
+            const star = document.createElement('div');
+            star.className = 'transition-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            overlay.appendChild(star);
+        }
+        
+        document.body.appendChild(overlay);
+    }
+    
+    // Fade out
+    overlay.classList.add('active');
+    
+    setTimeout(() => {
+        if (callback) callback();
+        
+        // Fade in
+        setTimeout(() => {
+            overlay.classList.remove('active');
+        }, 100);
+    }, 600);
+}
+
+// 6. Key Preview on Hover
+function initKeyPreview() {
+    // Will be called when planet portal opens
+    setTimeout(() => {
+        const celestialOrbs = document.querySelectorAll('.celestial-orb');
+        
+        celestialOrbs.forEach(orb => {
+            orb.addEventListener('mouseenter', function(e) {
+                const planet = this.getAttribute('data-planet');
+                if (planet && !collectedKeys[planet]) {
+                    showKeyPreview(planet, this);
+                }
+            });
+            
+            orb.addEventListener('mouseleave', function() {
+                hideKeyPreview();
+            });
+        });
+    }, 1000);
+    
+    console.log('[Phase 2] Key preview initialized');
+}
+
+function showKeyPreview(planet, element) {
+    let tooltip = document.getElementById('key-preview-tooltip');
+    
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'key-preview-tooltip';
+        tooltip.className = 'key-preview-tooltip';
+        document.body.appendChild(tooltip);
+    }
+    
+    const keyNames = {
+        belobog: '🍬 Candy Key',
+        xianzhou: '🔮 Memory Key',
+        penacony: '🎰 Fortune Key',
+        jarilo: '❄️ Frozen Key',
+        herta: '🌌 Dimension Key',
+        luofu: '🪷 Lotus Key',
+        stellaron: '⭐ Stellaron Key',
+        terminus: '🚪 Terminus Key'
+    };
+    
+    tooltip.innerHTML = `
+        <div class="key-preview-icon">${keyNames[planet]?.split(' ')[0] || '🔑'}</div>
+        <div class="key-preview-name">${keyNames[planet] || 'Unknown Key'}</div>
+        <div class="key-preview-hint">Complete puzzle to unlock</div>
+    `;
+    
+    const rect = element.getBoundingClientRect();
+    tooltip.style.left = rect.left + rect.width / 2 + 'px';
+    tooltip.style.top = rect.top - 10 + 'px';
+    tooltip.classList.add('show');
+}
+
+function hideKeyPreview() {
+    const tooltip = document.getElementById('key-preview-tooltip');
+    if (tooltip) {
+        tooltip.classList.remove('show');
+    }
+}
+
+// 7. Settings Panel
+function initSettingsPanel() {
+    // Create settings panel if it doesn't exist
+    let panel = document.getElementById('settings-panel');
+    
+    if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'settings-panel';
+        panel.className = 'settings-panel';
+        panel.innerHTML = `
+            <div class="settings-header">
+                <h2>⚙️ Settings</h2>
+                <button class="close-settings-btn" id="close-settings">✕</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label>🎵 Music Volume</label>
+                    <input type="range" id="music-volume" min="0" max="100" value="70">
+                    <span id="music-value">70%</span>
+                </div>
+                <div class="setting-group">
+                    <label>🔊 Sound Effects</label>
+                    <input type="range" id="sfx-volume" min="0" max="100" value="80">
+                    <span id="sfx-value">80%</span>
+                </div>
+                <div class="setting-group">
+                    <label>✨ Visual Effects</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="particles-toggle" checked>
+                            <span>Particles</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="trails-toggle" checked>
+                            <span>Cursor Trails</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="animations-toggle" checked>
+                            <span>Animations</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>♿ Accessibility</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="reduced-motion-toggle">
+                            <span>Reduced Motion</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <button class="reset-progress-btn" id="reset-progress">🔄 Reset Progress</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(panel);
+    }
+    
+    // Load saved settings
+    loadSettings();
+    
+    // Event listeners
+    document.getElementById('close-settings')?.addEventListener('click', closeSettings);
+    document.getElementById('music-volume')?.addEventListener('input', updateMusicVolume);
+    document.getElementById('sfx-volume')?.addEventListener('input', updateSfxVolume);
+    document.getElementById('particles-toggle')?.addEventListener('change', saveSettings);
+    document.getElementById('trails-toggle')?.addEventListener('change', (e) => {
+        toggleTrail(e.target.checked);
+        saveSettings();
+    });
+    document.getElementById('animations-toggle')?.addEventListener('change', saveSettings);
+    document.getElementById('reduced-motion-toggle')?.addEventListener('change', saveSettings);
+    document.getElementById('reset-progress')?.addEventListener('click', confirmResetProgress);
+    
+    console.log('[Phase 2] Settings panel initialized');
+}
+
+function openSettings() {
+    const panel = document.getElementById('settings-panel');
+    if (panel) {
+        panel.classList.add('open');
+    }
+}
+
+function closeSettings() {
+    const panel = document.getElementById('settings-panel');
+    if (panel) {
+        panel.classList.remove('open');
+    }
+}
+
+function loadSettings() {
+    const settings = {
+        musicVolume: sessionStorage.getItem('musicVolume') || '70',
+        sfxVolume: sessionStorage.getItem('sfxVolume') || '80',
+        particles: sessionStorage.getItem('particles') !== 'false',
+        trails: sessionStorage.getItem('trails') !== 'false',
+        animations: sessionStorage.getItem('animations') !== 'false',
+        reducedMotion: sessionStorage.getItem('reducedMotion') === 'true'
+    };
+    
+    // Apply to UI
+    const musicSlider = document.getElementById('music-volume');
+    const sfxSlider = document.getElementById('sfx-volume');
+    const musicValue = document.getElementById('music-value');
+    const sfxValue = document.getElementById('sfx-value');
+    
+    if (musicSlider) {
+        musicSlider.value = settings.musicVolume;
+        if (musicValue) musicValue.textContent = settings.musicVolume + '%';
+    }
+    if (sfxSlider) {
+        sfxSlider.value = settings.sfxVolume;
+        if (sfxValue) sfxValue.textContent = settings.sfxVolume + '%';
+    }
+    
+    const particlesToggle = document.getElementById('particles-toggle');
+    const trailsToggle = document.getElementById('trails-toggle');
+    const animationsToggle = document.getElementById('animations-toggle');
+    const reducedMotionToggle = document.getElementById('reduced-motion-toggle');
+    
+    if (particlesToggle) particlesToggle.checked = settings.particles;
+    if (trailsToggle) trailsToggle.checked = settings.trails;
+    if (animationsToggle) animationsToggle.checked = settings.animations;
+    if (reducedMotionToggle) reducedMotionToggle.checked = settings.reducedMotion;
+}
+
+function updateMusicVolume(e) {
+    const value = e.target.value;
+    document.getElementById('music-value').textContent = value + '%';
+    sessionStorage.setItem('musicVolume', value);
+}
+
+function updateSfxVolume(e) {
+    const value = e.target.value;
+    document.getElementById('sfx-value').textContent = value + '%';
+    sessionStorage.setItem('sfxVolume', value);
+}
+
+function saveSettings() {
+    const particles = document.getElementById('particles-toggle')?.checked ?? true;
+    const trails = document.getElementById('trails-toggle')?.checked ?? true;
+    const animations = document.getElementById('animations-toggle')?.checked ?? true;
+    const reducedMotion = document.getElementById('reduced-motion-toggle')?.checked ?? false;
+    
+    sessionStorage.setItem('particles', particles);
+    sessionStorage.setItem('trails', trails);
+    sessionStorage.setItem('animations', animations);
+    sessionStorage.setItem('reducedMotion', reducedMotion);
+    
+    console.log('[Settings] Saved');
+}
+
+function confirmResetProgress() {
+    if (confirm('Are you sure you want to reset all progress? This will clear all collected keys and completed puzzles.')) {
+        sessionStorage.clear();
+        location.reload();
+    }
+}
+
+// Export Phase 2 functions
+window.fadeTransition = fadeTransition;
+window.openSettings = openSettings;
+window.closeSettings = closeSettings;
+window.initKeyPreview = initKeyPreview;
+
+console.log('[Phase 2] Visual polish features ready! ✨');
+
+
+// ========================================
+// PHASE 3: ADVANCED FEATURES
+// ========================================
+
+// 9. Key Collection Animation (Smooth Arc)
+function animateKeyCollection(planetName, sourceElement) {
+    // Create key element
+    const keyIcon = document.createElement('div');
+    keyIcon.className = 'flying-key';
+    
+    const keyEmojis = {
+        belobog: '🍬',
+        xianzhou: '🔮',
+        penacony: '🎰',
+        jarilo: '❄️',
+        herta: '🌌',
+        luofu: '🪷',
+        stellaron: '⭐',
+        terminus: '🚪'
+    };
+    
+    keyIcon.textContent = keyEmojis[planetName] || '🔑';
+    
+    // Get source position
+    const sourceRect = sourceElement.getBoundingClientRect();
+    keyIcon.style.left = sourceRect.left + sourceRect.width / 2 + 'px';
+    keyIcon.style.top = sourceRect.top + sourceRect.height / 2 + 'px';
+    
+    document.body.appendChild(keyIcon);
+    
+    // Animate appearance
+    setTimeout(() => {
+        keyIcon.classList.add('spawn');
+    }, 50);
+    
+    // Calculate target position (top-right notification area)
+    const targetX = window.innerWidth - 100;
+    const targetY = 50;
+    
+    // Start arc animation after spawn
+    setTimeout(() => {
+        keyIcon.style.left = targetX + 'px';
+        keyIcon.style.top = targetY + 'px';
+        keyIcon.classList.add('flying');
+    }, 600);
+    
+    // Show notification and remove key
+    setTimeout(() => {
+        keyIcon.classList.add('shrink');
+        if (window.showKeyNotification) {
+            window.showKeyNotification(planetName);
+        }
+    }, 1400);
+    
+    setTimeout(() => {
+        keyIcon.remove();
+    }, 1800);
+}
+
+// 10. Cursor Trail Effects
+let trailEnabled = true;
+let trailParticles = [];
+let lastTrailTime = 0;
+
+function initCursorTrail() {
+    // Check if trails are enabled in settings
+    trailEnabled = sessionStorage.getItem('trails') !== 'false';
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!trailEnabled) return;
+        
+        const now = Date.now();
+        if (now - lastTrailTime < 30) return; // Throttle to 30ms
+        lastTrailTime = now;
+        
+        createTrailParticle(e.clientX, e.clientY);
+    });
+    
+    // Animation loop for particles
+    setInterval(updateTrailParticles, 50);
+    
+    console.log('[Phase 3] Cursor trail initialized');
+}
+
+function createTrailParticle(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'trail-particle';
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    
+    // Random star or sparkle
+    const shapes = ['⭐', '✨', '💫', '🌟'];
+    particle.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    
+    document.body.appendChild(particle);
+    
+    trailParticles.push({
+        element: particle,
+        createdAt: Date.now()
+    });
+    
+    // Limit particles
+    if (trailParticles.length > 20) {
+        const old = trailParticles.shift();
+        old.element.remove();
+    }
+}
+
+function updateTrailParticles() {
+    const now = Date.now();
+    trailParticles = trailParticles.filter(p => {
+        const age = now - p.createdAt;
+        if (age > 1000) {
+            p.element.remove();
+            return false;
+        }
+        return true;
+    });
+}
+
+function toggleTrail(enabled) {
+    trailEnabled = enabled;
+    if (!enabled) {
+        // Clear all particles
+        trailParticles.forEach(p => p.element.remove());
+        trailParticles = [];
+    }
+}
+
+// 11. Key Descriptions (Lore)
+const keyDescriptions = {
+    belobog: {
+        name: 'Candy Key',
+        icon: '🍬',
+        description: 'A sweet key forged from crystallized memories of joy and laughter. Its sugary surface gleams with the warmth of cherished moments.',
+        lore: 'Born from the sweetest dreams, this key unlocks paths paved with nostalgia.'
+    },
+    xianzhou: {
+        name: 'Memory Key',
+        icon: '🔮',
+        description: 'A mystical key that holds fragments of forgotten memories. Its crystalline form reflects countless moments frozen in time.',
+        lore: 'Within its depths lie echoes of what once was, waiting to be remembered.'
+    },
+    penacony: {
+        name: 'Fortune Key',
+        icon: '🎰',
+        description: 'A golden key that shimmers with the thrill of chance and destiny. Each facet reflects a different possibility.',
+        lore: 'Luck favors those who dare to spin the wheel of fate.'
+    },
+    jarilo: {
+        name: 'Frozen Key',
+        icon: '❄️',
+        description: 'An icy key that never melts, preserving the beauty of winter eternal. Its cold touch brings clarity and peace.',
+        lore: 'In the heart of winter, truth crystallizes into perfect form.'
+    },
+    herta: {
+        name: 'Dimension Key',
+        icon: '🌌',
+        description: 'A cosmic key that bends space and time. Its surface ripples with the fabric of reality itself.',
+        lore: 'Between dimensions, all paths converge into one.'
+    },
+    luofu: {
+        name: 'Lotus Key',
+        icon: '🪷',
+        description: 'A serene key blooming with eternal grace. Its petals hold the wisdom of countless lifetimes.',
+        lore: 'From muddy waters, the lotus rises pure and untainted.'
+    },
+    stellaron: {
+        name: 'Stellaron Key',
+        icon: '⭐',
+        description: 'A radiant key pulsing with stellar energy. Its light guides travelers through the darkest voids.',
+        lore: 'Even in darkness, stars remember how to shine.'
+    },
+    terminus: {
+        name: 'Terminus Key',
+        icon: '🚪',
+        description: 'The final key, forged from all journeys taken. It opens the door to new beginnings.',
+        lore: 'Every ending is but a doorway to another story.'
+    }
+};
+
+function showKeyDescription(planetName) {
+    const key = keyDescriptions[planetName];
+    if (!key) return;
+    
+    let modal = document.getElementById('key-description-modal');
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'key-description-modal';
+        modal.className = 'key-description-modal';
+        modal.innerHTML = `
+            <div class="key-description-panel">
+                <button class="close-key-desc">✕</button>
+                <div class="key-desc-icon"></div>
+                <h2 class="key-desc-name"></h2>
+                <p class="key-desc-description"></p>
+                <div class="key-desc-lore"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.close-key-desc').addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+    
+    // Update content
+    modal.querySelector('.key-desc-icon').textContent = key.icon;
+    modal.querySelector('.key-desc-name').textContent = key.name;
+    modal.querySelector('.key-desc-description').textContent = key.description;
+    modal.querySelector('.key-desc-lore').textContent = `"${key.lore}"`;
+    
+    modal.classList.add('show');
+}
+
+// 12. Ambient Music System (Placeholder - ready for audio files)
+let audioContext = null;
+let currentTrack = null;
+let musicVolume = 0.7;
+let sfxVolume = 0.8;
+let isMusicMuted = false;
+
+function initAudioSystem() {
+    // Load volume settings
+    musicVolume = parseInt(sessionStorage.getItem('musicVolume') || '70') / 100;
+    sfxVolume = parseInt(sessionStorage.getItem('sfxVolume') || '80') / 100;
+    isMusicMuted = sessionStorage.getItem('audioMuted') === 'true';
+    
+    console.log('[Phase 3] Audio system initialized (ready for audio files)');
+    console.log(`Music: ${musicVolume * 100}%, SFX: ${sfxVolume * 100}%, Muted: ${isMusicMuted}`);
+}
+
+function playAmbientMusic(trackName) {
+    if (isMusicMuted) return;
+    
+    console.log(`[Audio] Would play: ${trackName} at ${musicVolume * 100}% volume`);
+    // TODO: Implement actual audio playback when audio files are added
+    // const audio = new Audio(`audio/${trackName}.mp3`);
+    // audio.volume = musicVolume;
+    // audio.loop = true;
+    // audio.play();
+}
+
+function playSoundEffect(sfxName) {
+    if (isMusicMuted) return;
+    
+    console.log(`[Audio] Would play SFX: ${sfxName} at ${sfxVolume * 100}% volume`);
+    // TODO: Implement actual SFX playback
+    // const audio = new Audio(`audio/${sfxName}.mp3`);
+    // audio.volume = sfxVolume;
+    // audio.play();
+}
+
+function crossfadeMusic(fromTrack, toTrack, duration = 2000) {
+    console.log(`[Audio] Would crossfade from ${fromTrack} to ${toTrack} over ${duration}ms`);
+    // TODO: Implement crossfade logic
+}
+
+// 13. Randomization System
+function randomizeJariloPuzzle() {
+    // Randomize puzzle piece positions
+    const pieces = document.querySelectorAll('.puzzle-piece');
+    const positions = [];
+    
+    // Generate random positions around the puzzle frame
+    pieces.forEach((piece, index) => {
+        const angle = (Math.random() * 360) * (Math.PI / 180);
+        const distance = 200 + Math.random() * 150;
+        
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        
+        piece.style.left = `calc(50% + ${x}px)`;
+        piece.style.top = `calc(50% + ${y}px)`;
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        
+        // Add slight delay to animation
+        piece.style.animationDelay = `${Math.random() * 2}s`;
+    });
+    
+    console.log('[Phase 3] Jarilo puzzle randomized');
+}
+
+function randomizeHertaDimension() {
+    // Randomize which piece is missing in the dimension puzzle
+    const totalPieces = 9; // 3x3 grid
+    const missingIndex = Math.floor(Math.random() * totalPieces);
+    
+    console.log(`[Phase 3] Herta dimension randomized - missing piece: ${missingIndex + 1}`);
+    
+    // Store for puzzle logic
+    sessionStorage.setItem('hertaMissingPiece', missingIndex);
+    
+    return missingIndex;
+}
+
+// Update awardKey to use animation
+const originalAwardKeyPhase3 = window.awardKey || function() {};
+window.awardKey = function(planetName, sourceElement) {
+    if (sourceElement) {
+        animateKeyCollection(planetName, sourceElement);
+    }
+    
+    // Call original function after animation starts
+    setTimeout(() => {
+        if (originalAwardKeyPhase3) originalAwardKeyPhase3(planetName);
+    }, 100);
+};
+
+// Export Phase 3 functions
+window.animateKeyCollection = animateKeyCollection;
+window.toggleTrail = toggleTrail;
+window.showKeyDescription = showKeyDescription;
+window.playAmbientMusic = playAmbientMusic;
+window.playSoundEffect = playSoundEffect;
+window.randomizeJariloPuzzle = randomizeJariloPuzzle;
+window.randomizeHertaDimension = randomizeHertaDimension;
+
+console.log('[Phase 3] Advanced features ready! 🎨');
+
+
+// Helper Functions for Phase 3
+function showHelpModal() {
+    const helpText = `
+🎮 KEYBOARD SHORTCUTS
+
+ESC - Close modal/go back
+Enter - Submit answer
+M - Toggle mute
+S - Open settings
+H - Show this help
+K - View collected keys
+1-8 - Jump to planets (if unlocked)
+
+🎯 GAME TIPS
+
+• Complete planets in order to unlock keys
+• Collect all 8 keys to unlock the Terminus door
+• Hover over planets to see what you'll unlock
+• Your progress saves during the session
+• Close the tab to reset and start fresh
+• Press K to view your collected keys and their lore
+
+✨ VISUAL EFFECTS
+
+• Cursor trails can be toggled in settings (S)
+• Reduced motion available for accessibility
+• All animations respect your preferences
+    `;
+    
+    alert(helpText);
+}
+
+function showCollectedKeysModal() {
+    let modal = document.getElementById('collected-keys-modal');
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'collected-keys-modal';
+        modal.className = 'key-description-modal';
+        modal.innerHTML = `
+            <div class="key-description-panel" style="max-width: 600px;">
+                <button class="close-key-desc" onclick="this.closest('.key-description-modal').classList.remove('show')">✕</button>
+                <h2 style="color: #ffd700; margin-bottom: 20px;">🔑 Collected Keys</h2>
+                <div id="keys-list" style="display: grid; gap: 15px;"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+    
+    // Update keys list
+    const keysList = modal.querySelector('#keys-list');
+    keysList.innerHTML = '';
+    
+    Object.keys(keyDescriptions).forEach(planetName => {
+        const key = keyDescriptions[planetName];
+        const isCollected = collectedKeys[planetName];
+        
+        const keyCard = document.createElement('div');
+        keyCard.style.cssText = `
+            padding: 15px;
+            background: ${isCollected ? 'rgba(255, 215, 0, 0.1)' : 'rgba(100, 100, 100, 0.1)'};
+            border: 2px solid ${isCollected ? '#ffd700' : '#666'};
+            border-radius: 10px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            cursor: ${isCollected ? 'pointer' : 'default'};
+            opacity: ${isCollected ? '1' : '0.5'};
+            transition: all 0.3s ease;
+        `;
+        
+        if (isCollected) {
+            keyCard.addEventListener('mouseenter', () => {
+                keyCard.style.transform = 'scale(1.02)';
+                keyCard.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.5)';
+            });
+            keyCard.addEventListener('mouseleave', () => {
+                keyCard.style.transform = 'scale(1)';
+                keyCard.style.boxShadow = 'none';
+            });
+            keyCard.addEventListener('click', () => {
+                modal.classList.remove('show');
+                setTimeout(() => showKeyDescription(planetName), 300);
+            });
+        }
+        
+        keyCard.innerHTML = `
+            <div style="font-size: 40px;">${key.icon}</div>
+            <div style="flex: 1; text-align: left;">
+                <div style="color: ${isCollected ? '#ffd700' : '#666'}; font-weight: 700; margin-bottom: 5px;">
+                    ${key.name}
+                </div>
+                <div style="color: #9ca3af; font-size: 12px;">
+                    ${isCollected ? 'Click to view details' : 'Not yet collected'}
+                </div>
+            </div>
+            ${isCollected ? '<div style="color: #55efc4; font-size: 20px;">✓</div>' : '<div style="color: #666; font-size: 20px;">🔒</div>'}
+        `;
+        
+        keysList.appendChild(keyCard);
+    });
+    
+    modal.classList.add('show');
+}
