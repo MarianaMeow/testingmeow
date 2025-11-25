@@ -210,6 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         applyProgress(savedProgress);
                     }
                     
+                    // Initialize interactive stands after main menu is shown
+                    if (typeof initInteractiveStands === 'function') {
+                        initInteractiveStands();
+                    }
+                    
                     saveProgress(); // Save current state
                 }, 5000); // 5 seconds for cinematic loading
             }, 1000);
@@ -259,6 +264,11 @@ document.addEventListener('DOMContentLoaded', function() {
         mainMenu.style.display = 'flex';
         if (planetSelection) planetSelection.style.display = 'none';
         if (destinationPortal) destinationPortal.style.display = 'none';
+        
+        // Ensure stands are clickable
+        if (typeof initInteractiveStands === 'function') {
+            initInteractiveStands();
+        }
     }
 
     function showPlanetSelection() {
@@ -1928,6 +1938,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof initCursorTrail === 'function') initCursorTrail();
         if (typeof initAudioSystem === 'function') initAudioSystem();
         
+        // Interactive Stands
+        if (typeof initInteractiveStands === 'function') initInteractiveStands();
+        
         // Randomize puzzles
         setTimeout(() => {
             if (typeof randomizeJariloPuzzle === 'function') randomizeJariloPuzzle();
@@ -2862,9 +2875,15 @@ function showCollectedKeysModal() {
         });
     }
     
-    // Update keys list
+    // ALWAYS update keys list (refresh every time modal opens)
     const keysList = modal.querySelector('#keys-list');
+    if (!keysList) {
+        console.error('[Inventory] Keys list element not found!');
+        return;
+    }
     keysList.innerHTML = '';
+    
+    console.log('[Inventory] Updating keys display. Current keys:', collectedKeys);
     
     Object.keys(keyDescriptions).forEach(planetName => {
         const key = keyDescriptions[planetName];
@@ -2917,3 +2936,232 @@ function showCollectedKeysModal() {
     
     modal.classList.add('show');
 }
+
+
+// ========================================
+// INTERACTIVE STANDS FUNCTIONALITY
+// ========================================
+
+function initInteractiveStands() {
+    // Map Stand - Opens planet selection
+    const mapStand = document.getElementById('map-stand');
+    if (mapStand) {
+        mapStand.addEventListener('click', () => {
+            console.log('[Stand] Map clicked - Opening planet selection');
+            showPlanetSelection();
+        });
+    }
+
+    // Mission Log Stand - Shows mission progress
+    const logStand = document.getElementById('log-stand');
+    if (logStand) {
+        logStand.addEventListener('click', () => {
+            console.log('[Stand] Mission Log clicked');
+            showMissionLog();
+        });
+    }
+
+    // Inventory Stand - Shows collected items
+    const invStand = document.getElementById('inv-stand');
+    if (invStand) {
+        invStand.addEventListener('click', () => {
+            console.log('[Stand] Inventory clicked');
+            showInventory();
+        });
+    }
+
+
+
+    console.log('[Stands] Interactive stands initialized');
+}
+
+// Mission Log Modal
+function showMissionLog() {
+    let modal = document.getElementById('mission-log-modal');
+    
+    // Remove old modal to force refresh
+    if (modal) {
+        modal.remove();
+        modal = null;
+    }
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'mission-log-modal';
+        modal.className = 'stand-modal';
+        modal.innerHTML = `
+            <div class="stand-modal-panel">
+                <div class="stand-modal-header">
+                    <h2>📋 Mission Log</h2>
+                    <button class="close-stand-modal">✕</button>
+                </div>
+                <div class="stand-modal-content">
+                    <div class="mission-entry">
+                        <div class="mission-title">🚂 Astral Express Journey</div>
+                        <div class="mission-status">Status: <span class="status-active">In Progress</span></div>
+                        <div class="mission-desc">
+                            Travel across the universe, collecting keys from each world to unlock the path to Terminus.
+                        </div>
+                        <div class="mission-objectives">
+                            <div class="objective-title">Objectives:</div>
+                            <div class="objective-item ${collectedKeys.belobog ? 'complete' : ''}">
+                                ${collectedKeys.belobog ? '✓' : '○'} Collect Belobog Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.xianzhou ? 'complete' : ''}">
+                                ${collectedKeys.xianzhou ? '✓' : '○'} Collect Xianzhou Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.penacony ? 'complete' : ''}">
+                                ${collectedKeys.penacony ? '✓' : '○'} Collect Penacony Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.jarilo ? 'complete' : ''}">
+                                ${collectedKeys.jarilo ? '✓' : '○'} Collect Jarilo-VI Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.herta ? 'complete' : ''}">
+                                ${collectedKeys.herta ? '✓' : '○'} Collect Herta Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.luofu ? 'complete' : ''}">
+                                ${collectedKeys.luofu ? '✓' : '○'} Collect Luofu Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.stellaron ? 'complete' : ''}">
+                                ${collectedKeys.stellaron ? '✓' : '○'} Collect Stellaron Key
+                            </div>
+                            <div class="objective-item ${collectedKeys.terminus ? 'complete' : ''}">
+                                ${collectedKeys.terminus ? '✓' : '○'} Unlock Terminus Door
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mission-entry">
+                        <div class="mission-title">🌟 Progress Summary</div>
+                        <div class="progress-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Keys Collected:</span>
+                                <span class="stat-value">${Object.values(collectedKeys).filter(v => v).length}/8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Worlds Visited:</span>
+                                <span class="stat-value">${Object.values(collectedKeys).filter(v => v).length}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Journey Status:</span>
+                                <span class="stat-value">${Math.round((Object.values(collectedKeys).filter(v => v).length / 8) * 100)}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.close-stand-modal').addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    } else {
+        // Update content if modal already exists
+        const content = modal.querySelector('.stand-modal-content');
+        content.innerHTML = modal.querySelector('.stand-modal-content').innerHTML;
+    }
+    
+    modal.classList.add('show');
+}
+
+// Inventory Modal (shows collected keys)
+function showInventory() {
+    console.log('[Inventory] Opening inventory...');
+    console.log('[Inventory] Collected keys:', collectedKeys);
+    
+    // Remove old modal to force refresh
+    let modal = document.getElementById('inventory-modal');
+    if (modal) {
+        modal.remove();
+    }
+    
+    // Create new modal
+    modal = document.createElement('div');
+    modal.id = 'inventory-modal';
+    modal.className = 'stand-modal';
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+    
+    // Build inventory content
+    const keysCollected = Object.values(collectedKeys).filter(v => v).length;
+    
+    let keysHTML = '';
+    Object.keys(collectedKeys).forEach(planetName => {
+        const isCollected = collectedKeys[planetName];
+        const keyInfo = keyDescriptions[planetName] || { name: planetName, icon: '🔑' };
+        
+        keysHTML += `
+            <div style="
+                padding: 15px;
+                background: ${isCollected ? 'rgba(255, 215, 0, 0.15)' : 'rgba(100, 100, 100, 0.1)'};
+                border: 2px solid ${isCollected ? '#ffd700' : '#666'};
+                border-radius: 10px;
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                opacity: ${isCollected ? '1' : '0.5'};
+                margin-bottom: 10px;
+            ">
+                <div style="font-size: 40px;">${keyInfo.icon}</div>
+                <div style="flex: 1;">
+                    <div style="color: ${isCollected ? '#ffd700' : '#666'}; font-weight: 700; margin-bottom: 5px;">
+                        ${keyInfo.name}
+                    </div>
+                    <div style="color: #9ca3af; font-size: 12px;">
+                        ${isCollected ? '✓ Collected' : '🔒 Locked'}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    modal.innerHTML = `
+        <div class="stand-modal-panel">
+            <div class="stand-modal-header">
+                <h2>🎒 Inventory</h2>
+                <button class="close-stand-modal">✕</button>
+            </div>
+            <div class="stand-modal-content">
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 10px;">
+                    <div style="color: #ffd700; font-size: 18px; font-weight: 700;">
+                        Keys Collected: ${keysCollected}/8
+                    </div>
+                    <div style="color: #9ca3af; font-size: 14px; margin-top: 5px;">
+                        Collect all keys to unlock the Terminus door
+                    </div>
+                </div>
+                ${keysHTML}
+            </div>
+        </div>
+    `;
+    
+    // Add close button listener
+    modal.querySelector('.close-stand-modal').addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+    
+    modal.classList.add('show');
+    console.log('[Inventory] Modal displayed');
+}
+
+
+
+// Export functions
+window.initInteractiveStands = initInteractiveStands;
+window.showMissionLog = showMissionLog;
+window.showInventory = showInventory;
+window.showCommunications = showCommunications;
+
+console.log('[Stands] Interactive stand functions ready! 🎮');

@@ -307,39 +307,30 @@ body::before {
     transition: all 0.25s ease;
 }
 
-/* Layout positions for stands inside carriage */
+/* Layout positions for stands inside carriage - 3 stands centered */
 #map-stand,
 #log-stand,
-#inv-stand,
-#com-stand,
-#sys-stand {
+#inv-stand {
     position: absolute;
 }
 
-/* Map stand: left front - tall holographic map tower */
+/* Map stand: left */
 #map-stand {
-    left: 6%;
-    bottom: 22%;
+    left: 20%;
+    bottom: 25%;
 }
 
+/* Mission Log stand: center */
 #log-stand {
-    left: 24%;
-    bottom: 27%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 25%;
 }
 
+/* Inventory stand: right */
 #inv-stand {
-    left: 46%;
-    bottom: 20%;
-}
-
-#com-stand {
-    right: 24%;
-    bottom: 26%;
-}
-
-#sys-stand {
-    right: 7%;
-    bottom: 22%;
+    right: 20%;
+    bottom: 25%;
 }
 
 /* Shared visual parts */
@@ -564,62 +555,7 @@ body::before {
     animation-delay: 0.4s;
 }
 
-#com-stand .stand-screen {
-    background:
-        radial-gradient(circle at top, rgba(255, 215, 0, 0.32), transparent 70%),
-        radial-gradient(circle at bottom, rgba(255, 51, 102, 0.3), transparent 80%),
-        #210004;
-    border: 2px solid rgba(255, 215, 0, 0.95);
-    box-shadow:
-        0 0 24px rgba(255, 215, 0, 1),
-        0 0 40px rgba(255, 51, 102, 0.8);
-}
 
-#com-stand .wave,
-#com-stand .wave2 {
-    border-color: #ff3366 transparent;
-}
-
-#com-stand .stand-label {
-    color: #ffd700;
-}
-
-/* System core – jackpot wheel */
-.core-ring {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid rgba(255, 215, 0, 0.9);
-    box-shadow:
-        0 0 20px rgba(255, 215, 0, 1),
-        0 0 40px rgba(255, 51, 102, 0.9),
-        0 0 40px rgba(255, 255, 255, 0.8);
-    background:
-        repeating-conic-gradient(
-            from 0deg,
-            #ffd700 0 15deg,
-            #ff3366 15deg 30deg
-        );
-    animation: spin-core 4s linear infinite;
-}
-
-.core-orb {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background:
-        radial-gradient(circle, #ffffff, #ffd700);
-    box-shadow:
-        0 0 18px rgba(255, 255, 255, 1),
-        0 0 26px rgba(255, 215, 0, 1);
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-#sys-stand .stand-label {
-    color: #ffd700;
-}
 
 /* Hover states for interactive feel */
 .object-stand:hover {
@@ -7630,4 +7566,178 @@ button:hover {
     margin-left: 10px;
     font-size: 12px;
     color: #55efc4;
+}
+
+
+/* ========================================
+   STAND MODALS (Mission Log, Inventory)
+   ======================================== */
+
+.stand-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stand-modal.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.stand-modal-panel {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 3px solid #ffd700;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    animation: modal-appear 0.3s ease;
+}
+
+@keyframes modal-appear {
+    from {
+        transform: scale(0.9) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.stand-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.stand-modal-header h2 {
+    color: #ffd700;
+    font-size: 28px;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.close-stand-modal {
+    width: 35px;
+    height: 35px;
+    background: rgba(233, 69, 96, 0.2);
+    border: 2px solid #e94560;
+    border-radius: 50%;
+    color: #e94560;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-stand-modal:hover {
+    background: #e94560;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.stand-modal-content {
+    color: #d4d4d4;
+}
+
+/* Mission Log Styles */
+.mission-entry {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.mission-title {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mission-status {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.status-active {
+    color: #55efc4;
+    font-weight: 600;
+}
+
+.mission-desc {
+    color: #d4d4d4;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.mission-objectives {
+    margin-top: 15px;
+}
+
+.objective-title {
+    color: #ffd700;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.objective-item {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #666;
+    border-radius: 4px;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.objective-item.complete {
+    border-left-color: #55efc4;
+    color: #55efc4;
+    background: rgba(85, 239, 196, 0.1);
+}
+
+.progress-stats {
+    display: grid;
+    gap: 12px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.stat-label {
+    color: #9ca3af;
+}
+
+.stat-value {
+    color: #ffd700;
+    font-weight: 700;
 }
