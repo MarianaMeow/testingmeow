@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Organizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Falling leaves animation -->
+    <div class="leaves-container" id="leavesContainer"></div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <h1>🔐 Password Organizer</h1>
+            <div class="login-form">
+                <input type="password" id="masterPasswordInput" placeholder="Enter Master Password" autocomplete="off">
+                <button id="loginBtn">Unlock</button>
+                <p class="error-message" id="loginError"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div id="appScreen" class="screen">
+        <header>
+            <h1>🔐 Password Organizer</h1>
+            <div class="header-controls">
+                <select id="themeSelector">
+                    <option value="midnight">Midnight Sky</option>
+                    <option value="purple">Purple Style</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="light">Light Mode</option>
+                    <option value="baby-blue">Baby Blue</option>
+                </select>
+                <button id="logoutBtn" class="btn-secondary">Logout</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="toolbar">
+                <input type="text" id="searchInput" placeholder="🔍 Search passwords...">
+                <select id="sortSelect">
+                    <option value="name">Sort by Name</option>
+                    <option value="category">Sort by Category</option>
+                </select>
+                <select id="filterCategory">
+                    <option value="all">All Categories</option>
+                </select>
+                <button id="addPasswordBtn" class="btn-primary">+ Add Password</button>
+                <button id="exportBtn" class="btn-secondary">Export</button>
+                <button id="importBtn" class="btn-secondary">Import</button>
+            </div>
+
+            <div id="passwordList" class="password-list"></div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add Password</h2>
+            <form id="passwordForm">
+                <input type="text" id="entryName" placeholder="Name (e.g., Gmail)" required>
+                <input type="text" id="entryUsername" placeholder="Username/Email">
+                <div class="password-input-group">
+                    <input type="password" id="entryPassword" placeholder="Password" required>
+                    <button type="button" id="togglePasswordBtn" class="toggle-btn">👁️</button>
+                </div>
+                <select id="entryCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Work">Work</option>
+                    <option value="Banking">Banking</option>
+                    <option value="Social">Social</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea id="entryNotes" placeholder="Notes (optional)" rows="3"></textarea>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Save</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+    <script src="script.js"></script>
+</body>
+</html>
