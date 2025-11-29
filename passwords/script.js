@@ -52,8 +52,12 @@ let masterPassword = '';
 let passwords = [];
 let currentEditId = null;
 let inactivityTimer = null;
+let clipboardTimer = null;
 let isNewVault = false;
+let selectedPasswords = new Set();
+let selectMode = false;
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
+const CLIPBOARD_CLEAR_TIMEOUT = 3 * 60 * 1000; // 3 minutes
 
 // DOM Elements
 const authScreen = document.getElementById('authScreen');
@@ -73,7 +77,7 @@ const userEmailSpan = document.getElementById('userEmail');
 const logoutBtn = document.getElementById('logoutBtn');
 const themeSelector = document.getElementById('themeSelector');
 const searchInput = document.getElementById('searchInput');
-const sortSelect = document.getElementById('sortSelect');
+
 const filterCategory = document.getElementById('filterCategory');
 const addPasswordBtn = document.getElementById('addPasswordBtn');
 const exportBtn = document.getElementById('exportBtn');
@@ -120,7 +124,7 @@ function setupEventListeners() {
     logoutBtn.addEventListener('click', logout);
     themeSelector.addEventListener('change', changeTheme);
     searchInput.addEventListener('input', renderPasswords);
-    sortSelect.addEventListener('change', renderPasswords);
+
     filterCategory.addEventListener('change', renderPasswords);
     addPasswordBtn.addEventListener('click', () => openModal());
     exportBtn.addEventListener('click', exportPasswords);
@@ -129,9 +133,41 @@ function setupEventListeners() {
     cancelBtn.addEventListener('click', closeModal);
     passwordForm.addEventListener('submit', savePassword);
     togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+    
+    document.getElementById('bulkDeleteBtn').addEventListener('click', bulkDelete);
+    document.getElementById('cancelSelectBtn').addEventListener('click', () => toggleSelectMode(false));
+    document.getElementById('changeMasterBtn').addEventListener('click', changeMasterPassword);
 
     ['mousedown', 'keypress', 'scroll', 'touchstart'].forEach(event => {
         document.addEventListener(event, resetInactivityTimer);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Only work when app screen is active
+        if (!appScreen.classList.contains('active')) return;
+        
+        // Ctrl+N or Cmd+N = New password
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+            e.preventDefault();
+            openModal();
+        }
+        
+        // Escape = Close modal
+        if (e.key === 'Escape' && passwordModal.classList.contains('active')) {
+            closeModal();
+        }
+        
+        // Ctrl+F or Cmd+F = Focus search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+            e.preventDefault();
+            searchInput.focus();
+        }
+        
+        // Delete = Bulk delete selected
+        if (e.key === 'Delete' && selectedPasswords.size > 0) {
+            bulkDelete();
+        }
     });
 }
 
@@ -310,24 +346,34 @@ async function saveToCloud() {
 
 function renderPasswords() {
     const searchTerm = searchInput.value.toLowerCase();
-    const sortBy = sortSelect.value;
     const categoryFilter = filterCategory.value;
 
+    passwordList.innerHTML = '';
+
+    // If no category selected and no search, show prompt
+    if (!categoryFilter && !searchTerm) {
+        passwordList.innerHTML = '<p style="text-align: center; opacity: 0.6; padding: 2rem;">Select a category or search to view passwords</p>';
+        return;
+    }
+
     let filtered = passwords.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchTerm) ||
+        const matchesSearch = searchTerm && (
+            p.name.toLowerCase().includes(searchTerm) ||
             p.username.toLowerCase().includes(searchTerm) ||
-            p.category.toLowerCase().includes(searchTerm);
+            p.category.toLowerCase().includes(searchTerm)
+        );
         const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
-        return matchesSearch && matchesCategory;
+        
+        // Show if matches search OR matches category filter
+        if (searchTerm) return matchesSearch;
+        return matchesCategory;
     });
 
+    // Sort by favorites first, then by name
     filtered.sort((a, b) => {
         if (a.favorite !== b.favorite) return b.favorite - a.favorite;
-        if (sortBy === 'name') return a.name.localeCompare(b.name);
-        return a.category.localeCompare(b.category);
+        return a.name.localeCompare(b.name);
     });
-
-    passwordList.innerHTML = '';
 
     if (filtered.length === 0) {
         passwordList.innerHTML = '<p style="text-align: center; opacity: 0.6; padding: 2rem;">No passwords found. Click "+ Add Password" to get started!</p>';
@@ -342,9 +388,12 @@ function renderPasswords() {
 
 function createPasswordCard(password) {
     const card = document.createElement('div');
-    card.className = 'password-row';
+    card.className = 'password-row' + (selectMode ? ' select-mode' : '');
+    card.dataset.id = password.id;
     const maskedEmail = maskEmail(password.name);
+    const isSelected = selectedPasswords.has(password.id);
     card.innerHTML = `
+        <input type="checkbox" class="row-checkbox" ${isSelected ? 'checked' : ''} title="Select for bulk delete">
         <button class="favorite-btn" title="Favorite">${password.favorite ? '⭐' : '☆'}</button>
         <span class="row-name">${escapeHtml(maskedEmail)}</span>
         <span class="row-category">${escapeHtml(password.category)}</span>
@@ -360,6 +409,22 @@ function createPasswordCard(password) {
         </div>
     `;
 
+    // Double-click to enter select mode
+    card.addEventListener('dblclick', (e) => {
+        if (e.target.closest('.icon-btn') || e.target.closest('.favorite-btn')) return;
+        toggleSelectMode(true);
+        selectedPasswords.add(password.id);
+        renderPasswords();
+    });
+
+    card.querySelector('.row-checkbox').addEventListener('change', (e) => {
+        if (e.target.checked) {
+            selectedPasswords.add(password.id);
+        } else {
+            selectedPasswords.delete(password.id);
+        }
+        updateSelectModeUI();
+    });
     card.querySelector('.favorite-btn').addEventListener('click', () => toggleFavorite(password.id));
     card.querySelector('.edit-btn').addEventListener('click', () => openModal(password.id));
     card.querySelector('.delete-btn').addEventListener('click', () => deletePassword(password.id));
@@ -420,7 +485,16 @@ function maskEmail(email) {
 async function copyPassword(password) {
     try {
         await navigator.clipboard.writeText(password);
-        showNotification('Password copied!');
+        showNotification('Password copied! (Clipboard clears in 3 min)');
+        
+        // Clear clipboard after 3 minutes
+        clearTimeout(clipboardTimer);
+        clipboardTimer = setTimeout(async () => {
+            try {
+                await navigator.clipboard.writeText('');
+                showNotification('Clipboard cleared for security');
+            } catch (e) { }
+        }, CLIPBOARD_CLEAR_TIMEOUT);
     } catch (e) {
         showNotification('Failed to copy', true);
     }
@@ -501,10 +575,45 @@ async function savePassword(e) {
 async function deletePassword(id) {
     if (!confirm('Are you sure you want to delete this password?')) return;
     passwords = passwords.filter(p => p.id !== id);
+    selectedPasswords.delete(id);
     await saveToCloud();
     renderPasswords();
     updateCategoryFilter();
     showNotification('Password deleted');
+}
+
+async function bulkDelete() {
+    if (selectedPasswords.size === 0) return;
+    if (!confirm(`Delete ${selectedPasswords.size} selected password(s)?`)) return;
+    
+    passwords = passwords.filter(p => !selectedPasswords.has(p.id));
+    selectedPasswords.clear();
+    toggleSelectMode(false);
+    await saveToCloud();
+    renderPasswords();
+    updateCategoryFilter();
+    showNotification('Passwords deleted');
+}
+
+function toggleSelectMode(enable) {
+    selectMode = enable;
+    if (!enable) {
+        selectedPasswords.clear();
+    }
+    updateSelectModeUI();
+    renderPasswords();
+}
+
+function updateSelectModeUI() {
+    const controls = document.querySelector('.select-mode-controls');
+    const btn = document.getElementById('bulkDeleteBtn');
+    
+    if (controls) {
+        controls.style.display = selectMode ? 'flex' : 'none';
+    }
+    if (btn) {
+        btn.textContent = `🗑️ Delete (${selectedPasswords.size})`;
+    }
 }
 
 async function toggleFavorite(id) {
@@ -519,14 +628,21 @@ function updateCategoryFilter() {
     const currentValue = filterCategory.value;
     
     // Update filter dropdown
-    filterCategory.innerHTML = '<option value="all">All Categories</option>';
+    filterCategory.innerHTML = `
+        <option value="">Select a category...</option>
+        <option value="all">Show All</option>
+    `;
     categories.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
         filterCategory.appendChild(option);
     });
-    filterCategory.value = currentValue;
+    
+    // Keep current selection if it still exists
+    if (currentValue && (currentValue === 'all' || categories.includes(currentValue))) {
+        filterCategory.value = currentValue;
+    }
     
     // Update datalist for category suggestions
     const categoryList = document.getElementById('categoryList');
@@ -581,6 +697,33 @@ function togglePasswordVisibility() {
     } else {
         input.type = 'password';
         togglePasswordBtn.textContent = '👁️';
+    }
+}
+
+async function changeMasterPassword() {
+    const currentPwd = prompt('Enter your CURRENT master password:');
+    if (!currentPwd) return;
+    
+    if (currentPwd !== masterPassword) {
+        showNotification('Incorrect current password', true);
+        return;
+    }
+    
+    const newPwd = prompt('Enter your NEW master password:');
+    if (!newPwd) return;
+    
+    const confirmPwd = prompt('Confirm your NEW master password:');
+    if (newPwd !== confirmPwd) {
+        showNotification('Passwords do not match', true);
+        return;
+    }
+    
+    try {
+        masterPassword = newPwd;
+        await saveToCloud();
+        showNotification('Master password changed!');
+    } catch (e) {
+        showNotification('Failed to change password', true);
     }
 }
 

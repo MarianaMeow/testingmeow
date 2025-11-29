@@ -15,7 +15,6 @@
     <div id="authScreen" class="screen active">
         <div class="auth-container">
             <h1>🔐 Password Organizer</h1>
-            <p class="logo-subtitle">Secure. Simple. Synced.</p>
             <div class="auth-box">
                 <div class="auth-tabs">
                     <button class="tab-btn active" data-tab="login">Login</button>
@@ -43,7 +42,10 @@
                     <p class="error-message" id="masterError"></p>
                 </div>
             </div>
-            <button id="backToAuthBtn" class="link-btn">← Back to login</button>
+            <div class="master-links">
+                <button id="backToAuthBtn" class="link-btn">← Back to login</button>
+                <button id="changeMasterBtn" class="link-btn">🔑 Change master password</button>
+            </div>
         </div>
     </div>
 
@@ -68,16 +70,17 @@
         <div class="main-content">
             <div class="toolbar">
                 <input type="text" id="searchInput" placeholder="🔍 Search passwords...">
-                <select id="sortSelect">
-                    <option value="name">Sort by Name</option>
-                    <option value="category">Sort by Category</option>
-                </select>
                 <select id="filterCategory">
-                    <option value="all">All Categories</option>
+                    <option value="">Select a category...</option>
+                    <option value="all">Show All</option>
                 </select>
                 <button id="addPasswordBtn" class="btn-primary">+ Add Password</button>
                 <button id="exportBtn" class="btn-secondary">Export</button>
                 <button id="importBtn" class="btn-secondary">Import</button>
+                <div class="select-mode-controls" style="display: none;">
+                    <button id="cancelSelectBtn" class="btn-secondary">✕ Cancel</button>
+                    <button id="bulkDeleteBtn" class="btn-danger">🗑️ Delete (0)</button>
+                </div>
             </div>
 
             <div id="passwordList" class="password-list"></div>
