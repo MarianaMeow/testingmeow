@@ -5,20 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Organizer</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- Falling leaves animation -->
     <div class="leaves-container" id="leavesContainer"></div>
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="screen active">
-        <div class="login-container">
+    <!-- Auth Screen (Login/Signup) -->
+    <div id="authScreen" class="screen active">
+        <div class="auth-container">
             <h1>🔐 Password Organizer</h1>
-            <div class="login-form">
-                <input type="password" id="masterPasswordInput" placeholder="Enter Master Password" autocomplete="off">
-                <button id="loginBtn">Unlock</button>
-                <p class="error-message" id="loginError"></p>
+            <p class="logo-subtitle">Secure. Simple. Synced.</p>
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="signup">Sign Up</button>
+                </div>
+                <form id="authForm" class="auth-form">
+                    <input type="email" id="authEmail" placeholder="Email" required>
+                    <input type="password" id="authPassword" placeholder="Password" required>
+                    <button type="submit" id="authSubmitBtn">Login</button>
+                    <p class="error-message" id="authError"></p>
+                </form>
             </div>
+        </div>
+    </div>
+
+    <!-- Master Password Screen -->
+    <div id="masterScreen" class="screen">
+        <div class="auth-container">
+            <h1>🔐 Master Password</h1>
+            <p class="subtitle" id="masterSubtitle">Enter your master password to decrypt your vault</p>
+            <div class="auth-box">
+                <div class="auth-form">
+                    <input type="password" id="masterPasswordInput" placeholder="Master Password" autocomplete="off">
+                    <button id="masterSubmitBtn">Unlock</button>
+                    <p class="error-message" id="masterError"></p>
+                </div>
+            </div>
+            <button id="backToAuthBtn" class="link-btn">← Back to login</button>
         </div>
     </div>
 
@@ -26,7 +51,9 @@
     <div id="appScreen" class="screen">
         <header>
             <h1>🔐 Password Organizer</h1>
+</head>
             <div class="header-controls">
+                <span id="userEmail" class="user-email"></span>
                 <select id="themeSelector">
                     <option value="midnight">Midnight Sky</option>
                     <option value="purple">Purple Style</option>
@@ -62,21 +89,16 @@
         <div class="modal-content">
             <h2 id="modalTitle">Add Password</h2>
             <form id="passwordForm">
-                <input type="text" id="entryName" placeholder="Name (e.g., Gmail)" required>
-                <input type="text" id="entryUsername" placeholder="Username/Email">
+                <input type="text" id="entryName" placeholder="Email/Account (e.g., john@gmail.com)" required>
+                <input type="text" id="entryUsername" placeholder="Username (e.g., zhilohh)">
                 <div class="password-input-group">
                     <input type="password" id="entryPassword" placeholder="Password" required>
                     <button type="button" id="togglePasswordBtn" class="toggle-btn">👁️</button>
                 </div>
-                <select id="entryCategory" required>
-                    <option value="">Select Category</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Work">Work</option>
-                    <option value="Banking">Banking</option>
-                    <option value="Social">Social</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Other">Other</option>
-                </select>
+                <div class="category-input-group">
+                    <input type="text" id="entryCategory" list="categoryList" placeholder="Category (e.g., Gaming, School)" required>
+                    <datalist id="categoryList"></datalist>
+                </div>
                 <textarea id="entryNotes" placeholder="Notes (optional)" rows="3"></textarea>
                 <div class="modal-actions">
                     <button type="submit" class="btn-primary">Save</button>

@@ -76,63 +76,163 @@ body.baby-blue {
     display: block;
 }
 
-/* Login Screen */
-.login-container {
+/* Auth Screen */
+.auth-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 20px;
+    text-align: center;
 }
 
-.login-container h1 {
-    font-size: 2.5rem;
+.auth-container h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.auth-container .logo-subtitle {
+    font-size: 1rem;
+    opacity: 0.7;
     margin-bottom: 2rem;
 }
 
-.login-form {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    min-width: 300px;
+.subtitle {
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.1rem;
 }
 
-.login-form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 1rem;
+.auth-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 380px;
+    max-width: 420px;
+}
+
+body.light .auth-box {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 30px;
     border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
     color: inherit;
     font-size: 1rem;
+    transition: all 0.3s;
 }
 
-.login-form input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+.auth-form input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background: rgba(255, 255, 255, 0.15);
 }
 
-body.light .login-form input::placeholder {
+.auth-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+body.light .auth-form input {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light .auth-form input::placeholder {
     color: rgba(0, 0, 0, 0.4);
 }
 
-.login-form button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #4CAF50;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
+body.light .auth-form input:focus {
+    background: rgba(0, 0, 0, 0.08);
 }
 
-.login-form button:hover {
-    background: #45a049;
+.auth-form button[type="submit"],
+.auth-form button#masterSubmitBtn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    margin-top: 0.5rem;
+}
+
+.auth-form button[type="submit"]:hover,
+.auth-form button#masterSubmitBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.auth-form button:disabled {
+    background: #888;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.link-btn:hover {
+    opacity: 1;
 }
 
 .error-message {
@@ -140,6 +240,11 @@ body.light .login-form input::placeholder {
     font-size: 0.9rem;
     margin-top: 0.5rem;
     text-align: center;
+}
+
+.user-email {
+    opacity: 0.7;
+    font-size: 0.9rem;
 }
 
 /* Header */
@@ -231,110 +336,130 @@ body.light .toolbar select {
 
 /* Password List */
 .password-list {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.password-card {
+/* Compact Row Layout */
+.password-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
+    border-radius: 10px;
+    transition: background 0.2s;
 }
 
-body.light .password-card {
+body.light .password-row {
     background: rgba(255, 255, 255, 0.8);
 }
 
-.password-card:hover {
-    transform: translateY(-2px);
+.password-row:hover {
+    background: rgba(255, 255, 255, 0.15);
 }
 
-.password-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.password-card-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
+body.light .password-row:hover {
+    background: rgba(255, 255, 255, 0.95);
 }
 
 .favorite-btn {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: transform 0.2s;
+    flex-shrink: 0;
 }
 
 .favorite-btn:hover {
     transform: scale(1.2);
 }
 
-.password-card-actions {
-    display: flex;
-    gap: 0.5rem;
+.row-name {
+    font-weight: 600;
+    min-width: 120px;
+    flex: 1;
 }
 
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 5px;
-    transition: transform 0.2s;
+.row-category {
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.15);
+    min-width: 80px;
+    text-align: center;
 }
 
-.icon-btn:hover {
-    transform: scale(1.1);
+body.light .row-category {
+    background: rgba(0, 0, 0, 0.08);
 }
 
-.password-card-body {
-    display: grid;
-    gap: 0.5rem;
-}
-
-.password-field {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.password-field label {
-    font-weight: 500;
+.row-username {
+    min-width: 150px;
     opacity: 0.8;
+    font-size: 0.9rem;
 }
 
-.password-value {
+.row-password {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.3rem;
+    min-width: 150px;
 }
 
 .password-text {
     font-family: monospace;
     cursor: pointer;
     user-select: none;
+    min-width: 80px;
 }
 
 .password-text.hidden {
     letter-spacing: 2px;
 }
 
-.category-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    background: rgba(255, 255, 255, 0.2);
+.row-actions {
+    display: flex;
+    gap: 0.3rem;
+    flex-shrink: 0;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s;
+    opacity: 0.7;
+}
+
+.icon-btn:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+/* Responsive - stack on mobile */
+@media (max-width: 900px) {
+    .password-row {
+        flex-wrap: wrap;
+    }
+    .row-name {
+        min-width: 100%;
+        order: 1;
+    }
+    .favorite-btn {
+        order: 0;
+    }
+    .row-category,
+    .row-username,
+    .row-password {
+        min-width: auto;
+        flex: 1;
+    }
 }
 
 /* Modal */
@@ -422,6 +547,10 @@ body.purple #passwordForm textarea {
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
+}
+
+.category-input-group input {
+    width: 100%;
 }
 
 .modal-actions {
