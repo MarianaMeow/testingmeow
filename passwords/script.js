@@ -136,7 +136,14 @@ function setupEventListeners() {
     
     document.getElementById('bulkDeleteBtn').addEventListener('click', bulkDelete);
     document.getElementById('cancelSelectBtn').addEventListener('click', () => toggleSelectMode(false));
-    document.getElementById('changeMasterBtn').addEventListener('click', changeMasterPassword);
+    document.getElementById('changeMasterBtn').addEventListener('click', openChangeMasterModal);
+    document.getElementById('cancelMasterChangeBtn').addEventListener('click', closeChangeMasterModal);
+    document.getElementById('changeMasterForm').addEventListener('submit', handleChangeMasterPassword);
+    
+    // Toggle visibility for change master password modal
+    document.querySelector('.toggle-current').addEventListener('click', () => toggleInputVisibility('currentMasterInput', '.toggle-current'));
+    document.querySelector('.toggle-new').addEventListener('click', () => toggleInputVisibility('newMasterInput', '.toggle-new'));
+    document.querySelector('.toggle-confirm').addEventListener('click', () => toggleInputVisibility('confirmMasterInput', '.toggle-confirm'));
 
     ['mousedown', 'keypress', 'scroll', 'touchstart'].forEach(event => {
         document.addEventListener(event, resetInactivityTimer);
@@ -549,7 +556,7 @@ async function savePassword(e) {
     )?.category;
     
     const passwordData = {
-        id: currentEditId || Date.now(),
+        id: currentEditId || crypto.randomUUID(),
         name: document.getElementById('entryName').value.trim(),
         username: document.getElementById('entryUsername').value.trim(),
         password: document.getElementById('entryPassword').value,
@@ -656,16 +663,65 @@ function updateCategoryFilter() {
     }
 }
 
-function exportPasswords() {
-    const dataStr = JSON.stringify(passwords, null, 2);
+async function exportPasswords() {
+    const exportChoice = await showExportDialog();
+    if (!exportChoice) return;
+    
+    let dataStr;
+    let filename;
+    
+    if (exportChoice === 'encrypted') {
+        // Export encrypted with master password
+        const encrypted = await encrypt(JSON.stringify(passwords), masterPassword);
+        dataStr = JSON.stringify({ encrypted: true, data: encrypted }, null, 2);
+        filename = `passwords-backup-encrypted-${new Date().toISOString().split('T')[0]}.json`;
+        showNotification('Passwords exported (encrypted)!');
+    } else {
+        // Export plain JSON (with warning)
+        dataStr = JSON.stringify(passwords, null, 2);
+        filename = `passwords-backup-${new Date().toISOString().split('T')[0]}.json`;
+        showNotification('Passwords exported (unencrypted - keep safe!)');
+    }
+    
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `passwords-backup-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
-    showNotification('Passwords exported!');
+}
+
+function showExportDialog() {
+    return new Promise((resolve) => {
+        const dialog = document.createElement('div');
+        dialog.className = 'modal active';
+        dialog.innerHTML = `
+            <div class="modal-content">
+                <h2>📤 Export Passwords</h2>
+                <p style="margin-bottom: 1rem; opacity: 0.8;">Choose export format:</p>
+                <div class="modal-actions" style="flex-direction: column; gap: 0.5rem;">
+                    <button class="btn-primary" id="exportEncrypted">🔒 Encrypted (Recommended)</button>
+                    <button class="btn-secondary" id="exportPlain">📄 Plain JSON (Less Secure)</button>
+                    <button class="btn-secondary" id="exportCancel">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(dialog);
+        
+        dialog.querySelector('#exportEncrypted').addEventListener('click', () => {
+            dialog.remove();
+            resolve('encrypted');
+        });
+        dialog.querySelector('#exportPlain').addEventListener('click', () => {
+            dialog.remove();
+            resolve('plain');
+        });
+        dialog.querySelector('#exportCancel').addEventListener('click', () => {
+            dialog.remove();
+            resolve(null);
+        });
+    });
 }
 
 async function importPasswords(e) {
@@ -674,19 +730,94 @@ async function importPasswords(e) {
     const reader = new FileReader();
     reader.onload = async (event) => {
         try {
-            const imported = JSON.parse(event.target.result);
-            if (!Array.isArray(imported)) throw new Error('Invalid format');
-            passwords = imported;
-            await saveToCloud();
-            renderPasswords();
-            updateCategoryFilter();
-            showNotification('Passwords imported!');
+            const parsed = JSON.parse(event.target.result);
+            
+            // Check if it's an encrypted export
+            if (parsed.encrypted && parsed.data) {
+                // Prompt for master password to decrypt
+                const decryptPassword = await showDecryptPrompt();
+                if (!decryptPassword) {
+                    showNotification('Import cancelled', true);
+                    return;
+                }
+                
+                try {
+                    const decryptedData = await decrypt(parsed.data, decryptPassword);
+                    const imported = JSON.parse(decryptedData);
+                    if (!Array.isArray(imported)) throw new Error('Invalid format');
+                    passwords = imported;
+                    await saveToCloud();
+                    renderPasswords();
+                    updateCategoryFilter();
+                    showNotification('Encrypted passwords imported!');
+                } catch (decryptError) {
+                    showNotification('Decryption failed - wrong password?', true);
+                }
+            } else if (Array.isArray(parsed)) {
+                // Plain JSON import
+                passwords = parsed;
+                await saveToCloud();
+                renderPasswords();
+                updateCategoryFilter();
+                showNotification('Passwords imported!');
+            } else {
+                throw new Error('Invalid format');
+            }
         } catch (e) {
             showNotification('Import failed: Invalid file', true);
         }
     };
     reader.readAsText(file);
     importFileInput.value = '';
+}
+
+function showDecryptPrompt() {
+    return new Promise((resolve) => {
+        const dialog = document.createElement('div');
+        dialog.className = 'modal active';
+        dialog.innerHTML = `
+            <div class="modal-content">
+                <h2>🔐 Encrypted Backup</h2>
+                <p style="margin-bottom: 1rem; opacity: 0.8;">Enter the master password used when exporting:</p>
+                <div class="password-input-group">
+                    <input type="password" id="decryptPasswordInput" placeholder="Master Password" style="width: 100%;">
+                    <button type="button" class="toggle-btn" id="toggleDecryptPwd">👁️</button>
+                </div>
+                <div class="modal-actions" style="margin-top: 1rem;">
+                    <button class="btn-primary" id="decryptConfirm">Decrypt & Import</button>
+                    <button class="btn-secondary" id="decryptCancel">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(dialog);
+        
+        const input = dialog.querySelector('#decryptPasswordInput');
+        input.focus();
+        
+        dialog.querySelector('#toggleDecryptPwd').addEventListener('click', () => {
+            input.type = input.type === 'password' ? 'text' : 'password';
+            dialog.querySelector('#toggleDecryptPwd').textContent = input.type === 'password' ? '👁️' : '🙈';
+        });
+        
+        dialog.querySelector('#decryptConfirm').addEventListener('click', () => {
+            const pwd = input.value;
+            dialog.remove();
+            resolve(pwd);
+        });
+        
+        dialog.querySelector('#decryptCancel').addEventListener('click', () => {
+            dialog.remove();
+            resolve(null);
+        });
+        
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const pwd = input.value;
+                dialog.remove();
+                resolve(pwd);
+            }
+        });
+    });
 }
 
 function togglePasswordVisibility() {
@@ -700,30 +831,62 @@ function togglePasswordVisibility() {
     }
 }
 
-async function changeMasterPassword() {
-    const currentPwd = prompt('Enter your CURRENT master password:');
-    if (!currentPwd) return;
+function openChangeMasterModal() {
+    document.getElementById('changeMasterModal').classList.add('active');
+    document.getElementById('currentMasterInput').value = '';
+    document.getElementById('newMasterInput').value = '';
+    document.getElementById('confirmMasterInput').value = '';
+    document.getElementById('currentMasterInput').focus();
+}
+
+function closeChangeMasterModal() {
+    document.getElementById('changeMasterModal').classList.remove('active');
+    document.getElementById('currentMasterInput').value = '';
+    document.getElementById('newMasterInput').value = '';
+    document.getElementById('confirmMasterInput').value = '';
+}
+
+async function handleChangeMasterPassword(e) {
+    e.preventDefault();
+    
+    const currentPwd = document.getElementById('currentMasterInput').value;
+    const newPwd = document.getElementById('newMasterInput').value;
+    const confirmPwd = document.getElementById('confirmMasterInput').value;
     
     if (currentPwd !== masterPassword) {
         showNotification('Incorrect current password', true);
         return;
     }
     
-    const newPwd = prompt('Enter your NEW master password:');
-    if (!newPwd) return;
-    
-    const confirmPwd = prompt('Confirm your NEW master password:');
     if (newPwd !== confirmPwd) {
-        showNotification('Passwords do not match', true);
+        showNotification('New passwords do not match', true);
+        return;
+    }
+    
+    if (!newPwd) {
+        showNotification('New password cannot be empty', true);
         return;
     }
     
     try {
         masterPassword = newPwd;
         await saveToCloud();
-        showNotification('Master password changed!');
+        closeChangeMasterModal();
+        showNotification('Master password changed successfully!');
     } catch (e) {
         showNotification('Failed to change password', true);
+    }
+}
+
+function toggleInputVisibility(inputId, buttonSelector) {
+    const input = document.getElementById(inputId);
+    const button = document.querySelector(buttonSelector);
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = '🙈';
+    } else {
+        input.type = 'password';
+        button.textContent = '👁️';
     }
 }
 

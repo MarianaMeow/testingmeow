@@ -53,7 +53,6 @@
     <div id="appScreen" class="screen">
         <header>
             <h1>🔐 Password Organizer</h1>
-</head>
             <div class="header-controls">
                 <span id="userEmail" class="user-email"></span>
                 <select id="themeSelector">
@@ -106,6 +105,31 @@
                 <div class="modal-actions">
                     <button type="submit" class="btn-primary">Save</button>
                     <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Master Password Modal -->
+    <div id="changeMasterModal" class="modal">
+        <div class="modal-content">
+            <h2>🔑 Change Master Password</h2>
+            <form id="changeMasterForm">
+                <div class="password-input-group">
+                    <input type="password" id="currentMasterInput" placeholder="Current Master Password" required>
+                    <button type="button" class="toggle-btn toggle-current">👁️</button>
+                </div>
+                <div class="password-input-group">
+                    <input type="password" id="newMasterInput" placeholder="New Master Password" required>
+                    <button type="button" class="toggle-btn toggle-new">👁️</button>
+                </div>
+                <div class="password-input-group">
+                    <input type="password" id="confirmMasterInput" placeholder="Confirm New Password" required>
+                    <button type="button" class="toggle-btn toggle-confirm">👁️</button>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Change Password</button>
+                    <button type="button" id="cancelMasterChangeBtn" class="btn-secondary">Cancel</button>
                 </div>
             </form>
         </div>
