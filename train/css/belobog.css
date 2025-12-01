@@ -1,0 +1,819 @@
+/* Belobog candy world - Sweet Wonderland */
+.belobog-castle {
+    background: 
+        /* Cotton candy clouds */
+        radial-gradient(ellipse at 20% 15%, rgba(255, 182, 193, 0.4), transparent 35%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 192, 203, 0.35), transparent 40%),
+        radial-gradient(ellipse at 50% 30%, rgba(255, 218, 224, 0.3), transparent 45%),
+        /* Candy sparkles */
+        radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2), transparent 2%),
+        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.2), transparent 2%),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.2), transparent 2%),
+        /* Sweet gradient base */
+        linear-gradient(to bottom, 
+            #FFB6C1 0%,
+            #FFC0CB 30%,
+            #FFD4E5 60%,
+            #FFE4E1 100%);
+    animation: candy-shimmer 12s ease-in-out infinite;
+    overflow: hidden;
+}
+
+@keyframes candy-shimmer {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.1) saturate(1.15); }
+}
+
+/* Lollipop trees */
+.castle-pillars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.pillar {
+    width: 60px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: lollipop-sway 4s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(255, 105, 180, 0.3));
+}
+
+.pillar:nth-child(1) { 
+    animation-delay: 0s;
+    animation-duration: 4s;
+}
+.pillar:nth-child(2) { 
+    animation-delay: 0.5s;
+    animation-duration: 4.5s;
+}
+.pillar:nth-child(3) { 
+    animation-delay: 1s;
+    animation-duration: 3.8s;
+}
+.pillar:nth-child(4) { 
+    animation-delay: 1.5s;
+    animation-duration: 4.2s;
+}
+
+@keyframes lollipop-sway {
+    0%, 100% { 
+        transform: rotate(0deg);
+    }
+    25% { 
+        transform: rotate(4deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% { 
+        transform: rotate(-4deg);
+    }
+}
+
+.pillar::before {
+    content: '';
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: 
+        /* Glossy highlight */
+        radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.8), transparent 40%),
+        /* Spiral pattern */
+        repeating-conic-gradient(
+            from 0deg,
+            #FF1493 0deg 36deg,
+            #FFF 36deg 72deg
+        );
+    border: 6px solid #FFF;
+    box-shadow: 
+        0 0 30px rgba(255, 105, 180, 0.8),
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.4),
+        inset -5px -5px 20px rgba(255, 20, 147, 0.3);
+    margin-top: 80px;
+    position: relative;
+}
+
+.pillar::after {
+    content: '';
+    width: 16px;
+    height: calc(100% - 180px);
+    background: 
+        /* Glossy stripe on stick */
+        linear-gradient(to right, 
+            rgba(255, 255, 255, 0.3) 0%, 
+            transparent 30%, 
+            transparent 70%, 
+            rgba(0, 0, 0, 0.2) 100%),
+        repeating-linear-gradient(
+            135deg,
+            #FF69B4,
+            #FF69B4 15px,
+            #FFF 15px,
+            #FFF 30px
+        );
+    border-radius: 8px;
+    box-shadow: 
+        0 0 15px rgba(255, 105, 180, 0.5),
+        inset 2px 0 5px rgba(255, 255, 255, 0.5),
+        inset -2px 0 5px rgba(255, 20, 147, 0.3);
+}
+
+/* Candy arch decoration */
+.castle-arch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 150px;
+    border: 5px solid rgba(255, 182, 193, 0.6);
+    border-top-left-radius: 200px;
+    border-top-right-radius: 200px;
+    border-bottom: none;
+    box-shadow: 0 0 40px rgba(255, 192, 203, 0.5);
+    pointer-events: none;
+    background: linear-gradient(to bottom, 
+        rgba(255, 218, 224, 0.3),
+        transparent);
+}
+
+/* Giant lollipop emblem */
+.castle-emblem {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: 
+        repeating-conic-gradient(
+            from 0deg,
+            #FF1493 0deg 30deg,
+            #FFF 30deg 60deg
+        );
+    border: 5px solid #FFB6C1;
+    box-shadow: 
+        0 0 40px rgba(255, 105, 180, 0.8),
+        inset 0 0 20px rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    animation: spin-lollipop 20s linear infinite;
+}
+
+@keyframes spin-lollipop {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Add sparkle to lollipop candy part */
+.pillar::before {
+    animation: lollipop-sparkle 3s ease-in-out infinite;
+}
+
+@keyframes lollipop-sparkle {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px rgba(255, 105, 180, 0.8),
+            0 5px 15px rgba(0, 0, 0, 0.3),
+            inset 0 0 30px rgba(255, 255, 255, 0.4),
+            inset -5px -5px 20px rgba(255, 20, 147, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px rgba(255, 105, 180, 1),
+            0 5px 20px rgba(0, 0, 0, 0.3),
+            inset 0 0 40px rgba(255, 255, 255, 0.6),
+            inset -5px -5px 25px rgba(255, 20, 147, 0.5),
+            0 0 60px rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* Subtle floating clouds */
+.candy-clouds {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    opacity: 0.6;
+    animation: cloud-float linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+}
+
+.cloud:nth-child(1) {
+    width: 120px;
+    height: 40px;
+    top: 15%;
+    left: -150px;
+    animation-duration: 45s;
+}
+
+.cloud:nth-child(1)::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 20px;
+}
+
+.cloud:nth-child(1)::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 20px;
+}
+
+.cloud:nth-child(2) {
+    width: 100px;
+    height: 35px;
+    top: 35%;
+    left: -120px;
+    animation-duration: 55s;
+    animation-delay: 10s;
+}
+
+.cloud:nth-child(2)::before {
+    width: 45px;
+    height: 45px;
+    top: -20px;
+    left: 15px;
+}
+
+.cloud:nth-child(2)::after {
+    width: 50px;
+    height: 35px;
+    top: -12px;
+    right: 15px;
+}
+
+.cloud:nth-child(3) {
+    width: 140px;
+    height: 45px;
+    top: 60%;
+    left: -160px;
+    animation-duration: 50s;
+    animation-delay: 20s;
+}
+
+.cloud:nth-child(3)::before {
+    width: 55px;
+    height: 55px;
+    top: -28px;
+    left: 25px;
+}
+
+.cloud:nth-child(3)::after {
+    width: 65px;
+    height: 45px;
+    top: -18px;
+    right: 25px;
+}
+
+.cloud:nth-child(4) {
+    width: 110px;
+    height: 38px;
+    top: 80%;
+    left: -130px;
+    animation-duration: 48s;
+    animation-delay: 30s;
+}
+
+.cloud:nth-child(4)::before {
+    width: 48px;
+    height: 48px;
+    top: -22px;
+    left: 18px;
+}
+
+.cloud:nth-child(4)::after {
+    width: 55px;
+    height: 38px;
+    top: -14px;
+    right: 18px;
+}
+
+@keyframes cloud-float {
+    0% {
+        left: -200px;
+    }
+    100% {
+        left: 110%;
+    }
+}
+
+/* Falling chocolates container */
+.falling-chocolates {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.chocolate {
+    position: absolute;
+    font-size: 2.5rem;
+    animation: chocolate-fall linear infinite;
+    filter: drop-shadow(0 0 5px rgba(139, 69, 19, 0.5));
+}
+
+.chocolate:nth-child(1) {
+    left: 15%;
+    animation-duration: 9s;
+    animation-delay: 0s;
+}
+
+.chocolate:nth-child(2) {
+    left: 35%;
+    animation-duration: 11s;
+    animation-delay: 2s;
+}
+
+.chocolate:nth-child(3) {
+    left: 55%;
+    animation-duration: 10s;
+    animation-delay: 4s;
+}
+
+.chocolate:nth-child(4) {
+    left: 75%;
+    animation-duration: 12s;
+    animation-delay: 1s;
+}
+
+.chocolate:nth-child(5) {
+    left: 25%;
+    animation-duration: 13s;
+    animation-delay: 5s;
+}
+
+.chocolate:nth-child(6) {
+    left: 65%;
+    animation-duration: 11s;
+    animation-delay: 3s;
+}
+
+@keyframes chocolate-fall {
+    0% {
+        top: -10%;
+        opacity: 0;
+        transform: rotate(0deg) scale(0.8);
+    }
+    10% {
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        opacity: 0;
+        transform: rotate(360deg) scale(0.8);
+    }
+}
+
+.belobog-celestial-row {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.belobog-celestial {
+    width: 180px;
+    height: 180px;
+    padding: 25px;
+    border-radius: 50%;
+    background: 
+        /* Glossy highlight */
+        radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.8), transparent 50%),
+        /* Candy gradient */
+        radial-gradient(circle, 
+            rgba(255, 182, 193, 1) 0%,
+            rgba(255, 192, 203, 1) 40%,
+            rgba(255, 105, 180, 0.95) 100%);
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 10px 30px rgba(255, 105, 180, 0.5),
+        0 0 40px rgba(255, 192, 203, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.4),
+        inset -10px -10px 30px rgba(255, 20, 147, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.belobog-celestial::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: 
+        repeating-conic-gradient(
+            from 0deg,
+            transparent 0deg 30deg,
+            rgba(255, 255, 255, 0.1) 30deg 35deg
+        );
+    animation: candy-spin 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes candy-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.belobog-celestial:hover {
+    transform: translateY(-8px) scale(1.08);
+    box-shadow: 
+        0 15px 50px rgba(255, 105, 180, 0.8),
+        0 0 60px rgba(255, 192, 203, 0.6),
+        0 0 80px rgba(255, 255, 255, 0.4),
+        inset 0 0 40px rgba(255, 255, 255, 0.6),
+        inset -10px -10px 40px rgba(255, 20, 147, 0.3);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.belobog-celestial-icon {
+    font-size: 3.5rem;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+    position: relative;
+    z-index: 1;
+}
+
+.belobog-celestial-label {
+    font-size: 0.95rem;
+    color: #FFF;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    text-shadow: 
+        0 0 10px rgba(255, 20, 147, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.belobog-celestial-desc {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.3;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+/* Belobog fill-in-the-blank mini-game */
+.belobog-fill-container {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    backdrop-filter: blur(10px);
+}
+
+.belobog-fill-title {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+.belobog-fill-layout {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    max-width: 900px;
+}
+
+.belobog-fill-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+    border-radius: 16px;
+    background: radial-gradient(circle, rgba(100, 150, 255, 0.15), rgba(50, 0, 100, 0.3));
+    border: 2px solid rgba(200, 200, 255, 0.4);
+}
+
+.belobog-fill-options-title {
+    font-size: 0.9rem;
+    color: #d4d4d4;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.belobog-fill-option {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 215, 0, 0.6);
+    background: rgba(50, 0, 100, 0.5);
+    color: #ffd700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.belobog-fill-option:hover {
+    background: rgba(100, 150, 255, 0.4);
+    border-color: rgba(255, 215, 0, 1);
+    transform: translateX(5px);
+}
+
+.belobog-fill-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.belobog-fill-prompt {
+    font-size: 1.2rem;
+    color: #fffaf0;
+    line-height: 1.8;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(50, 0, 100, 0.3);
+    border: 1px solid rgba(200, 200, 255, 0.3);
+}
+
+.belobog-fill-blank {
+    color: #ffd700;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+}
+
+.belobog-fill-input {
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 215, 0, 0.7);
+    border-radius: 8px;
+    background: rgba(20, 0, 40, 0.8);
+    color: #ffd700;
+    transition: all 0.25s ease;
+}
+
+.belobog-fill-input:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.belobog-fill-button {
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 215, 0, 0.9);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3), rgba(179, 0, 33, 0.8));
+    color: #ffd700;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.belobog-fill-button:hover {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.5), rgba(179, 0, 33, 1));
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+.belobog-fill-feedback {
+    font-size: 0.95rem;
+    text-align: center;
+    min-height: 24px;
+    font-weight: 600;
+}
+
+/* Belobog mission panel */
+.belobog-mission-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 380px;
+    background: radial-gradient(circle at top, rgba(100, 150, 255, 0.15), rgba(20, 0, 40, 0.95));
+    border: 2px solid rgba(200, 200, 255, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mission-toggle {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(50, 0, 100, 0.6);
+    border: none;
+    border-bottom: 1px solid rgba(200, 200, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.mission-toggle:hover {
+    background: rgba(100, 150, 255, 0.3);
+}
+
+.mission-toggle-label {
+    flex: 1;
+    font-size: 0.85rem;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: left;
+}
+
+.mission-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.mission-pill-pending {
+    background: rgba(255, 100, 100, 0.3);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 100, 100, 0.6);
+}
+
+.mission-pill-complete {
+    background: rgba(100, 255, 150, 0.3);
+    color: #55efc4;
+    border: 1px solid rgba(100, 255, 150, 0.6);
+}
+
+.mission-toggle-icon {
+    font-size: 1.2rem;
+    color: #d4d4d4;
+    transition: transform 0.3s ease;
+}
+
+.belobog-mission-panel.open .mission-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.mission-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.belobog-mission-panel.open .mission-content {
+    max-height: 600px;
+}
+
+.mission-section {
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+}
+
+.mission-section:last-child {
+    border-bottom: none;
+}
+
+.mission-section-title {
+    font-size: 0.75rem;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+}
+
+.mission-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+}
+
+.mission-line .label {
+    color: #9ca3af;
+}
+
+.mission-line .value {
+    color: #fffaf0;
+    text-align: right;
+}
+
+.status-pending {
+    color: #ff6b6b !important;
+}
+
+.status-complete {
+    color: #55efc4 !important;
+}
+
+.mission-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.7rem;
+    color: #d4d4d4;
+}
+
+.mission-list li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+.mission-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #ffd700;
+}
+
+.ticket-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ticket-preview .ticket-label {
+    font-size: 0.65rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.ticket-preview .ticket-card {
+    padding: 12px;
+    border-radius: 10px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15), rgba(50, 0, 100, 0.4));
+    border: 1px solid rgba(255, 215, 0, 0.6);
+}
+
+.ticket-preview .ticket-card.locked {
+    opacity: 0.6;
+    border-style: dashed;
+}
+
+.ticket-preview .ticket-world {
+    font-size: 0.85rem;
+    color: #ffd700;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.ticket-preview .ticket-note {
+    font-size: 0.65rem;
+    color: #d4d4d4;
+}
+
+.belobog-minigame-placeholder {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    color: #d4d4d4;
+    text-align: center;
+    max-width: 500px;
+    z-index: 5;
+}
+

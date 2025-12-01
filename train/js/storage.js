@@ -15,7 +15,7 @@ export function saveProgress(gameState) {
         penaconyShards: gameState.problemsSolved,
         xianzhouRedShardText: document.getElementById('xianzhou-red-shard')?.getAttribute('data-memory') || '',
         jariloCollectedPieces: gameState.collectedCount,
-        hasLoggedIn: true,
+        penaconyTicketReady: gameState.penaconyTicketReady || false,
         collectedKeys: gameState.collectedKeys || {
             belobog: false,
             xianzhou: false,
@@ -55,16 +55,8 @@ export function loadProgress() {
 export function applyProgress(progress, gameState) {
     if (!progress) return;
 
-    // Skip login if already logged in before
-    if (progress.hasLoggedIn) {
-        const welcomeScreen = document.getElementById('welcome-screen');
-        const mainMenu = document.getElementById('main-menu');
-        if (welcomeScreen) welcomeScreen.style.display = 'none';
-        if (mainMenu) mainMenu.style.display = 'flex';
-    }
-
     // Unlock planets
-    progress.unlockedPlanets.forEach(planetKey => {
+    (progress.unlockedPlanets || []).forEach(planetKey => {
         const planet = document.querySelector(`.planet-option[data-planet="${planetKey}"]`);
         if (planet) {
             planet.classList.remove('locked');
@@ -126,7 +118,11 @@ export function applyProgress(progress, gameState) {
 
     // Restore collected keys
     if (progress.collectedKeys) {
-        gameState.collectedKeys = progress.collectedKeys;
+        Object.assign(gameState.collectedKeys, progress.collectedKeys);
+    }
+
+    if (typeof progress.penaconyTicketReady === 'boolean') {
+        gameState.penaconyTicketReady = progress.penaconyTicketReady;
     }
 }
 

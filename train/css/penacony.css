@@ -1,0 +1,615 @@
+/* Penacony portal styles - Cosmic Carnival Casino */
+.penacony-casino {
+    background: 
+        /* Cosmic nebula swirls */
+        radial-gradient(ellipse at 25% 20%, rgba(255, 100, 255, 0.35), transparent 40%),
+        radial-gradient(ellipse at 75% 30%, rgba(138, 43, 226, 0.3), transparent 45%),
+        radial-gradient(ellipse at 50% 60%, rgba(255, 215, 0, 0.15), transparent 50%),
+        radial-gradient(ellipse at 30% 80%, rgba(255, 105, 180, 0.25), transparent 40%),
+        radial-gradient(ellipse at 80% 70%, rgba(218, 112, 214, 0.2), transparent 45%),
+        /* Gold stardust shimmer */
+        radial-gradient(circle at 15% 15%, rgba(255, 215, 0, 0.4), transparent 2px),
+        radial-gradient(circle at 85% 25%, rgba(255, 215, 0, 0.5), transparent 2px),
+        radial-gradient(circle at 45% 10%, rgba(255, 215, 0, 0.6), transparent 2px),
+        radial-gradient(circle at 65% 85%, rgba(255, 215, 0, 0.4), transparent 2px),
+        radial-gradient(circle at 20% 70%, rgba(255, 215, 0, 0.5), transparent 2px),
+        radial-gradient(circle at 90% 60%, rgba(255, 215, 0, 0.4), transparent 2px),
+        /* Deep cosmic base */
+        linear-gradient(135deg, 
+            #0a0015 0%,
+            #1a0a30 30%,
+            #0f0520 60%,
+            #050010 100%);
+    animation: cosmic-shimmer 20s ease-in-out infinite;
+    overflow: hidden;
+}
+
+@keyframes cosmic-shimmer {
+    0%, 100% { 
+        filter: brightness(1) saturate(1.1);
+    }
+    50% { 
+        filter: brightness(1.1) saturate(1.25) hue-rotate(5deg);
+    }
+}
+
+/* Velvet curtains */
+.velvet-curtains {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.curtain {
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(75, 0, 130, 0.6),
+        rgba(75, 0, 130, 0.4),
+        transparent);
+    animation: curtain-sway 8s ease-in-out infinite;
+}
+
+.curtain.left {
+    left: 0;
+    background: linear-gradient(to right,
+        rgba(75, 0, 130, 0.6),
+        rgba(75, 0, 130, 0.4),
+        transparent);
+}
+
+.curtain.right {
+    right: 0;
+    background: linear-gradient(to left,
+        rgba(75, 0, 130, 0.6),
+        rgba(75, 0, 130, 0.4),
+        transparent);
+}
+
+.curtain::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom,
+        rgba(255, 215, 0, 0.3),
+        transparent);
+}
+
+@keyframes curtain-sway {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+/* Chandelier light rays */
+.chandelier-light {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.light-ray {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 300px;
+    background: linear-gradient(to bottom,
+        rgba(255, 215, 0, 0.6),
+        rgba(255, 215, 0, 0.2),
+        transparent);
+    transform-origin: top center;
+    animation: ray-sweep 10s ease-in-out infinite;
+}
+
+.light-ray:nth-child(1) {
+    transform: translateX(-50%) rotate(-15deg);
+    animation-delay: 0s;
+}
+
+.light-ray:nth-child(2) {
+    transform: translateX(-50%) rotate(0deg);
+    animation-delay: 1s;
+}
+
+.light-ray:nth-child(3) {
+    transform: translateX(-50%) rotate(15deg);
+    animation-delay: 2s;
+}
+
+@keyframes ray-sweep {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+/* Carnival string lights */
+.string-lights {
+    position: absolute;
+    top: 50px;
+    left: 10%;
+    right: 10%;
+    height: 30px;
+    pointer-events: none;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+}
+
+.light-bulb {
+    width: 15px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.9), rgba(255, 180, 0, 0.6));
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    animation: bulb-twinkle 3s ease-in-out infinite;
+}
+
+.light-bulb:nth-child(1) { animation-delay: 0s; }
+.light-bulb:nth-child(2) { animation-delay: 0.3s; }
+.light-bulb:nth-child(3) { animation-delay: 0.6s; }
+.light-bulb:nth-child(4) { animation-delay: 0.9s; }
+.light-bulb:nth-child(5) { animation-delay: 1.2s; }
+.light-bulb:nth-child(6) { animation-delay: 1.5s; }
+.light-bulb:nth-child(7) { animation-delay: 1.8s; }
+.light-bulb:nth-child(8) { animation-delay: 2.1s; }
+
+@keyframes bulb-twinkle {
+    0%, 100% { 
+        opacity: 0.8;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 1);
+    }
+}
+
+/* Floating cosmic poker chips - Enhanced */
+.cosmic-chips {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.poker-chip {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: 
+        /* Glossy highlight */
+        radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.6), transparent 50%),
+        /* Simple gradient */
+        radial-gradient(circle,
+            rgba(255, 215, 0, 0.4),
+            rgba(255, 105, 180, 0.3));
+    border: 4px solid rgba(255, 215, 0, 0.9);
+    box-shadow: 
+        0 0 40px rgba(255, 215, 0, 0.8),
+        0 5px 20px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+    animation: chip-float 8s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+}
+
+.chip-inner {
+    font-size: 2.8rem;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    animation: chip-spin 20s linear infinite;
+}
+
+.chip-1 {
+    top: 20%;
+    left: 15%;
+    animation-duration: 10s;
+    animation-delay: 0s;
+}
+
+.chip-2 {
+    top: 35%;
+    right: 12%;
+    animation-duration: 12s;
+    animation-delay: 2s;
+}
+
+.chip-3 {
+    top: 60%;
+    left: 10%;
+    animation-duration: 11s;
+    animation-delay: 4s;
+}
+
+.chip-4 {
+    top: 75%;
+    right: 18%;
+    animation-duration: 13s;
+    animation-delay: 1s;
+}
+
+.chip-5 {
+    top: 50%;
+    left: 85%;
+    animation-duration: 9s;
+    animation-delay: 3s;
+}
+
+@keyframes chip-float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-25px) rotate(180deg) scale(1.05);
+    }
+}
+
+@keyframes chip-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Gold confetti rain - MORE CONFETTI! */
+.gold-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 14px;
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.95),
+        rgba(255, 180, 0, 0.8));
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    animation: confetti-fall linear infinite;
+}
+
+/* 20 confetti pieces with varied positions and timings */
+.confetti:nth-child(1) { left: 5%; animation-duration: 7s; animation-delay: 0s; }
+.confetti:nth-child(2) { left: 12%; animation-duration: 9s; animation-delay: 1s; }
+.confetti:nth-child(3) { left: 18%; animation-duration: 8s; animation-delay: 2s; }
+.confetti:nth-child(4) { left: 25%; animation-duration: 10s; animation-delay: 0.5s; }
+.confetti:nth-child(5) { left: 32%; animation-duration: 7.5s; animation-delay: 3s; }
+.confetti:nth-child(6) { left: 38%; animation-duration: 9.5s; animation-delay: 1.5s; }
+.confetti:nth-child(7) { left: 45%; animation-duration: 8.5s; animation-delay: 4s; }
+.confetti:nth-child(8) { left: 52%; animation-duration: 10.5s; animation-delay: 2.5s; }
+.confetti:nth-child(9) { left: 58%; animation-duration: 7.8s; animation-delay: 5s; }
+.confetti:nth-child(10) { left: 65%; animation-duration: 9.2s; animation-delay: 0.8s; }
+.confetti:nth-child(11) { left: 72%; animation-duration: 8.3s; animation-delay: 3.5s; }
+.confetti:nth-child(12) { left: 78%; animation-duration: 10.2s; animation-delay: 1.2s; }
+.confetti:nth-child(13) { left: 85%; animation-duration: 7.6s; animation-delay: 4.5s; }
+.confetti:nth-child(14) { left: 92%; animation-duration: 9.8s; animation-delay: 2.8s; }
+.confetti:nth-child(15) { left: 8%; animation-duration: 8.8s; animation-delay: 6s; }
+.confetti:nth-child(16) { left: 22%; animation-duration: 10.8s; animation-delay: 0.3s; }
+.confetti:nth-child(17) { left: 48%; animation-duration: 7.2s; animation-delay: 5.5s; }
+.confetti:nth-child(18) { left: 62%; animation-duration: 9.6s; animation-delay: 3.8s; }
+.confetti:nth-child(19) { left: 75%; animation-duration: 8.1s; animation-delay: 1.8s; }
+.confetti:nth-child(20) { left: 88%; animation-duration: 10.3s; animation-delay: 4.2s; }
+
+@keyframes confetti-fall {
+    0% {
+        top: -10%;
+        opacity: 0;
+        transform: rotate(0deg) scale(1);
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        opacity: 0;
+        transform: rotate(720deg) scale(0.8);
+    }
+}
+
+.penacony-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 40px;
+    max-width: 900px;
+}
+
+.penacony-title {
+    font-size: 2.5rem;
+    color: #ff99ff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 150, 255, 0.8);
+}
+
+/* Slot Machine */
+.slot-machine {
+    position: relative;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slot-machine-top {
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(to bottom, #ffd700, #ff9900);
+    border-radius: 50% 50% 0 0;
+    border: 3px solid #ffed4e;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.slot-machine-body {
+    position: relative;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(135deg, #e94560, #8e44ad);
+    border: 4px solid #ffd700;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.9),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.slot-display {
+    background: #000;
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.slot-equation {
+    font-size: 2rem;
+    color: #ffd700;
+    font-weight: 700;
+    text-align: center;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.slot-lever {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 80px;
+    background: linear-gradient(to right, #c0c0c0, #808080);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.slot-lever::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #ff3366, #e94560);
+    border-radius: 50%;
+    border: 2px solid #ffd700;
+}
+
+.slot-start-btn {
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, #ffd700, #ff9900);
+    color: #1a0004;
+    border: 3px solid #ffed4e;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
+}
+
+.slot-start-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.9);
+}
+
+.slot-start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Coin Stack */
+.coin-stack {
+    position: absolute;
+    right: -180px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.coin-label {
+    font-size: 0.9rem;
+    color: #ff99ff;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.coin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.coin {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffd700, #ff9900);
+    border: 3px solid #ffed4e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a0004;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+}
+
+.coin:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.8);
+}
+
+.coin.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.coin.coin-pop {
+    animation: coin-pop 0.4s ease;
+}
+
+.coin.coin-hide {
+    animation: coin-hide 0.3s ease forwards;
+}
+
+@keyframes coin-pop {
+    0% { 
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+    }
+    100% { 
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes coin-hide {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.penacony-feedback {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    min-height: 30px;
+    margin-top: 10px;
+}
+
+/* Ticket Shards */
+.ticket-shards-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.ticket-shards-label {
+    font-size: 1rem;
+    color: #ff99ff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.ticket-shards {
+    display: flex;
+    gap: 20px;
+}
+
+.ticket-shard {
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(135deg, rgba(255, 200, 255, 0.3), rgba(150, 100, 255, 0.4));
+    border: 2px solid rgba(255, 200, 255, 0.5);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.5s ease;
+    clip-path: polygon(
+        15% 0%, 85% 0%, 100% 15%, 100% 85%,
+        85% 100%, 15% 100%, 0% 85%, 0% 15%
+    );
+}
+
+.ticket-shard.locked {
+    opacity: 0.3;
+    background: linear-gradient(135deg, rgba(100, 100, 100, 0.3), rgba(50, 50, 50, 0.4));
+    border-color: rgba(150, 150, 150, 0.3);
+}
+
+.ticket-shard.collected {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.6), rgba(255, 150, 255, 0.7));
+    border-color: #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    animation: shard-collect 0.6s ease;
+}
+
+.shard-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.ticket-shard.collected .shard-number {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes shard-collect {
+    0% {
+        transform: scale(0.5) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3) rotate(0deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+

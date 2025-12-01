@@ -1,0 +1,864 @@
+/* Terminus Lobby - Final elegant chamber - Celestial Threshold */
+.terminus-lobby {
+    background: 
+        /* Ethereal light beams */
+        radial-gradient(ellipse at 50% 0%, rgba(220, 200, 255, 0.3), transparent 40%),
+        radial-gradient(ellipse at 30% 30%, rgba(200, 180, 255, 0.2), transparent 35%),
+        radial-gradient(ellipse at 70% 40%, rgba(210, 190, 255, 0.18), transparent 38%),
+        radial-gradient(ellipse at 50% 80%, rgba(190, 170, 255, 0.15), transparent 45%),
+        /* Divine rays */
+        repeating-conic-gradient(
+            from 0deg at 50% 0%,
+            transparent 0deg,
+            rgba(200, 180, 255, 0.05) 2deg,
+            transparent 4deg,
+            transparent 8deg
+        ),
+        /* Starfield shimmer */
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03), transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.03), transparent 1px),
+        radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.03), transparent 1px),
+        /* Cosmic depths */
+        linear-gradient(to bottom, #0a0a15, #12122a, #15152a, #0f0f20);
+    overflow: hidden;
+    animation: celestial-glow 14s ease-in-out infinite;
+}
+
+@keyframes celestial-glow {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.1) saturate(1.15); }
+}
+
+.terminus-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+}
+
+.terminus-title {
+    font-size: 3rem;
+    color: #c8b4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 10px;
+    text-shadow: 
+        0 0 30px rgba(200, 180, 255, 1),
+        0 0 60px rgba(200, 180, 255, 0.8);
+    font-family: 'Courier New', monospace;
+    animation: terminus-glow 3s ease-in-out infinite;
+}
+
+@keyframes terminus-glow {
+    0%, 100% {
+        text-shadow: 
+            0 0 30px rgba(200, 180, 255, 1),
+            0 0 60px rgba(200, 180, 255, 0.8);
+    }
+    50% {
+        text-shadow: 
+            0 0 40px rgba(200, 180, 255, 1),
+            0 0 80px rgba(200, 180, 255, 1),
+            0 0 120px rgba(150, 100, 255, 0.8);
+    }
+}
+
+.terminus-subtitle {
+    font-size: 1rem;
+    color: #b8a0ff;
+    letter-spacing: 0.2em;
+    margin-bottom: 40px;
+}
+
+.terminus-message {
+    font-size: 1.1rem;
+    color: #d8c8ff;
+    line-height: 1.8;
+    margin-top: 40px;
+    text-shadow: 0 0 10px rgba(200, 180, 255, 0.5);
+}
+
+/* Lobby Room */
+.lobby-room {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+.lobby-floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            rgba(100, 80, 150, 0.3),
+            rgba(100, 80, 150, 0.3) 50px,
+            rgba(80, 60, 120, 0.3) 50px,
+            rgba(80, 60, 120, 0.3) 100px
+        );
+    border-top: 2px solid rgba(200, 180, 255, 0.4);
+    transform: rotateX(60deg);
+    transform-origin: bottom;
+}
+
+.lobby-walls {
+    position: absolute;
+    inset: 0;
+}
+
+.wall-light {
+    position: absolute;
+    width: 80px;
+    height: 150px;
+    background: linear-gradient(to bottom, 
+        rgba(200, 180, 255, 0.3),
+        transparent);
+    filter: blur(20px);
+}
+
+.wall-light.left {
+    left: 50px;
+    top: 50px;
+}
+
+.wall-light.right {
+    right: 50px;
+    top: 50px;
+}
+
+/* The Mysterious Door */
+.mysterious-door {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.mysterious-door:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.door-frame {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background: linear-gradient(135deg, 
+        rgba(150, 130, 200, 0.3),
+        rgba(100, 80, 150, 0.5));
+    border: 3px solid rgba(200, 180, 255, 0.6);
+    border-radius: 10px 10px 0 0;
+    box-shadow: 
+        0 0 40px rgba(200, 180, 255, 0.6),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.door-panel {
+    position: absolute;
+    inset: 10px;
+    background: linear-gradient(to bottom,
+        rgba(80, 60, 120, 0.8),
+        rgba(50, 40, 80, 0.9));
+    border: 2px solid rgba(200, 180, 255, 0.4);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.door-handle {
+    width: 40px;
+    height: 12px;
+    background: radial-gradient(circle, #ffd700, #ff9900);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    position: absolute;
+    right: 20px;
+}
+
+.door-glow {
+    position: absolute;
+    inset: -20px;
+    border: 2px solid rgba(200, 180, 255, 0.3);
+    border-radius: 10px;
+    opacity: 0;
+    animation: door-pulse 3s ease-in-out infinite;
+}
+
+@keyframes door-pulse {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+.door-inscription {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    color: #c8b4ff;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(200, 180, 255, 0.8);
+}
+
+/* Lobby Particles */
+.lobby-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.light-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #c8b4ff;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(200, 180, 255, 0.8);
+    animation: float-lobby linear infinite;
+}
+
+.light-particle:nth-child(1) {
+    left: 20%;
+    animation-duration: 8s;
+    animation-delay: 0s;
+}
+
+.light-particle:nth-child(2) {
+    left: 40%;
+    animation-duration: 10s;
+    animation-delay: 2s;
+}
+
+.light-particle:nth-child(3) {
+    left: 60%;
+    animation-duration: 9s;
+    animation-delay: 4s;
+}
+
+.light-particle:nth-child(4) {
+    left: 80%;
+    animation-duration: 11s;
+    animation-delay: 6s;
+}
+
+@keyframes float-lobby {
+    0% {
+        top: 100%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        top: -10%;
+        opacity: 0;
+    }
+}
+
+/* Door interaction states */
+.mysterious-door.locked .door-panel {
+    background: linear-gradient(to bottom,
+        rgba(80, 60, 120, 0.6),
+        rgba(50, 40, 80, 0.7));
+}
+
+.mysterious-door.unlocked .door-panel {
+    background: linear-gradient(to bottom,
+        rgba(255, 215, 0, 0.3),
+        rgba(200, 180, 255, 0.4));
+    box-shadow: 
+        0 0 40px rgba(255, 215, 0, 0.8),
+        inset 0 0 30px rgba(255, 215, 0, 0.3);
+    animation: door-unlock 1s ease;
+}
+
+@keyframes door-unlock {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Lotus Flower Memory Game */
+.lotus-game {
+    position: absolute !important;
+    top: 17% !important;
+    left: 50% !important;
+    transform: translate(-50%, 0) !important;
+    width: 100%;
+    max-width: 750px;
+    z-index: 15;
+    text-align: center;
+    background: transparent;
+    padding: 20px 20px 25px;
+    border-radius: 30px;
+}
+
+.lotus-game .game-title {
+    font-size: 1.4rem;
+    color: #c0d8ff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 
+        0 0 20px rgba(150, 200, 255, 0.8),
+        0 0 30px rgba(100, 150, 255, 0.5);
+}
+
+.lotus-game .game-instructions {
+    font-size: 0.85rem;
+    color: #a0c8ff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(160, 200, 255, 0.6);
+}
+
+.lotus-flowers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.lotus-flower {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lotus-flower:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+.lotus-petals {
+    position: absolute;
+    inset: 0;
+}
+
+.petal {
+    position: absolute;
+    width: 32px;
+    height: 40px;
+    background: linear-gradient(to bottom,
+        rgba(255, 200, 220, 0.85),
+        rgba(255, 180, 210, 0.75));
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center bottom;
+    box-shadow: 
+        inset 0 -8px 12px rgba(255, 150, 180, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 180, 210, 0.3);
+    transition: all 0.4s ease;
+}
+
+.petal:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(0deg) translateY(-20px);
+}
+
+.petal:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-20px);
+}
+
+.petal:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-20px);
+}
+
+.petal:nth-child(4) {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-20px);
+}
+
+.petal:nth-child(5) {
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-20px);
+}
+
+.petal:nth-child(6) {
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-20px);
+}
+
+.lotus-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle,
+        rgba(255, 240, 150, 1),
+        rgba(255, 220, 120, 0.9));
+    border-radius: 50%;
+    box-shadow: 
+        inset 0 -4px 8px rgba(200, 180, 100, 0.5),
+        0 0 20px rgba(255, 240, 150, 0.9),
+        0 0 30px rgba(255, 220, 120, 0.6);
+    transition: all 0.4s ease;
+    z-index: 2;
+}
+
+.lotus-center::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: rgba(255, 230, 130, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 240, 150, 0.8);
+}
+
+.lotus-ripple {
+    position: absolute;
+    inset: -15px;
+    border: 3px solid rgba(100, 180, 200, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+/* Active/Blooming State */
+.lotus-flower.active .petal:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(0deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(4) {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(5) {
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-28px);
+}
+
+.lotus-flower.active .petal:nth-child(6) {
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-28px);
+}
+
+.lotus-flower.active .lotus-center {
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 
+        inset 0 -5px 10px rgba(200, 180, 100, 0.5),
+        0 0 35px rgba(255, 240, 150, 1),
+        0 0 50px rgba(255, 220, 120, 0.8);
+}
+
+.lotus-flower.active .lotus-ripple {
+    animation: lotus-ripple-out 0.8s ease;
+}
+
+.lotus-flower.correct {
+    animation: lotus-bloom 0.6s ease;
+}
+
+.lotus-flower.correct .petal {
+    background: linear-gradient(to bottom,
+        rgba(144, 238, 144, 0.9),
+        rgba(152, 251, 152, 0.8));
+}
+
+.lotus-flower.wrong {
+    animation: lotus-shake 0.5s ease;
+}
+
+.lotus-flower.wrong .petal {
+    background: linear-gradient(to bottom,
+        rgba(220, 100, 120, 0.9),
+        rgba(200, 80, 100, 0.8));
+}
+
+@keyframes lotus-ripple-out {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+@keyframes lotus-bloom {
+    0%, 100% {
+        transform: translateY(-5px) scale(1.05);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.15) rotate(5deg);
+    }
+}
+
+@keyframes lotus-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-8px) rotate(-3deg);
+    }
+    75% {
+        transform: translateX(8px) rotate(3deg);
+    }
+}
+
+/* ========================================
+   KEY NOTIFICATION SYSTEM
+   ======================================== */
+.key-notification {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 3px solid #ffd700;
+    border-radius: 15px;
+    padding: 20px 30px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    z-index: 1001;
+    transition: right 0.3s ease;
+}
+
+.key-notification.show {
+    right: 20px;
+}
+
+.key-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.key-icon {
+    font-size: 32px;
+    animation: keyBounce 0.6s ease infinite;
+}
+
+@keyframes keyBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.key-text {
+    color: #ffd700;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ========================================
+   TERMINUS KEY PUZZLE SYSTEM
+   ======================================== */
+.key-puzzle-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+}
+
+.key-puzzle-panel {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 4px solid #ffd700;
+    border-radius: 25px;
+    padding: 40px;
+    max-width: 1000px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.7);
+    animation: puzzleFadeIn 0.4s ease;
+}
+
+@keyframes puzzleFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.puzzle-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.puzzle-header h2 {
+    color: #ffd700;
+    font-size: 36px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.puzzle-header p {
+    color: #a0a0a0;
+    font-size: 18px;
+}
+
+.close-puzzle-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #e94560;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-puzzle-btn:hover {
+    background: #ff6b6b;
+    transform: rotate(90deg);
+}
+
+.puzzle-content {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.keyholes-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.keyhole {
+    background: rgba(0, 0, 0, 0.5);
+    border: 3px dashed #666;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.keyhole-icon {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.keyhole-label {
+    color: #a0a0a0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.keyhole-slot {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border: 2px dashed #444;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.keyhole.keyhole-match {
+    border-color: #55efc4;
+    background: rgba(85, 239, 196, 0.15);
+    box-shadow: 0 0 25px rgba(85, 239, 196, 0.4);
+}
+
+.keyhole.keyhole-match .keyhole-slot {
+    border-color: #55efc4;
+    background: rgba(85, 239, 196, 0.2);
+}
+
+.keyhole.keyhole-wrong {
+    border-color: #e94560;
+    background: rgba(233, 69, 96, 0.15);
+    box-shadow: 0 0 25px rgba(233, 69, 96, 0.4);
+}
+
+.keyhole.keyhole-wrong .keyhole-slot {
+    border-color: #e94560;
+    background: rgba(233, 69, 96, 0.2);
+}
+
+.keyhole.filled {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+}
+
+.keyhole.filled .keyhole-slot {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.keys-container {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border: 3px solid #444;
+    border-radius: 15px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-content: start;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.draggable-key {
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: grab;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #ffd700;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.draggable-key:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.draggable-key:active {
+    cursor: grabbing;
+}
+
+.draggable-key img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.placed-key {
+    width: 70px;
+    height: 70px;
+    animation: keyPlaced 0.4s ease;
+}
+
+@keyframes keyPlaced {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+.placed-key img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.puzzle-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 2px solid #444;
+}
+
+#key-count {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#key-count-num {
+    color: #55efc4;
+    font-size: 24px;
+}
+
+/* Door opening animation */
+.mysterious-door.door-opening .door-panel {
+    animation: doorOpen 2s ease forwards;
+}
+
+@keyframes doorOpen {
+    0% {
+        transform: perspective(1000px) rotateY(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: perspective(1000px) rotateY(-120deg);
+        opacity: 0.3;
+    }
+}
+
+.mysterious-door.unlocked .door-glow {
+    animation: doorGlowPulse 1s ease infinite;
+}
+
+@keyframes doorGlowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 60px rgba(255, 215, 0, 1);
+    }
+}
+
+/* ========================================
+   PHASE 1 ENHANCEMENTS
+   ======================================== */
+
