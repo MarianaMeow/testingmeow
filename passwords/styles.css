@@ -427,6 +427,12 @@ body.light .password-row:hover {
     font-weight: 600;
     min-width: 120px;
     flex: 1;
+    cursor: default;
+    transition: color 0.2s;
+}
+
+.row-name:hover {
+    color: #4CAF50;
 }
 
 .row-category {
@@ -623,4 +629,106 @@ body.purple #passwordForm textarea {
         width: 100%;
         justify-content: space-between;
     }
+}
+
+
+/* Subtle Icons */
+.icon-btn {
+    font-family: inherit;
+    font-size: 1rem;
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.icon-btn:hover {
+    opacity: 1;
+}
+
+.favorite-btn {
+    color: #ffc107;
+    opacity: 0.7;
+}
+
+.favorite-btn:hover {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    color: #e74c3c;
+}
+
+/* Notes Hover Tooltip */
+.notes-indicator {
+    position: relative;
+    color: #888;
+    font-size: 0.85rem;
+    cursor: help;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.notes-indicator:hover {
+    color: #ffc107;
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.notes-indicator::after {
+    content: attr(data-notes);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.notes-indicator::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #2a2a3a;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+    z-index: 1001;
+}
+
+.notes-indicator:hover::after,
+.notes-indicator:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+body.light .notes-indicator::after {
+    background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+body.light .notes-indicator::before {
+    border-top-color: #fff;
+}
+
+/* Revealed email style */
+.row-name.revealed {
+    color: #4CAF50;
 }

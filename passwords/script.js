@@ -399,20 +399,22 @@ function createPasswordCard(password) {
     card.dataset.id = password.id;
     const maskedEmail = maskEmail(password.name);
     const isSelected = selectedPasswords.has(password.id);
+    const hasNotes = password.notes && password.notes.trim().length > 0;
     card.innerHTML = `
         <input type="checkbox" class="row-checkbox" ${isSelected ? 'checked' : ''} title="Select for bulk delete">
-        <button class="favorite-btn" title="Favorite">${password.favorite ? '⭐' : '☆'}</button>
-        <span class="row-name">${escapeHtml(maskedEmail)}</span>
+        <button class="favorite-btn" title="Favorite">${password.favorite ? '★' : '☆'}</button>
+        <span class="row-name" data-full="${escapeHtml(password.name)}" data-masked="${escapeHtml(maskedEmail)}">${escapeHtml(maskedEmail)}</span>
+        ${hasNotes ? `<span class="notes-indicator" data-notes="${escapeHtml(password.notes)}">✎</span>` : ''}
         <span class="row-category">${escapeHtml(password.category)}</span>
         <span class="row-username">${escapeHtml(password.username || '-')}</span>
         <div class="row-password">
             <span class="password-text hidden">••••••••</span>
-            <button class="icon-btn show-password-btn" title="Show/Hide">👁️</button>
-            <button class="icon-btn copy-btn" title="Copy">📋</button>
+            <button class="icon-btn show-password-btn" title="Show/Hide">◉</button>
+            <button class="icon-btn copy-btn" title="Copy">⧉</button>
         </div>
         <div class="row-actions">
-            <button class="icon-btn edit-btn" title="Edit">✏️</button>
-            <button class="icon-btn delete-btn" title="Delete">🗑️</button>
+            <button class="icon-btn edit-btn" title="Edit">✎</button>
+            <button class="icon-btn delete-btn" title="Delete">✕</button>
         </div>
     `;
 
@@ -446,6 +448,15 @@ function createPasswordCard(password) {
         }
     });
     card.querySelector('.copy-btn').addEventListener('click', () => copyPassword(password.password));
+    
+    // Hover to reveal full email
+    const nameEl = card.querySelector('.row-name');
+    nameEl.addEventListener('mouseenter', () => {
+        nameEl.textContent = nameEl.dataset.full;
+    });
+    nameEl.addEventListener('mouseleave', () => {
+        nameEl.textContent = nameEl.dataset.masked;
+    });
 
     return card;
 }
@@ -549,18 +560,15 @@ function closeModal() {
 async function savePassword(e) {
     e.preventDefault();
     
-    // Normalize category - find existing category with same name (case-insensitive)
-    const inputCategory = document.getElementById('entryCategory').value.trim();
-    const existingCategory = passwords.find(p => 
-        p.category.toLowerCase() === inputCategory.toLowerCase()
-    )?.category;
+    // Normalize category - always uppercase
+    const inputCategory = document.getElementById('entryCategory').value.trim().toUpperCase();
     
     const passwordData = {
         id: currentEditId || crypto.randomUUID(),
         name: document.getElementById('entryName').value.trim(),
         username: document.getElementById('entryUsername').value.trim(),
         password: document.getElementById('entryPassword').value,
-        category: existingCategory || inputCategory, // Use existing casing if found
+        category: inputCategory,
         notes: document.getElementById('entryNotes').value.trim(),
         favorite: currentEditId ? passwords.find(p => p.id === currentEditId)?.favorite || false : false
     };
@@ -619,7 +627,7 @@ function updateSelectModeUI() {
         controls.style.display = selectMode ? 'flex' : 'none';
     }
     if (btn) {
-        btn.textContent = `🗑️ Delete (${selectedPasswords.size})`;
+        btn.textContent = `Delete (${selectedPasswords.size})`;
     }
 }
 
