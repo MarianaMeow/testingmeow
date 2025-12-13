@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game of Thrones: Battle for the Throne</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Fire/Snow particles -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Blood splatter overlay -->
+  <div class="blood-overlay" id="blood-overlay"></div>
+
+  <!-- Title Screen -->
+  <div id="title-screen" class="screen active">
+    <div class="title-content">
+      <div class="throne-icon">⚔️👑⚔️</div>
+      <h1 class="game-title">
+        <span class="title-small">Game of Thrones</span>
+        Battle for the Throne
+      </h1>
+      <p class="tagline">"When you play the game of thrones, you win or you die."</p>
+      <button class="btn-fire" id="start-btn">
+        <span class="btn-text">PLAY THE GAME</span>
+        <span class="btn-flames">🔥🔥🔥</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- House Selection -->
+  <div id="house-screen" class="screen">
+    <h2 class="section-title">CHOOSE YOUR HOUSE</h2>
+    <div class="house-selection">
+      <div class="house-card" data-house="stark">
+        <div class="house-banner stark-banner"></div>
+        <div class="house-sigil">🐺</div>
+        <h3>STARK</h3>
+        <p class="words">"Winter is Coming"</p>
+        <div class="house-stats">
+          <span>❄️ Ice Armor: Block 1 hit</span>
+        </div>
+      </div>
+      <div class="house-card" data-house="lannister">
+        <div class="house-banner lannister-banner"></div>
+        <div class="house-sigil">🦁</div>
+        <h3>LANNISTER</h3>
+        <p class="words">"Hear Me Roar"</p>
+        <div class="house-stats">
+          <span>💰 Gold: Draw extra card</span>
+        </div>
+      </div>
+      <div class="house-card" data-house="targaryen">
+        <div class="house-banner targaryen-banner"></div>
+        <div class="house-sigil">🐉</div>
+        <h3>TARGARYEN</h3>
+        <p class="words">"Fire and Blood"</p>
+        <div class="house-stats">
+          <span>🔥 Dracarys: +3 damage</span>
+        </div>
+      </div>
+      <div class="house-card" data-house="baratheon">
+        <div class="house-banner baratheon-banner"></div>
+        <div class="house-sigil">🦌</div>
+        <h3>BARATHEON</h3>
+        <p class="words">"Ours is the Fury"</p>
+        <div class="house-stats">
+          <span>⚡ Fury: Double damage once</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Battle Screen -->
+  <div id="battle-screen" class="screen">
+    <!-- Enemy Side -->
+    <div class="enemy-side">
+      <div class="character-display enemy">
+        <div class="character-info">
+          <span class="char-name" id="enemy-name">CERSEI LANNISTER</span>
+          <div class="health-bar">
+            <div class="health-fill enemy-health" id="enemy-health-bar"></div>
+            <span class="health-text"><span id="enemy-hp">100</span>/100</span>
+          </div>
+        </div>
+        <div class="character-avatar" id="enemy-avatar">🦁</div>
+        <div class="status-effects" id="enemy-status"></div>
+      </div>
+    </div>
+
+    <!-- Battle Center -->
+    <div class="battle-center">
+      <div class="battle-log" id="battle-log">
+        <p>The battle begins...</p>
+      </div>
+      <div class="played-cards">
+        <div class="played-card player-played" id="player-played"></div>
+        <div class="vs-text">⚔️</div>
+        <div class="played-card enemy-played" id="enemy-played"></div>
+      </div>
+    </div>
+
+    <!-- Player Side -->
+    <div class="player-side">
+      <div class="character-display player">
+        <div class="character-avatar" id="player-avatar">🐺</div>
+        <div class="character-info">
+          <span class="char-name" id="player-name">JON SNOW</span>
+          <div class="health-bar">
+            <div class="health-fill player-health" id="player-health-bar"></div>
+            <span class="health-text"><span id="player-hp">100</span>/100</span>
+          </div>
+        </div>
+        <div class="status-effects" id="player-status"></div>
+      </div>
+      
+      <!-- Special Ability -->
+      <button class="special-btn" id="special-btn">
+        <span class="special-icon">⚡</span>
+        <span class="special-name">SPECIAL ABILITY</span>
+      </button>
+
+      <!-- Hand of Cards -->
+      <div class="hand" id="hand"></div>
+    </div>
+  </div>
+
+  <!-- Victory/Defeat Screen -->
+  <div id="end-screen" class="screen">
+    <div class="end-content">
+      <div class="end-icon" id="end-icon">👑</div>
+      <h1 class="end-title" id="end-title">VICTORY</h1>
+      <p class="end-quote" id="end-quote">"You have claimed the Iron Throne!"</p>
+      <div class="end-stats" id="end-stats"></div>
+      <button class="btn-fire" id="restart-btn">
+        <span class="btn-text">PLAY AGAIN</span>
+        <span class="btn-flames">🔥🔥🔥</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegon's Conquest</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/hud.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="dragon-icon">🐉</div>
+      <h1>AEGON'S CONQUEST</h1>
+      <p class="tagline">"Fire and Blood"</p>
+      <div class="loading-bar">
+        <div class="loading-fill" id="loading-fill"></div>
+      </div>
+      <p class="loading-text" id="loading-text">Loading world...</p>
+    </div>
+  </div>
+
+  <!-- Start Menu -->
+  <div id="start-menu" class="hidden">
+    <div class="menu-content">
+      <div class="menu-dragon">🐉</div>
+      <h1>AEGON'S CONQUEST</h1>
+      <p class="menu-tagline">"Fire and Blood"</p>
+      <div class="menu-buttons">
+        <button id="start-btn" class="menu-btn primary">BEGIN CONQUEST</button>
+        <button id="controls-btn" class="menu-btn">CONTROLS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls Modal -->
+  <div id="controls-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>CONTROLS</h2>
+      <div class="controls-grid">
+        <div class="control-section">
+          <h3>🐉 DRAGON MODE</h3>
+          <p><span class="key">W A S D</span> Fly direction</p>
+          <p><span class="key">SPACE</span> Fly up</p>
+          <p><span class="key">SHIFT</span> Fly down</p>
+          <p><span class="key">CLICK</span> Breathe fire</p>
+          <p><span class="key">TAB</span> Switch to Human</p>
+        </div>
+        <div class="control-section">
+          <h3>🧑 HUMAN MODE</h3>
+          <p><span class="key">W A S D</span> Move</p>
+          <p><span class="key">SPACE</span> Jump</p>
+          <p><span class="key">CLICK</span> Fire grapple</p>
+          <p><span class="key">E</span> Call dragon</p>
+          <p><span class="key">TAB</span> Switch to Dragon</p>
+        </div>
+      </div>
+      <button id="close-controls" class="menu-btn">CLOSE</button>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-top">
+      <div class="mode-indicator">
+        <span class="mode-icon" id="mode-icon">🐉</span>
+        <span class="mode-text" id="mode-text">DRAGON</span>
+      </div>
+      <div class="location-info">
+        <span id="location-name">King's Landing</span>
+      </div>
+    </div>
+    
+    <div class="hud-left">
+      <div class="stat-bar">
+        <span class="stat-label">🔥 FIRE</span>
+        <div class="bar fire-bar">
+          <div class="bar-fill" id="fire-fill"></div>
+        </div>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label">❤️ HEALTH</span>
+        <div class="bar health-bar">
+          <div class="bar-fill" id="health-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-bottom">
+      <div class="hint-text" id="hint-text">Press TAB to switch modes</div>
+    </div>
+
+    <div class="hud-right">
+      <div class="minimap" id="minimap">
+        <div class="minimap-player" id="minimap-player"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Canvas (Babylon.js renders here) -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Scripts -->
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  
+  <!-- Game Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/world/terrain.js"></script>
+  <script src="js/world/city.js"></script>
+  <script src="js/world/environment.js"></script>
+  <script src="js/entities/dragon.js"></script>
+  <script src="js/entities/human.js"></script>
+  <script src="js/systems/controls.js"></script>
+  <script src="js/systems/camera.js"></script>
+  <script src="js/systems/fire.js"></script>
+  <script src="js/ui/hud.js"></script>
+  <script src="js/ui/menu.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

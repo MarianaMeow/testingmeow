@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+}
+
+/* Screens */
+#start-screen, #game-over {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 100;
+}
+
+.title {
+  font-size: 4rem;
+  color: #ff4500;
+  text-shadow: 0 0 30px rgba(255, 69, 0, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #ff8c00;
+  margin-bottom: 2rem;
+}
+
+.instructions {
+  color: #aaa;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.instructions p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+button {
+  padding: 1rem 3rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  background: linear-gradient(180deg, #ff4500, #8b0000);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 2px;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 69, 0, 0.6);
+}
+
+.score-display {
+  font-size: 2rem;
+  color: #ff8c00;
+  margin: 1rem 0 2rem;
+}
+
+/* HUD */
+#hud {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.score {
+  font-size: 1.8rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000;
+}
+
+.fire-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fire-bar span {
+  font-size: 1.5rem;
+}
+
+.fire-bar .bar {
+  width: 180px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #ff4500;
+}
+
+.fire-bar .fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff4500, #ff8c00, #ffcc00);
+  transition: width 0.1s;
+}
+
+.hidden {
+  display: none !important;
+}
