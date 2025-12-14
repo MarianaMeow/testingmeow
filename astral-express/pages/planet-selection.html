@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Planet Selection</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/planet-selection.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div class="planet-selection">
+        <div class="portal-backdrop">
+            <div class="portal-core"></div>
+            <div class="portal-ring outer"></div>
+            <div class="portal-ring inner"></div>
+        </div>
+
+        <div class="celestial-row">
+            <div class="celestial-orb planet-option unlocked" data-planet="belobog">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Belobog</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="xianzhou">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Xianzhou Luofu</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="penacony">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Penacony</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="jarilo">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Jarilo-VI</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="herta">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Herta Station</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="luofu">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Luofu Sanctum</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="stellaron">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Stellaron</span>
+            </div>
+            <div class="celestial-orb planet-option locked" data-planet="terminus">
+                <div class="orb-glow"></div>
+                <span class="orb-label">Terminus</span>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <button id="back-to-menu" class="portal-back-btn">Back to Main Menu</button>
+            <div id="planet-label" class="mini-label">Select your destination.</div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/planet-selection.js"></script>
+</body>
+</html>

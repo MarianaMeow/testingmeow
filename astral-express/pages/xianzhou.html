@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Xianzhou Luofu</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/xianzhou.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div class="xianzhou-mirror">
+        <button id="xianzhou-back-planets" class="portal-back-icon" aria-label="Back to planet selection">⬅</button>
+
+        <!-- Mirror reflections -->
+        <div class="mirror-reflections">
+            <div class="mirror-frame"></div>
+            <div class="mirror-frame"></div>
+        </div>
+        
+        <!-- Ethereal mist -->
+        <div class="ethereal-mist">
+            <div class="mist-layer"></div>
+            <div class="mist-layer"></div>
+            <div class="mist-layer"></div>
+        </div>
+        
+        <!-- Shooting stars -->
+        <div class="shooting-stars">
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+        </div>
+        
+        <!-- Mystical particles -->
+        <div class="mystical-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Constellation lines -->
+        <svg class="constellation-lines" width="100%" height="100%">
+            <line x1="20%" y1="15%" x2="45%" y2="12%" class="connection-line" />
+            <line x1="45%" y1="12%" x2="72%" y2="16%" class="connection-line" />
+            <line x1="35%" y1="40%" x2="52%" y2="48%" class="connection-line" />
+            <line x1="52%" y1="48%" x2="68%" y2="42%" class="connection-line" />
+            <line x1="15%" y1="62%" x2="38%" y2="66%" class="connection-line" />
+            <line x1="38%" y1="66%" x2="70%" y2="64%" class="connection-line" />
+            <line x1="25%" y1="82%" x2="58%" y2="79%" class="connection-line" />
+        </svg>
+        
+        <!-- Glass shards -->
+        <div class="xianzhou-glass-layer">
+            <div class="glass-shard" data-memory="I love being with you."></div>
+            <div class="glass-shard" data-memory="You make every station feel like home."></div>
+            <div class="glass-shard" data-memory="Your laughter is my favorite signal."></div>
+            <div class="glass-shard" data-memory="I'd reroute the Astral Express just to see you smile."></div>
+            <div class="glass-shard" data-memory="Holding your hand feels like a perfect timeline."></div>
+            <div class="glass-shard" data-memory="Every goodbye is only a countdown to our next hello."></div>
+            <div class="glass-shard" data-memory="You are my safe carriage in every storm."></div>
+            <div class="glass-shard" data-memory="I choose you in every universe."></div>
+            <div class="glass-shard" data-memory="You are the warmth between cold stars."></div>
+            <div class="glass-shard" data-memory="You're the soft pause between my battles."></div>
+            <div class="glass-shard" data-memory="You are my favorite anomaly."></div>
+            <div class="glass-shard" data-memory="With you, time feels infinite."></div>
+            <div class="glass-shard" data-memory="Your smile is my constellation."></div>
+            <div class="glass-shard" data-memory="You are my anchor in the void."></div>
+            <div id="xianzhou-red-shard" class="glass-shard red-shard" data-memory=""></div>
+        </div>
+
+        <div class="portal-ui xianzhou-ui">
+            <div id="xianzhou-label" class="mini-label">
+                Shattered reflections of us — each shard holds a quiet memory.
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/xianzhou.js"></script>
+</body>
+</html>

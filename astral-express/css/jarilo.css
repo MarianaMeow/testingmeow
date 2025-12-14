@@ -1,0 +1,338 @@
+/* Jarilo-VI Frozen Portal - Blizzard Aurora */
+.jarilo-frozen {
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse at 50% 0%, rgba(0, 255, 200, 0.25), transparent 40%),
+        radial-gradient(ellipse at 30% 15%, rgba(100, 200, 255, 0.2), transparent 45%),
+        radial-gradient(ellipse at 70% 20%, rgba(150, 100, 255, 0.18), transparent 50%),
+        radial-gradient(ellipse at 40% 30%, rgba(0, 230, 255, 0.15), transparent 55%),
+        radial-gradient(ellipse at 30% 50%, rgba(200, 240, 255, 0.15), transparent 40%),
+        radial-gradient(ellipse at 70% 60%, rgba(180, 230, 255, 0.12), transparent 45%),
+        linear-gradient(to bottom, #0a1828 0%, #0f2540 30%, #1a2f42 60%, #0d1f30 100%);
+    animation: aurora-dance 25s ease-in-out infinite;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes aurora-dance {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    33% { filter: brightness(1.1) saturate(1.2) hue-rotate(5deg); }
+    66% { filter: brightness(1.05) saturate(1.15) hue-rotate(-5deg); }
+}
+
+/* Icebergs */
+.icebergs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+.iceberg {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(200, 240, 255, 0.6), rgba(180, 230, 255, 0.7), rgba(160, 220, 255, 0.8));
+    box-shadow: 0 0 40px rgba(100, 200, 255, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.3);
+    clip-path: polygon(0% 100%, 10% 80%, 20% 60%, 30% 50%, 40% 45%, 50% 40%, 60% 45%, 70% 55%, 80% 70%, 90% 85%, 100% 100%);
+}
+
+.iceberg.left-near { left: -50px; width: 300px; height: 400px; transform: scaleX(-1); opacity: 0.9; }
+.iceberg.left-far { left: -100px; width: 250px; height: 300px; opacity: 0.5; filter: blur(2px); }
+.iceberg.right-near { right: -50px; width: 320px; height: 420px; opacity: 0.9; }
+.iceberg.right-far { right: -80px; width: 240px; height: 280px; opacity: 0.5; filter: blur(2px); transform: scaleX(-1); }
+
+/* Frozen content */
+.frozen-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 40px;
+    max-width: 700px;
+}
+
+.jarilo-title {
+    font-size: 2.5rem;
+    color: #a8d8ff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(150, 200, 255, 0.8), 0 0 40px rgba(100, 180, 255, 0.6);
+}
+
+.jarilo-message {
+    font-size: 1.2rem;
+    color: #d4e8ff;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+/* Puzzle Frame */
+.puzzle-frame {
+    position: relative;
+    z-index: 10;
+    background: rgba(20, 40, 60, 0.8);
+    border: 3px solid rgba(150, 200, 255, 0.6);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 40px rgba(150, 200, 255, 0.5);
+    display: inline-block;
+}
+
+.puzzle-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.puzzle-slot {
+    width: 120px;
+    height: 120px;
+    background: rgba(50, 80, 120, 0.3);
+    border: 1px solid rgba(100, 150, 200, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.puzzle-slot.filled { background: none; border-color: transparent; }
+
+.puzzle-counter {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #a8d8ff;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Puzzle Pieces */
+.puzzle-piece {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect fill="%23f5c2e0" width="360" height="360"/><circle cx="180" cy="140" r="80" fill="%23ffd4e8"/><circle cx="160" cy="130" r="15" fill="%239db4ff"/><circle cx="200" cy="130" r="15" fill="%239db4ff"/><path d="M 140 180 Q 180 200 220 180" stroke="%23ff9ec4" stroke-width="3" fill="none"/><ellipse cx="180" cy="100" rx="100" ry="60" fill="%23ffb3d9"/></svg>');
+    background-size: 360px 360px;
+    cursor: grab;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(150, 200, 255, 0.6);
+    z-index: 5;
+    animation: float 3s ease-in-out infinite;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.puzzle-piece:active { cursor: grabbing; }
+
+.puzzle-piece[data-position="1"] { background-position: 0 0; }
+.puzzle-piece[data-position="2"] { background-position: -120px 0; }
+.puzzle-piece[data-position="3"] { background-position: -240px 0; }
+.puzzle-piece[data-position="4"] { background-position: 0 -120px; }
+.puzzle-piece[data-position="5"] { background-position: -120px -120px; }
+.puzzle-piece[data-position="6"] { background-position: -240px -120px; }
+.puzzle-piece[data-position="7"] { background-position: 0 -240px; }
+.puzzle-piece[data-position="8"] { background-position: -120px -240px; }
+.puzzle-piece[data-position="9"] { background-position: -240px -240px; }
+
+.puzzle-piece:hover {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+    filter: brightness(1.2);
+    z-index: 100;
+}
+
+.puzzle-piece.placed {
+    position: static !important;
+    animation: none;
+    margin: 0;
+    cursor: default;
+    border-radius: 0;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Snowflakes */
+.snowflakes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 6; }
+
+.snowflake {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.5rem;
+    animation: snowfall linear infinite;
+    filter: drop-shadow(0 0 3px rgba(200, 240, 255, 0.6));
+}
+
+.snowflake.large { font-size: 2rem; color: rgba(255, 255, 255, 1); }
+.snowflake.small { font-size: 1rem; color: rgba(255, 255, 255, 0.7); }
+
+.snowflake:nth-child(1) { left: 2%; animation-duration: 10s; animation-delay: 0s; }
+.snowflake:nth-child(2) { left: 7%; animation-duration: 12s; animation-delay: 1s; }
+.snowflake:nth-child(3) { left: 12%; animation-duration: 8s; animation-delay: 2s; }
+.snowflake:nth-child(4) { left: 17%; animation-duration: 14s; animation-delay: 0.5s; }
+.snowflake:nth-child(5) { left: 22%; animation-duration: 9s; animation-delay: 3s; }
+.snowflake:nth-child(6) { left: 27%; animation-duration: 11s; animation-delay: 1.5s; }
+.snowflake:nth-child(7) { left: 32%; animation-duration: 13s; animation-delay: 4s; }
+.snowflake:nth-child(8) { left: 37%; animation-duration: 10s; animation-delay: 2.5s; }
+.snowflake:nth-child(9) { left: 42%; animation-duration: 12s; animation-delay: 5s; }
+.snowflake:nth-child(10) { left: 47%; animation-duration: 9s; animation-delay: 0.8s; }
+.snowflake:nth-child(11) { left: 52%; animation-duration: 11s; animation-delay: 3.5s; }
+.snowflake:nth-child(12) { left: 57%; animation-duration: 14s; animation-delay: 1.2s; }
+.snowflake:nth-child(13) { left: 62%; animation-duration: 8s; animation-delay: 4.5s; }
+.snowflake:nth-child(14) { left: 67%; animation-duration: 13s; animation-delay: 2.8s; }
+.snowflake:nth-child(15) { left: 72%; animation-duration: 10s; animation-delay: 6s; }
+.snowflake:nth-child(16) { left: 77%; animation-duration: 11s; animation-delay: 0.3s; }
+.snowflake:nth-child(17) { left: 82%; animation-duration: 9s; animation-delay: 5.5s; }
+.snowflake:nth-child(18) { left: 87%; animation-duration: 12s; animation-delay: 3.8s; }
+.snowflake:nth-child(19) { left: 92%; animation-duration: 10s; animation-delay: 1.8s; }
+.snowflake:nth-child(20) { left: 97%; animation-duration: 13s; animation-delay: 4.2s; }
+
+@keyframes snowfall {
+    0% { top: -10%; opacity: 0; transform: translateX(0); }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 110%; opacity: 0; transform: translateX(20px); }
+}
+
+/* Ice fog */
+.ice-fog { position: absolute; bottom: 0; left: 0; right: 0; height: 300px; pointer-events: none; z-index: 2; overflow: hidden; }
+
+.fog-layer {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100%;
+    animation: fog-drift linear infinite;
+}
+
+.fog-layer:nth-child(1) {
+    background: radial-gradient(ellipse at center bottom, rgba(200, 240, 255, 0.4), rgba(180, 230, 255, 0.25), transparent 50%);
+    animation-duration: 35s;
+}
+
+.fog-layer:nth-child(2) {
+    background: radial-gradient(ellipse at 30% bottom, rgba(220, 245, 255, 0.35), rgba(200, 235, 255, 0.2), transparent 55%);
+    animation-duration: 45s;
+    animation-delay: 8s;
+    opacity: 0.8;
+}
+
+.fog-layer:nth-child(3) {
+    background: radial-gradient(ellipse at 70% bottom, rgba(180, 230, 255, 0.3), rgba(160, 220, 255, 0.15), transparent 60%);
+    animation-duration: 50s;
+    animation-delay: 15s;
+    opacity: 0.7;
+}
+
+.fog-layer:nth-child(4) {
+    background: radial-gradient(ellipse at center bottom, rgba(210, 240, 255, 0.25), rgba(190, 230, 255, 0.12), transparent 65%);
+    animation-duration: 40s;
+    animation-delay: 22s;
+    opacity: 0.6;
+}
+
+@keyframes fog-drift {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+}
+
+/* Ice crystals */
+.ice-crystals { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+
+.ice-crystal {
+    position: absolute;
+    font-size: 1.8rem;
+    color: rgba(200, 240, 255, 0.7);
+    filter: drop-shadow(0 0 10px rgba(100, 200, 255, 0.8));
+    animation: crystal-float 12s ease-in-out infinite;
+}
+
+.ice-crystal:nth-child(1) { top: 15%; left: 8%; animation-duration: 14s; }
+.ice-crystal:nth-child(2) { top: 25%; right: 12%; animation-duration: 16s; animation-delay: 3s; }
+.ice-crystal:nth-child(3) { top: 45%; left: 5%; animation-duration: 15s; animation-delay: 6s; }
+.ice-crystal:nth-child(4) { top: 60%; right: 8%; animation-duration: 13s; animation-delay: 2s; }
+.ice-crystal:nth-child(5) { top: 75%; left: 15%; animation-duration: 17s; animation-delay: 8s; }
+.ice-crystal:nth-child(6) { top: 35%; right: 20%; animation-duration: 14s; animation-delay: 4s; }
+
+@keyframes crystal-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-15px) rotate(180deg); opacity: 1; }
+}
+
+/* Frost particles */
+.frost-particles { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+
+.frost-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(200, 240, 255, 0.8);
+    animation: frost-drift linear infinite;
+}
+
+.frost-particle:nth-child(1) { left: 10%; animation-duration: 20s; }
+.frost-particle:nth-child(2) { left: 25%; animation-duration: 25s; animation-delay: 5s; }
+.frost-particle:nth-child(3) { left: 40%; animation-duration: 22s; animation-delay: 10s; }
+.frost-particle:nth-child(4) { left: 55%; animation-duration: 28s; animation-delay: 3s; }
+.frost-particle:nth-child(5) { left: 70%; animation-duration: 24s; animation-delay: 8s; }
+.frost-particle:nth-child(6) { left: 85%; animation-duration: 26s; animation-delay: 12s; }
+.frost-particle:nth-child(7) { left: 15%; animation-duration: 23s; animation-delay: 15s; }
+.frost-particle:nth-child(8) { left: 50%; animation-duration: 27s; animation-delay: 6s; }
+.frost-particle:nth-child(9) { left: 65%; animation-duration: 21s; animation-delay: 18s; }
+.frost-particle:nth-child(10) { left: 80%; animation-duration: 29s; animation-delay: 9s; }
+
+@keyframes frost-drift {
+    0% { bottom: -5%; opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { bottom: 105%; opacity: 0; }
+}
+
+/* Portal back icon */
+.portal-back-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 215, 0, 0.7);
+    background: rgba(50, 0, 100, 0.6);
+    color: #ffd700;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-back-icon:hover {
+    background: rgba(100, 150, 255, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* Portal UI */
+.portal-ui {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.mini-label {
+    font-size: 0.75rem;
+    color: #f7d7ad;
+    text-align: center;
+    max-width: 500px;
+}

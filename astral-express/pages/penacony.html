@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Penacony</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/penacony.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div class="penacony-casino">
+        <button id="penacony-back-planets" class="portal-back-icon" aria-label="Back to planet selection">⬅</button>
+
+        <!-- Velvet curtains -->
+        <div class="velvet-curtains">
+            <div class="curtain left"></div>
+            <div class="curtain right"></div>
+        </div>
+
+        <!-- String lights -->
+        <div class="string-lights">
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+        </div>
+
+        <!-- Cosmic chips -->
+        <div class="cosmic-chips">
+            <div class="poker-chip chip-1"><span class="chip-inner">🎰</span></div>
+            <div class="poker-chip chip-2"><span class="chip-inner">💎</span></div>
+            <div class="poker-chip chip-3"><span class="chip-inner">⭐</span></div>
+            <div class="poker-chip chip-4"><span class="chip-inner">🌙</span></div>
+            <div class="poker-chip chip-5"><span class="chip-inner">✨</span></div>
+        </div>
+
+        <!-- Gold confetti -->
+        <div class="gold-confetti">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+
+        <!-- Penacony content -->
+        <div class="penacony-content">
+            <div class="penacony-title">Penacony - Dream Casino</div>
+
+            <!-- Slot Machine -->
+            <div class="slot-machine">
+                <div class="slot-machine-top"></div>
+                <div class="slot-machine-body">
+                    <div class="slot-display">
+                        <div id="slot-equation" class="slot-equation">Press Start</div>
+                    </div>
+                    <div class="slot-lever"></div>
+                </div>
+                <button id="slot-start-btn" class="slot-start-btn">START</button>
+
+                <!-- Coin Stack -->
+                <div class="coin-stack">
+                    <div class="coin-label">Pick the Answer</div>
+                    <div id="coin-container" class="coin-container"></div>
+                </div>
+            </div>
+
+            <div id="penacony-feedback" class="penacony-feedback"></div>
+
+            <!-- Ticket Shards -->
+            <div class="ticket-shards-container">
+                <div class="ticket-shards-label">Ticket Shards</div>
+                <div class="ticket-shards">
+                    <div id="shard-1" class="ticket-shard locked"><span class="shard-number">1</span></div>
+                    <div id="shard-2" class="ticket-shard locked"><span class="shard-number">2</span></div>
+                    <div id="shard-3" class="ticket-shard locked"><span class="shard-number">3</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/penacony.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Welcome</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/welcome.css">
+</head>
+<body>
+    <!-- Floating Stars Background -->
+    <div id="floating-stars" class="floating-stars-container"></div>
+
+    <!-- Mute Toggle -->
+    <button id="mute-toggle" class="mute-toggle" aria-label="Toggle sound">
+        <span class="mute-icon">🔊</span>
+    </button>
+
+    <!-- Settings Button -->
+    <button class="settings-trigger" onclick="openSettings()" aria-label="Open settings">
+        ⚙️
+    </button>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-container">
+        <div class="welcome-glow"></div>
+        <h1 class="welcome-title">Welcome to the Astral Express</h1>
+        <p class="welcome-text">Enter the password to board the train:</p>
+        <div class="input-container">
+            <input type="password" id="password-input" placeholder="Enter password" class="password-input">
+            <button id="submit-btn" class="submit-btn">Board Train</button>
+        </div>
+        <p id="message" class="message"></p>
+        <p id="hint" class="hint" style="display: none;">Hint: It's a loving message to someone special.</p>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

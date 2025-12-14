@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Belobog</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/belobog.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div class="belobog-castle">
+        <!-- Candy decorations -->
+        <div class="castle-pillars">
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+            <div class="pillar"></div>
+        </div>
+        <div class="castle-arch"></div>
+        <div class="castle-emblem"></div>
+        
+        <div class="falling-chocolates">
+            <div class="chocolate">🍫</div>
+            <div class="chocolate">🍫</div>
+            <div class="chocolate">🍫</div>
+            <div class="chocolate">🍫</div>
+            <div class="chocolate">🍫</div>
+            <div class="chocolate">🍫</div>
+        </div>
+        
+        <div class="candy-clouds">
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+        </div>
+
+        <!-- Three celestial relics -->
+        <div class="belobog-celestial-row">
+            <div id="belobog-celestial-1" class="belobog-celestial" data-minigame="fill-blank">
+                <div class="belobog-celestial-icon">🍭</div>
+                <div class="belobog-celestial-label">Sweet Oath</div>
+                <div class="belobog-celestial-desc">Complete the words that bind hearts across worlds.</div>
+            </div>
+
+            <div id="belobog-celestial-2" class="belobog-celestial" data-minigame="trial-2">
+                <div class="belobog-celestial-icon">🍬</div>
+                <div class="belobog-celestial-label">Candy Seal</div>
+                <div class="belobog-celestial-desc">A sugary sigil waiting for your resolve.</div>
+            </div>
+
+            <div id="belobog-celestial-3" class="belobog-celestial" data-minigame="trial-3">
+                <div class="belobog-celestial-icon">🍰</div>
+                <div class="belobog-celestial-label">Sweet Melody</div>
+                <div class="belobog-celestial-desc">The stars hum a secret hymn.</div>
+            </div>
+        </div>
+
+        <!-- Fill-in-the-blank mini-game 1 -->
+        <div id="belobog-fill-game" class="belobog-fill-container">
+            <div class="belobog-fill-title">Belobog Oath — Fill in the Blank</div>
+            <div class="belobog-fill-layout">
+                <div class="belobog-fill-options">
+                    <div class="belobog-fill-options-title">Choose the right word:</div>
+                    <button class="belobog-fill-option" data-word="light">light</button>
+                    <button class="belobog-fill-option" data-word="queen">queen</button>
+                    <button class="belobog-fill-option" data-word="angel">angel</button>
+                </div>
+                <div class="belobog-fill-right">
+                    <div class="belobog-fill-prompt">
+                        Within these castle walls, amid frost and fire, you whisper:<br/>
+                        "You are my <span class="belobog-fill-blank">______</span> among the stars."
+                    </div>
+                    <input id="belobog-fill-input" class="belobog-fill-input" type="text" placeholder="Type or click an option..."/>
+                    <button id="belobog-fill-submit" class="belobog-fill-button">Lock In Oath</button>
+                    <div id="belobog-fill-feedback" class="belobog-fill-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fill-in-the-blank mini-game 2 -->
+        <div id="belobog-fill-game-2" class="belobog-fill-container">
+            <div class="belobog-fill-title">Frostbound Seal — Fill in the Blank</div>
+            <div class="belobog-fill-layout">
+                <div class="belobog-fill-options">
+                    <div class="belobog-fill-options-title">Choose the right word:</div>
+                    <button class="belobog-fill-option-2" data-word="warmth">warmth</button>
+                    <button class="belobog-fill-option-2" data-word="strength">strength</button>
+                    <button class="belobog-fill-option-2" data-word="hope">hope</button>
+                </div>
+                <div class="belobog-fill-right">
+                    <div class="belobog-fill-prompt">
+                        Through the frozen winds and endless night, I declare:<br/>
+                        "Your presence is my <span class="belobog-fill-blank-2">______</span> in the cold."
+                    </div>
+                    <input id="belobog-fill-input-2" class="belobog-fill-input" type="text" placeholder="Type or click an option..."/>
+                    <button id="belobog-fill-submit-2" class="belobog-fill-button">Lock In Seal</button>
+                    <div id="belobog-fill-feedback-2" class="belobog-fill-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fill-in-the-blank mini-game 3 -->
+        <div id="belobog-fill-game-3" class="belobog-fill-container">
+            <div class="belobog-fill-title">Stellar Choir — Fill in the Blank</div>
+            <div class="belobog-fill-layout">
+                <div class="belobog-fill-options">
+                    <div class="belobog-fill-options-title">Choose the right word:</div>
+                    <button class="belobog-fill-option-3" data-word="forever">forever</button>
+                    <button class="belobog-fill-option-3" data-word="always">always</button>
+                    <button class="belobog-fill-option-3" data-word="eternally">eternally</button>
+                </div>
+                <div class="belobog-fill-right">
+                    <div class="belobog-fill-prompt">
+                        As the stars sing their ancient hymn, I vow:<br/>
+                        "I will love you <span class="belobog-fill-blank-3">______</span>, across all worlds."
+                    </div>
+                    <input id="belobog-fill-input-3" class="belobog-fill-input" type="text" placeholder="Type or click an option..."/>
+                    <button id="belobog-fill-submit-3" class="belobog-fill-button">Lock In Vow</button>
+                    <div id="belobog-fill-feedback-3" class="belobog-fill-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission panel -->
+        <div id="belobog-mission-panel" class="belobog-mission-panel">
+            <button id="belobog-mission-toggle" class="mission-toggle">
+                <span class="mission-toggle-label">Belobog Mission & Ticket Status</span>
+                <span id="belobog-mission-pill" class="mission-pill mission-pill-pending">Incomplete</span>
+                <span class="mission-toggle-icon">⌵</span>
+            </button>
+            <div id="belobog-mission-content" class="mission-content">
+                <div class="mission-section">
+                    <div class="mission-section-title">World Brief</div>
+                    <div class="mission-line">
+                        <span class="label">Current World</span>
+                        <span class="value">Belobog — Castle Hall</span>
+                    </div>
+                    <div class="mission-line">
+                        <span class="label">Main Trial</span>
+                        <span class="value">Belobog Oath — Fill in the Blank</span>
+                    </div>
+                    <div class="mission-line">
+                        <span class="label">Status</span>
+                        <span id="belobog-mission-status" class="value status-pending">Incomplete — Clear the Oath Script relic.</span>
+                    </div>
+                </div>
+                <div class="mission-section">
+                    <div class="mission-section-title">Ticket Requirements</div>
+                    <ul class="mission-list">
+                        <li>Complete the Belobog Oath Script with the true word.</li>
+                        <li>Illuminate the castle seal to prove your resolve.</li>
+                    </ul>
+                </div>
+                <div class="mission-section">
+                    <div class="mission-section-title">Next Planet Ticket</div>
+                    <div class="ticket-preview">
+                        <div class="ticket-label">Xianzhou Luofu Boarding Pass</div>
+                        <div class="ticket-card locked">
+                            <div class="ticket-world">Xianzhou Luofu</div>
+                            <div class="ticket-note">Locked — Finish Belobog mission to attune this ticket.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <button id="back-to-planets" class="portal-back-btn">Back to Planet Selection</button>
+            <div id="destination-label" class="mini-label">Belobog Castle Portal initialized.</div>
+        </div>
+
+        <div class="belobog-minigame-placeholder">
+            Choose a celestial relic. The first begins your oath with a fill-in-the-blank trial.
+        </div>
+    </div>
+
+    <script type="module" src="../js/belobog.js"></script>
+</body>
+</html>

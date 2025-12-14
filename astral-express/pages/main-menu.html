@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Main Menu</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/main-menu.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div id="main-menu" class="main-menu">
+        <div class="train-interior">
+            <div class="train-window-strip">
+                <div class="window"><div class="stars-layer"></div></div>
+                <div class="window"><div class="stars-layer"></div></div>
+                <div class="window"><div class="stars-layer"></div></div>
+            </div>
+            <div class="ceiling-lights">
+                <div class="light"></div><div class="light"></div><div class="light"></div>
+            </div>
+            <div class="floor-gradient"></div>
+
+            <div id="map-stand" class="object-stand" data-tooltip="View route">
+                <div class="stand-base"></div>
+                <div class="stand-pole"></div>
+                <div class="stand-screen stand-glow">
+                    <div class="map-mini">
+                        <div class="map-planet current"></div>
+                        <div class="map-planet"></div>
+                        <div class="map-planet"></div>
+                        <div class="map-path"></div>
+                    </div>
+                    <div class="stand-label">Route Map</div>
+                </div>
+            </div>
+
+            <div id="log-stand" class="object-stand" data-tooltip="Mission logs">
+                <div class="stand-screen">
+                    <div class="screen-lines"><span></span><span></span><span></span></div>
+                    <div class="stand-label">Mission Log</div>
+                </div>
+            </div>
+
+            <div id="inv-stand" class="object-stand" data-tooltip="Inventory">
+                <div class="stand-base"></div>
+                <div class="stand-pole"></div>
+                <div class="locker-body">
+                    <div class="locker-door"></div>
+                    <div class="locker-lights"><span></span><span></span><span></span></div>
+                </div>
+                <div class="stand-label">Inventory</div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="../js/main-menu.js"></script>
+</body>
+</html>

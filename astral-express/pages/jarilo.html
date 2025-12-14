@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Express - Jarilo-VI</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/ui.css">
+    <link rel="stylesheet" href="../css/jarilo.css">
+</head>
+<body>
+    <div id="floating-stars" class="floating-stars-container"></div>
+    <button id="mute-toggle" class="mute-toggle"><span class="mute-icon">🔊</span></button>
+    <button class="settings-trigger" onclick="openSettings()">⚙️</button>
+
+    <div class="jarilo-frozen">
+        <button id="jarilo-back-planets" class="portal-back-icon" aria-label="Back to planet selection">⬅</button>
+
+        <!-- Icebergs -->
+        <div class="icebergs">
+            <div class="iceberg left-near"></div>
+            <div class="iceberg left-far"></div>
+            <div class="iceberg right-near"></div>
+            <div class="iceberg right-far"></div>
+        </div>
+
+        <!-- Ice fog -->
+        <div class="ice-fog">
+            <div class="fog-layer"></div>
+            <div class="fog-layer"></div>
+            <div class="fog-layer"></div>
+            <div class="fog-layer"></div>
+        </div>
+
+        <!-- Ice crystals -->
+        <div class="ice-crystals">
+            <div class="ice-crystal">💎</div>
+            <div class="ice-crystal">💎</div>
+            <div class="ice-crystal">💎</div>
+            <div class="ice-crystal">💎</div>
+            <div class="ice-crystal">💎</div>
+            <div class="ice-crystal">💎</div>
+        </div>
+
+        <!-- Frost particles -->
+        <div class="frost-particles">
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+            <div class="frost-particle"></div>
+        </div>
+
+        <!-- Frozen content -->
+        <div class="frozen-content">
+            <div class="jarilo-title">Jarilo-VI - Frozen Memory</div>
+            <div class="jarilo-message">Collect the frozen fragments to restore the memory.</div>
+
+            <!-- Puzzle frame -->
+            <div class="puzzle-frame">
+                <div class="puzzle-grid-container">
+                    <div class="puzzle-slot" data-position="1"></div>
+                    <div class="puzzle-slot" data-position="2"></div>
+                    <div class="puzzle-slot" data-position="3"></div>
+                    <div class="puzzle-slot" data-position="4"></div>
+                    <div class="puzzle-slot" data-position="5"></div>
+                    <div class="puzzle-slot" data-position="6"></div>
+                    <div class="puzzle-slot" data-position="7"></div>
+                    <div class="puzzle-slot" data-position="8"></div>
+                    <div class="puzzle-slot" data-position="9"></div>
+                </div>
+                <div class="puzzle-counter"><span id="pieces-collected">0</span> / 9</div>
+            </div>
+
+            <!-- Scattered puzzle pieces -->
+            <div class="puzzle-piece" data-piece="1" data-position="1" draggable="true" style="top: 8%; left: 5%;"></div>
+            <div class="puzzle-piece" data-piece="2" data-position="2" draggable="true" style="top: 12%; right: 7%;"></div>
+            <div class="puzzle-piece" data-piece="3" data-position="3" draggable="true" style="top: 30%; left: 2%;"></div>
+            <div class="puzzle-piece" data-piece="4" data-position="4" draggable="true" style="top: 38%; right: 4%;"></div>
+            <div class="puzzle-piece" data-piece="5" data-position="5" draggable="true" style="top: 60%; left: 6%;"></div>
+            <div class="puzzle-piece" data-piece="6" data-position="6" draggable="true" style="top: 68%; right: 8%;"></div>
+            <div class="puzzle-piece" data-piece="7" data-position="7" draggable="true" style="bottom: 12%; left: 10%;"></div>
+            <div class="puzzle-piece" data-piece="8" data-position="8" draggable="true" style="bottom: 8%; right: 12%;"></div>
+            <div class="puzzle-piece" data-piece="9" data-position="9" draggable="true" style="top: 48%; left: 1%;"></div>
+
+            <!-- Snowflakes -->
+            <div class="snowflakes">
+                <div class="snowflake large">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+                <div class="snowflake small">❄</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake large">❄</div>
+            </div>
+        </div>
+
+        <div class="portal-ui">
+            <div id="jarilo-label" class="mini-label">Welcome to the frozen world of Jarilo-VI.</div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/jarilo.js"></script>
+</body>
+</html>
