@@ -123,6 +123,15 @@ export function applyProgress(progress, gameState) {
 
     if (typeof progress.penaconyTicketReady === 'boolean') {
         gameState.penaconyTicketReady = progress.penaconyTicketReady;
+        
+        // If penacony ticket is ready, unlock the penacony planet
+        if (gameState.penaconyTicketReady) {
+            const penaconyOrb = document.querySelector('.planet-option[data-planet="penacony"]');
+            if (penaconyOrb) {
+                penaconyOrb.classList.remove('locked');
+                penaconyOrb.classList.add('unlocked');
+            }
+        }
     }
 }
 

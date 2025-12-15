@@ -36,7 +36,7 @@ export function initXianzhouScene() {
                     xianzhouLabel.textContent = 'Your red shard has been etched.';
                 }
 
-                if (trimmed === 'I love you, Miraizel') {
+                if (trimmed === 'Wanting more will be the death of us.') {
                     if (xianzhouLabel) {
                         xianzhouLabel.textContent =
                             'Your words resonate beyond — a distant dreamworld stirs awake. Penacony is now accessible.';

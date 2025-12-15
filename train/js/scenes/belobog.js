@@ -118,7 +118,7 @@ export function initBelobogScene() {
     }
 
     if (belobogFillSubmit && belobogFillInput && belobogFillFeedback && belobogFillGame) {
-            const correctWord = 'light';
+            const correctWord = 'c';
             const optionButtons = document.querySelectorAll('.belobog-fill-option');
             const blankSpan = document.querySelector('.belobog-fill-blank');
 
@@ -139,16 +139,16 @@ export function initBelobogScene() {
                 const attempt = belobogFillInput.value.trim().toLowerCase();
 
                 if (!attempt) {
-                    belobogFillFeedback.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                    belobogFillFeedback.textContent = 'Hint: Pick from the options on the left.';
                     belobogFillFeedback.style.color = '#feca57';
                     if (blankSpan) blankSpan.textContent = '______';
                     return;
                 }
 
                 if (attempt === correctWord) {
-                    if (blankSpan) blankSpan.textContent = 'light';
+                    if (blankSpan) blankSpan.textContent = 'C';
                     belobogFillFeedback.textContent =
-                        'Correct. "You are my light among the stars." The castle itself seems to glow at your words.';
+                        'Correct! We talked about your avatar/profile when we first met. Sweet memories~';
                     belobogFillFeedback.style.color = '#55efc4';
 
                     gameState.trial1Complete = true;
@@ -159,9 +159,9 @@ export function initBelobogScene() {
                         saveProgress(gameState);
                     }, 1600);
                 } else {
-                    if (blankSpan) blankSpan.textContent = attempt;
+                    if (blankSpan) blankSpan.textContent = attempt.toUpperCase();
                     belobogFillFeedback.textContent =
-                        'Not quite. Read it with your choice in the blank — only one truly feels like a guiding warmth.';
+                        'Not quite. Think back to our sweet encounter...';
                     belobogFillFeedback.style.color = '#e94560';
                 }
             }
@@ -175,7 +175,7 @@ export function initBelobogScene() {
         }
 
     if (belobogFillSubmit2 && belobogFillInput2 && belobogFillFeedback2 && belobogFillGame2) {
-            const correctWord2 = 'warmth';
+            const correctWord2 = 'b';
             const optionButtons2 = document.querySelectorAll('.belobog-fill-option-2');
             const blankSpan2 = document.querySelector('.belobog-fill-blank-2');
 
@@ -196,16 +196,16 @@ export function initBelobogScene() {
                 const attempt = belobogFillInput2.value.trim().toLowerCase();
 
                 if (!attempt) {
-                    belobogFillFeedback2.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                    belobogFillFeedback2.textContent = 'Hint: Pick from the options on the left.';
                     belobogFillFeedback2.style.color = '#feca57';
                     if (blankSpan2) blankSpan2.textContent = '______';
                     return;
                 }
 
                 if (attempt === correctWord2) {
-                    if (blankSpan2) blankSpan2.textContent = 'warmth';
+                    if (blankSpan2) blankSpan2.textContent = 'B';
                     belobogFillFeedback2.textContent =
-                        'Correct. "Your presence is my warmth in the cold." The frozen seal begins to thaw.';
+                        'Correct! "My dearest, Mirai" — the words that matter most.';
                     belobogFillFeedback2.style.color = '#55efc4';
 
                     gameState.trial2Complete = true;
@@ -216,9 +216,9 @@ export function initBelobogScene() {
                         saveProgress(gameState);
                     }, 1600);
                 } else {
-                    if (blankSpan2) blankSpan2.textContent = attempt;
+                    if (blankSpan2) blankSpan2.textContent = attempt.toUpperCase();
                     belobogFillFeedback2.textContent =
-                        'Not quite. Read it with your choice — only one truly melts the ice.';
+                        'Not quite. What would truly be my last words to you?';
                     belobogFillFeedback2.style.color = '#e94560';
                 }
             }
@@ -232,7 +232,7 @@ export function initBelobogScene() {
         }
 
     if (belobogFillSubmit3 && belobogFillInput3 && belobogFillFeedback3 && belobogFillGame3) {
-            const correctWord3 = 'forever';
+            const correctWord3 = 'c';
             const optionButtons3 = document.querySelectorAll('.belobog-fill-option-3');
             const blankSpan3 = document.querySelector('.belobog-fill-blank-3');
 
@@ -253,16 +253,16 @@ export function initBelobogScene() {
                 const attempt = belobogFillInput3.value.trim().toLowerCase();
 
                 if (!attempt) {
-                    belobogFillFeedback3.textContent = 'Hint: Pick from the left, then see it appear in the blank.';
+                    belobogFillFeedback3.textContent = 'Hint: Pick from the options on the left.';
                     belobogFillFeedback3.style.color = '#feca57';
                     if (blankSpan3) blankSpan3.textContent = '______';
                     return;
                 }
 
                 if (attempt === correctWord3) {
-                    if (blankSpan3) blankSpan3.textContent = 'forever';
+                    if (blankSpan3) blankSpan3.textContent = 'C';
                     belobogFillFeedback3.textContent =
-                        'Correct. "I will love you forever, across all worlds." The stars sing in harmony with your vow.';
+                        'Correct! Gluttony — because we can never get enough of each other~';
                     belobogFillFeedback3.style.color = '#55efc4';
 
                     gameState.trial3Complete = true;
@@ -273,9 +273,9 @@ export function initBelobogScene() {
                         saveProgress(gameState);
                     }, 1600);
                 } else {
-                    if (blankSpan3) blankSpan3.textContent = attempt;
+                    if (blankSpan3) blankSpan3.textContent = attempt.toUpperCase();
                     belobogFillFeedback3.textContent =
-                        'Not quite. Listen to the stars — only one word echoes through eternity.';
+                        'Not quite. Think about what sin best describes us...';
                     belobogFillFeedback3.style.color = '#e94560';
                 }
             }
