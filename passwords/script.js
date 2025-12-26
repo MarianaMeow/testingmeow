@@ -1,8 +1,11 @@
 // Supabase Configuration
+(function () {
 const SUPABASE_URL = 'https://cfrjcoasgmrgliwymqhj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmcmpjb2FzZ21yZ2xpd3ltcWhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0MDg0MjEsImV4cCI6MjA3OTk4NDQyMX0.b4Oj3PynxFaC_O3wuEb4Gf0HX0FwDEM9bqKfCCMqi2c';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.__supabaseClient
+    ? window.__supabaseClient
+    : (window.__supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY));
 
 // Encryption utilities using Web Crypto API
 async function deriveKey(password, salt) {
@@ -933,3 +936,4 @@ document.head.appendChild(style);
 
 // Start the app
 init();
+})();
