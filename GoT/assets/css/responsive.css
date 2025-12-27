@@ -1,0 +1,45 @@
+@media (max-width: 1100px) {
+  .arena {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-areas:
+      "enemy-hand"
+      "enemy-panel"
+      "battle-center"
+      "player-panel"
+      "player-hand";
+  }
+
+  .hand {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .menu-cover,
+  .house-cover {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .menu-right {
+    order: -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .control-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-cover,
+  .house-cover {
+    padding: 24px;
+  }
+}
