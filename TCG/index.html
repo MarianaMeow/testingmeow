@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="screen-menu">
-  <div id="app" class="app">
+  <div class="game-stage">
+    <div id="game-shell" class="game-shell">
+      <div id="app" class="app">
     <header class="top-bar">
       <div class="brand">
         <div class="brand-title">TCG Skirmish</div>
@@ -28,23 +30,14 @@
 
     <main class="arena">
       <section class="panel enemy-zone">
-        <div class="zone-header">
-          <div class="zone-title">Enemy Field</div>
-          <div class="zone-sub">3 Fighting Characters</div>
-        </div>
         <div class="fc-row" id="enemy-fc-row"></div>
         <div class="support-row">
           <div class="support-label">Supports</div>
           <div class="support-list" id="enemy-supports"></div>
         </div>
-        <div class="hand-row enemy-hand">
-          <div class="hand-label">Enemy Hand</div>
-          <div class="card-back-row" id="enemy-hand"></div>
-        </div>
       </section>
 
       <section class="panel battle-zone">
-        <div class="battle-title">Battlefield</div>
         <div class="battle-row">
           <div class="battle-slot">Enemy Active</div>
           <div class="battle-vs">VS</div>
@@ -55,10 +48,6 @@
           <button class="btn-primary" id="ultimate-skill-btn">Ultimate Skill</button>
           <button class="btn-secondary" id="switch-btn">Switch Active</button>
           <button class="btn-secondary" id="end-turn-btn">End Turn</button>
-        </div>
-        <div class="deck-row">
-          <div>Deck: <span id="deck-count">0</span></div>
-          <div>Discard: <span id="discard-count">0</span></div>
         </div>
       </section>
 
@@ -72,11 +61,19 @@
         </div>
       </aside>
 
-      <section class="panel player-zone">
-        <div class="zone-header">
-          <div class="zone-title">Your Field</div>
-          <div class="zone-sub">3 Fighting Characters</div>
+      <aside class="panel deck-panel">
+        <div class="panel-title">Deck Cards</div>
+        <div class="deck-stack" id="enemy-hand"></div>
+        <div class="deck-counts">
+          <div class="deck-count-item">Deck <span id="deck-count">0</span></div>
+          <div class="deck-count-item">Discard <span id="discard-count">0</span></div>
         </div>
+        <div class="discard-stack">
+          <div class="card-back discard-card"></div>
+        </div>
+      </aside>
+
+      <section class="panel player-zone">
         <div class="fc-row" id="player-fc-row"></div>
         <div class="support-row">
           <div class="support-label">Supports</div>
@@ -88,9 +85,9 @@
         </div>
       </section>
     </main>
-  </div>
+      </div>
 
-  <div class="overlay active" id="menu-overlay">
+      <div class="overlay active" id="menu-overlay">
     <div class="menu-panel">
       <div class="menu-header">
         <div class="menu-kicker">TCG Prototype</div>
@@ -111,9 +108,9 @@
         </div>
       </div>
     </div>
-  </div>
+      </div>
 
-  <div class="overlay" id="house-overlay">
+      <div class="overlay" id="house-overlay">
     <div class="menu-panel">
       <div class="menu-header">
         <div class="menu-kicker">House Selection</div>
@@ -131,9 +128,9 @@
         <button class="house-btn" data-house="greyjoy">Greyjoy</button>
       </div>
     </div>
-  </div>
+      </div>
 
-  <div class="overlay" id="round-overlay">
+      <div class="overlay" id="round-overlay">
     <div class="menu-panel round-panel">
       <div class="menu-header">
         <div class="menu-kicker">Round Start</div>
@@ -145,9 +142,9 @@
         <button class="menu-btn" id="round-redraw">Redraw</button>
       </div>
     </div>
-  </div>
+      </div>
 
-  <div class="overlay" id="gameover-overlay">
+      <div class="overlay" id="gameover-overlay">
     <div class="menu-panel round-panel">
       <div class="menu-header">
         <div class="menu-kicker">Match Ended</div>
@@ -156,6 +153,8 @@
       </div>
       <div class="round-actions">
         <button class="menu-btn" id="gameover-menu">Back to Menu</button>
+      </div>
+    </div>
       </div>
     </div>
   </div>

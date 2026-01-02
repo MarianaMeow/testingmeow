@@ -1,5 +1,5 @@
 .overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: rgba(6, 6, 10, 0.9);
   display: flex;

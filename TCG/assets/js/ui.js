@@ -126,7 +126,8 @@ export function renderEnemyHand(count) {
     return;
   }
   elements.enemyHand.innerHTML = "";
-  for (let i = 0; i < count; i += 1) {
+  const visible = Math.min(count, 5);
+  for (let i = 0; i < visible; i += 1) {
     const cardBack = document.createElement("div");
     cardBack.className = "card-back";
     elements.enemyHand.appendChild(cardBack);

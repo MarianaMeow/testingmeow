@@ -1,23 +1,31 @@
 .fc-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 8px;
 }
 
 .fc-slot {
+  width: var(--fc-standby-width);
+  min-height: calc(var(--fc-standby-width) * var(--fc-height-multiplier));
   padding: 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(10, 10, 14, 0.55);
+  border-radius: 16px;
+  border: 1px solid rgba(214, 179, 92, 0.25);
+  background:
+    linear-gradient(180deg, rgba(40, 28, 20, 0.85), rgba(14, 10, 12, 0.85));
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
 .fc-slot.active {
+  width: var(--fc-active-width);
+  min-height: calc(var(--fc-active-width) * var(--fc-height-multiplier));
   border-color: rgba(214, 179, 92, 0.6);
-  box-shadow: inset 0 0 12px rgba(214, 179, 92, 0.15);
+  box-shadow:
+    inset 0 0 12px rgba(214, 179, 92, 0.2),
+    0 0 18px rgba(214, 179, 92, 0.2);
 }
 
 .fc-slot.exhausted {
@@ -61,19 +69,19 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--muted);
+  margin-top: auto;
 }
 
 .hand-row {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: center;
+  width: 100%;
 }
 
 .hand-label {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--muted);
+  display: none;
 }
 
 .card-row,
@@ -82,6 +90,7 @@
   gap: 10px;
   overflow-x: auto;
   padding-bottom: 4px;
+  justify-content: center;
 }
 
 .card-row.selecting .card {
@@ -95,9 +104,11 @@
 }
 
 .card {
-  min-width: 140px;
+  width: var(--card-width);
+  min-width: var(--card-width);
+  min-height: var(--card-height);
   padding: 10px;
-  border-radius: 12px;
+  border-radius: var(--card-radius);
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.45));
   display: flex;
@@ -124,9 +135,9 @@
 }
 
 .card-back {
-  width: 90px;
-  height: 130px;
-  border-radius: 12px;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
   border: 1px solid rgba(214, 179, 92, 0.35);
   background:
     radial-gradient(circle at top, rgba(214, 179, 92, 0.25), transparent 60%),
@@ -134,11 +145,55 @@
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
 }
 
+#enemy-hand .card-back {
+  background: url("../cards/lannister.png") center/cover no-repeat;
+  border-color: rgba(214, 179, 92, 0.6);
+}
+
+.deck-stack {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  min-height: calc(var(--card-height) + 12px);
+  padding-left: 12px;
+}
+
+.deck-stack .card-back {
+  margin-left: -58px;
+  transform: rotate(-2deg);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.45);
+}
+
+.deck-stack .card-back:nth-child(2) {
+  transform: rotate(-1deg) translateY(4px);
+}
+
+.deck-stack .card-back:nth-child(3) {
+  transform: rotate(0deg) translateY(8px);
+}
+
+.deck-stack .card-back:nth-child(4) {
+  transform: rotate(1deg) translateY(12px);
+}
+
+.deck-stack .card-back:nth-child(5) {
+  transform: rotate(2deg) translateY(16px);
+}
+
+.discard-card {
+  opacity: 0.75;
+  filter: grayscale(0.4);
+  transform: rotate(3deg);
+}
+
 .support-list {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   min-height: 28px;
+  justify-content: center;
 }
 
 .support-chip {
